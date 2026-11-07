@@ -6,7 +6,25 @@ The concept is inspired by [myearthtoy.com](https://myearthtoy.com) (see [`docs/
 
 ## Status
 
-📋 Planning. See [`docs/PLAN.md`](docs/PLAN.md) for the full build plan: tech stack, architecture, data model, phased milestones, asset strategy, starter content lists (20 landmarks, 20 animals, 15 routes), and open risks.
+🏗️ **Phase 0: scaffold.** Tooling, CI, geo math (`src/engine/geo.ts`), a WebGL capability check with a friendly fallback screen, and a loading screen are in place. The globe itself arrives in Phase 1. See [`docs/PLAN.md`](docs/PLAN.md) for the full build plan: tech stack, architecture, data model, phased milestones, asset strategy, starter content lists (20 landmarks, 20 animals, 15 routes), and open risks.
+
+## Develop
+
+Requires **Node 22** (see `.nvmrc`; Node ≥ 20 works). We use **npm**.
+
+```sh
+nvm use               # optional, picks Node 22 from .nvmrc
+npm ci                # install exact locked dependencies
+npm run dev           # Vite dev server at http://localhost:5173
+npm test              # Vitest unit tests (tests/unit)
+npm run test:e2e      # Playwright smoke tests (builds + previews on :4173; needs Chromium installed)
+npm run lint          # ESLint
+npm run typecheck     # tsc --noEmit
+npm run format        # Prettier (format:check runs in CI)
+npm run build         # typecheck + production build into dist/
+```
+
+Before opening a PR, run `typecheck`, `lint`, `format:check`, `test` and `build`. CI runs the same checks.
 
 ## Docs
 
@@ -14,9 +32,9 @@ The concept is inspired by [myearthtoy.com](https://myearthtoy.com) (see [`docs/
 - [`docs/ANALYSIS.md`](docs/ANALYSIS.md) — reference-site feature analysis (research only, not reused content).
 - [`.claude/skills/3d-globe-webapp/SKILL.md`](.claude/skills/3d-globe-webapp/SKILL.md) — the skill coding agents should load before touching this repo.
 
-## Tech (planned)
+## Tech
 
-Vite + TypeScript + three.js (imperative) + Preact (UI overlay) + Zustand (state) + Zod (content validation) + Vitest/Playwright (tests). Deploy target: Cloudflare Pages or GitHub Pages (static site, no required backend).
+Vite 6 + TypeScript (strict) + three.js (imperative) + Preact (UI overlay) + Zustand (state) + Vitest/Playwright (tests). Zod content validation arrives in Phase 1. Deploy target: Cloudflare Pages or GitHub Pages (static site, no required backend).
 
 ## License
 

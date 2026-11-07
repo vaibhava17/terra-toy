@@ -5,3 +5,8 @@ playwright-report/
 test-results/
 coverage/
 package-lock.json
+# Hand-authored planning docs: keep their wide tables as written.
+docs/
+# Hand-authored docs and agent instructions: keep their formatting as written.
+docs/
+.claude/
