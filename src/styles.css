@@ -1,0 +1,136 @@
+:root {
+  --bg: #e8f6ff;
+  --ink: #1d2b4f;
+  --accent: #ff8a3d;
+  --card: #ffffff;
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    'Noto Sans',
+    'Helvetica Neue',
+    Arial,
+    sans-serif,
+    'Apple Color Emoji',
+    'Segoe UI Emoji',
+    'Noto Color Emoji';
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-text-size-adjust: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  margin: 0;
+  height: 100%;
+}
+
+/* Minimum 44px tap targets (PLAN §4 Phase 5 accessibility). */
+button,
+a,
+summary,
+[role='button'],
+input,
+select {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+button {
+  font: inherit;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.5rem 1.25rem;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.screen {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.screen h1 {
+  margin: 0;
+  font-size: clamp(1.5rem, 5vw, 2.25rem);
+}
+
+.screen-text {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.globe-emoji {
+  font-size: clamp(4rem, 18vw, 7rem);
+  line-height: 1;
+}
+
+.spin {
+  animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spin {
+    animation: none;
+  }
+}
+
+.tips {
+  list-style: none;
+  margin: 0;
+  padding: 1rem 1.25rem;
+  background: var(--card);
+  border-radius: 1rem;
+  text-align: left;
+  max-width: 32rem;
+}
+
+.tips li + li {
+  margin-top: 0.5rem;
+}
+
+.tech-details {
+  max-width: 32rem;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.tech-details summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.tech-details .reason {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  word-break: break-word;
+}
