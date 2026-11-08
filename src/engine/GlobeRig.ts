@@ -25,7 +25,7 @@ import {
   zoomStep,
   cameraPosition,
 } from './rigMath';
-import { DEFAULT_VIEW, type GlobeController, type GlobeViewState } from './view';
+import { DEFAULT_VIEW, type CameraController, type GlobeViewState } from './view';
 
 /** Idle time before the globe starts drifting on its own. */
 export const IDLE_AUTO_ROTATE_MS = 8000;
@@ -46,7 +46,7 @@ export interface GlobeRigOptions {
   requestRender: () => void;
 }
 
-export class GlobeRig implements GlobeController {
+export class GlobeRig implements CameraController {
   private readonly camera: PerspectiveCamera;
   private readonly controls: OrbitControls;
   private readonly onViewSettled: (view: GlobeViewState) => void;
@@ -96,7 +96,7 @@ export class GlobeRig implements GlobeController {
     this.applyTilt();
   }
 
-  // ---- GlobeController -------------------------------------------------------------
+  // ---- CameraController -------------------------------------------------------------
 
   flyTo(lat: number, lng: number, distance?: number, durationMs?: number): void {
     if (![lat, lng].every(Number.isFinite)) return;

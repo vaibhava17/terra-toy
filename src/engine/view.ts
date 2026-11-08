@@ -33,12 +33,29 @@ export function sameCountry(a: CountryRef | null, b: CountryRef | null): boolean
   return a.id === b.id && a.name === b.name;
 }
 
-/** What the UI may ask the globe to do. Implemented by the engine's GlobeRig. */
-export interface GlobeController {
+/** A point on screen in CSS px, in viewport (client) coordinates. */
+export interface ScreenPoint {
+  x: number;
+  y: number;
+}
+
+/** Camera moves. Implemented by the engine's GlobeRig. */
+export interface CameraController {
   zoomIn(): void;
   zoomOut(): void;
   resetView(): void;
   flyTo(lat: number, lng: number, distance?: number, durationMs?: number): void;
+}
+
+/** What the UI may ask the globe to do. Implemented by the engine. */
+export interface GlobeController extends CameraController {
+  /** Flies to a landmark from content (in close, never zooming out). Unknown ids: no-op. */
+  flyToLandmark(id: string): void;
+  /**
+   * Where a landmark's pin is drawn right now, in viewport CSS px (ready for a click), or
+   * null if the id is unknown or the pin is hidden or off screen. For tests and debugging.
+   */
+  landmarkScreenPos(id: string): ScreenPoint | null;
 }
 
 /** The handle the UI gets back from `createEngine` (no three.js types leak out). */

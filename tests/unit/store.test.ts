@@ -60,6 +60,7 @@ describe('globe slice', () => {
       view: { lat: 1, lng: 2, distance: 2.5 },
       hoveredCountry: null,
       selectedCountry: null,
+      selectedLandmark: null,
     });
   });
 
@@ -133,5 +134,59 @@ describe('country hover / selection', () => {
     st.getState().setGlobeView({ lat: 0, lng: 0, distance: 2 });
     expect(st.getState().globe.hoveredCountry).toEqual(INDIA);
     expect(st.getState().globe.selectedCountry).toEqual(FRANCE);
+  });
+});
+
+describe('landmark selection', () => {
+  const FRANCE = { id: '250', name: 'France' };
+
+  it('starts with no landmark selected', () => {
+    expect(createToyStore().getState().globe.selectedLandmark).toBeNull();
+  });
+
+  it('sets and clears the selected landmark, notifying only on change', () => {
+    const st = createToyStore();
+    const listener = vi.fn();
+    st.subscribe(listener);
+    st.getState().setSelectedLandmark('eiffel-tower');
+    st.getState().setSelectedLandmark('eiffel-tower');
+    expect(st.getState().globe.selectedLandmark).toBe('eiffel-tower');
+    expect(listener).toHaveBeenCalledTimes(1);
+    st.getState().setSelectedLandmark('big-ben');
+    expect(st.getState().globe.selectedLandmark).toBe('big-ben');
+    st.getState().setSelectedLandmark(null);
+    st.getState().setSelectedLandmark(null);
+    expect(st.getState().globe.selectedLandmark).toBeNull();
+    expect(listener).toHaveBeenCalledTimes(3);
+  });
+
+  it('selecting a landmark clears the country, and selecting a country clears the landmark', () => {
+    const st = createToyStore();
+    st.getState().setSelectedCountry(FRANCE);
+    st.getState().setSelectedLandmark('eiffel-tower');
+    expect(st.getState().globe.selectedCountry).toBeNull();
+    expect(st.getState().globe.selectedLandmark).toBe('eiffel-tower');
+    st.getState().setSelectedCountry(FRANCE);
+    expect(st.getState().globe.selectedCountry).toEqual(FRANCE);
+    expect(st.getState().globe.selectedLandmark).toBeNull();
+  });
+
+  it('clearing one selection leaves the other alone', () => {
+    const st = createToyStore();
+    st.getState().setSelectedLandmark('big-ben');
+    st.getState().setSelectedCountry(null);
+    expect(st.getState().globe.selectedLandmark).toBe('big-ben');
+    st.getState().setSelectedCountry(FRANCE);
+    st.getState().setSelectedLandmark(null);
+    expect(st.getState().globe.selectedCountry).toEqual(FRANCE);
+  });
+
+  it('keeps the landmark across status, view and hover changes', () => {
+    const st = createToyStore();
+    st.getState().setSelectedLandmark('colosseum');
+    st.getState().setGlobeStatus('ready');
+    st.getState().setGlobeView({ lat: 0, lng: 0, distance: 2 });
+    st.getState().setHoveredCountry(FRANCE);
+    expect(st.getState().globe.selectedLandmark).toBe('colosseum');
   });
 });
