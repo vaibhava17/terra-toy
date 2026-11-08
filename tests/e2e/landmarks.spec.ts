@@ -95,6 +95,8 @@ test('tapping a pin selects its landmark (not the country under it)', async ({ p
 for (const viewport of [
   { width: 390, height: 844 },
   { width: 640, height: 400 },
+  { width: 667, height: 375 },
+  { width: 844, height: 390 },
 ]) {
   test(`phone ${viewport.width}x${viewport.height}: the open card leaves the HUD usable`, async ({
     page,
@@ -107,14 +109,25 @@ for (const viewport of [
 
     // Every HUD button is the topmost element at its own centre (nothing covers it).
     const hud = page.getByRole('navigation', { name: 'Globe controls' });
-    for (const button of await hud.getByRole('button').all()) {
-      const covered = await button.evaluate((el) => {
-        const r = el.getBoundingClientRect();
-        const top = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
-        return !(top && el.contains(top));
-      });
-      expect(covered, (await button.getAttribute('aria-label')) ?? 'HUD button').toBe(false);
-    }
+    const expectHudUncovered = async () => {
+      for (const button of await hud.getByRole('button').all()) {
+        const covered = await button.evaluate((el) => {
+          const r = el.getBoundingClientRect();
+          const top = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+          return !(top && el.contains(top));
+        });
+        expect(covered, (await button.getAttribute('aria-label')) ?? 'HUD button').toBe(false);
+      }
+    };
+    await expectHudUncovered();
+
+    // The open menu leaves the HUD usable too, so a second tap on Landmarks closes it.
+    const landmarksButton = hud.getByRole('button', { name: 'Landmarks' });
+    await landmarksButton.click();
+    await expect(page.locator('#landmark-list')).toBeVisible();
+    await expectHudUncovered();
+    await landmarksButton.click();
+    await expect(page.locator('#landmark-list')).toBeHidden();
 
     await expectViewNear(page, { ...EIFFEL, distance: LANDMARK_VIEW_DISTANCE });
     await hud.getByRole('button', { name: 'Zoom in' }).click();
@@ -123,7 +136,7 @@ for (const viewport of [
       .toBeLessThan(LANDMARK_VIEW_DISTANCE - 0.01);
 
     // The menu opens over the card and picking another landmark swaps the card.
-    await hud.getByRole('button', { name: 'Landmarks' }).click();
+    await landmarksButton.click();
     await page.getByRole('button', { name: /Sydney Opera House/ }).click();
     await expect.poll(async () => (await globeState(page)).selectedLandmark).toBe(SYDNEY.id);
     await expect(page.getByTestId('info-card')).toContainText('Sydney Opera House');

@@ -482,13 +482,16 @@ body {
   }
 }
 
-/* Short landscape phones: the HUD is a row along the bottom (see .hud above), so the
-   sheet floats above that row instead of beside it. */
-@media (max-width: 640px) and (max-height: 420px) {
+/* Short landscape phones (any width): the HUD is a row along the bottom (see .hud
+   above), so the card floats as a sheet above that row instead of beside it. */
+@media (max-height: 420px) {
   .info-card {
+    top: auto;
     left: max(0.75rem, env(safe-area-inset-left));
     right: max(0.75rem, env(safe-area-inset-right));
     bottom: calc(max(1rem, env(safe-area-inset-bottom)) + 52px + 0.75rem);
+    width: auto;
+    max-height: 55%;
     border-width: 3px;
     border-radius: 1.25rem;
     padding-bottom: 1rem;
@@ -509,6 +512,19 @@ body {
   border-radius: 1.25rem;
   background: rgba(255, 255, 255, 0.97);
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+}
+
+/* Short landscape phones: the HUD is a row along the bottom, so the menu opens above
+   that row (not over it) and the Landmarks toggle stays tappable to close it. */
+@media (max-height: 420px) {
+  .landmark-list {
+    right: max(1rem, env(safe-area-inset-right));
+    bottom: calc(max(1rem, env(safe-area-inset-bottom)) + 52px + 0.75rem);
+    max-height: calc(
+      100% - max(1rem, env(safe-area-inset-bottom)) - 52px - 0.75rem -
+        max(0.75rem, env(safe-area-inset-top))
+    );
+  }
 }
 
 .landmark-list ul {
