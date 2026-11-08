@@ -10,17 +10,27 @@ import {
   HemisphereLight,
   NeutralToneMapping,
   PerspectiveCamera,
+  Raycaster,
   SRGBColorSpace,
   Scene,
+  Vector2,
+  Vector3,
   WebGLRenderer,
 } from 'three';
 import type { ToyStore } from '../state/store';
 import { mulberry32 } from '../game/rng';
 import { GlobeRig } from './GlobeRig';
+import { PointerPicker, type Ndc } from './PointerPicker';
+import { vec3ToLl } from './geo';
+import { CountryLines } from './globe/Lines';
+import { borderWidthForDistance, nextBorderLevel, type BorderLevel } from './globe/borderMath';
+import { buildCountryIndex, type CountryIndex } from './globe/countryPick';
+import { loadCountrySet, type CountrySet } from './globe/countries';
 import { createEarth, type Earth } from './globe/Earth';
+import { intersectGlobe } from './picking';
 import { pickPixelRatio, pickTextureSize } from './quality';
 import { CAMERA_FOV, viewFromPosition } from './rigMath';
-import type { EngineHandle, GlobeController } from './view';
+import { sameCountry, type CountryRef, type EngineHandle, type GlobeController } from './view';
 
 export interface EngineOptions {
   /** Element the canvas is appended to; its size drives the canvas size. */
@@ -93,6 +103,17 @@ export class Engine implements EngineHandle {
   private readonly resizeObserver: ResizeObserver;
   private readonly debugEl: HTMLDivElement | null = null;
   private earth: Earth | null = null;
+  private readonly lines = new CountryLines();
+  private readonly picker: PointerPicker;
+  private readonly raycaster = new Raycaster();
+  private unsubscribeStore: (() => void) | null = null;
+  /** Best country data loaded so far (50m once it has arrived, else 110m) and its index. */
+  private countrySet: CountrySet | null = null;
+  private countryIndex: CountryIndex | null = null;
+  /** Border level the LOD policy wants (the drawn one may lag while 50m loads). */
+  private borderLevel: BorderLevel = '110m';
+  /** A border level being fetched, or one that failed to load (not retried this session). */
+  private readonly borderLoads = new Map<BorderLevel, 'loading' | 'failed'>();
 
   private rafId = 0;
   private lastTime = 0;
@@ -153,6 +174,10 @@ export class Engine implements EngineHandle {
       flyTo: (lat, lng, distance, durationMs) => this.rig.flyTo(lat, lng, distance, durationMs),
     };
 
+    this.picker = new PointerPicker(renderer.domElement, (at) => {
+      this.store.getState().setSelectedCountry(this.pickCountry(at));
+    });
+
     this.resizeObserver = new ResizeObserver(() => {
       this.needsResize = true;
     });
@@ -184,16 +209,31 @@ export class Engine implements EngineHandle {
 
   private async init(): Promise<void> {
     const caps = this.renderer.capabilities;
-    const earth = await createEarth({
-      textureSize: pickTextureSize(window.devicePixelRatio, deviceMemory(), caps.maxTextureSize),
-      anisotropy: Math.min(8, caps.getMaxAnisotropy()),
-    });
+    const [earth, countries] = await Promise.all([
+      createEarth({
+        textureSize: pickTextureSize(window.devicePixelRatio, deviceMemory(), caps.maxTextureSize),
+        anisotropy: Math.min(8, caps.getMaxAnisotropy()),
+      }),
+      loadCountrySet('110m'),
+    ]);
     if (this.disposed) {
       earth.dispose();
       return;
     }
     this.earth = earth;
     this.scene.add(earth.group);
+    this.scene.add(this.lines.group);
+    this.useCountrySet(countries);
+    this.updateBorderLod();
+    this.unsubscribeStore = this.store.subscribe((s, prev) => {
+      if (
+        s.globe.hoveredCountry !== prev.globe.hoveredCountry ||
+        s.globe.selectedCountry !== prev.globe.selectedCountry
+      ) {
+        this.syncHighlights();
+      }
+    });
+    this.syncHighlights();
     this.applyResize();
     // Upload textures and compile shaders now, so the first visible frame doesn't hitch.
     this.renderer.compile(this.scene, this.camera);
@@ -212,6 +252,14 @@ export class Engine implements EngineHandle {
     canvas.removeEventListener('webglcontextlost', this.onContextLost);
     canvas.removeEventListener('webglcontextrestored', this.onContextRestored);
     this.rig.dispose();
+    this.picker.dispose();
+    this.unsubscribeStore?.();
+    this.unsubscribeStore = null;
+    // The highlights go away with the globe; so does what they pointed at.
+    const { setHoveredCountry, setSelectedCountry } = this.store.getState();
+    setHoveredCountry(null);
+    setSelectedCountry(null);
+    this.lines.dispose();
     this.earth?.dispose();
     this.earth = null;
     this.backdrop.dispose();
@@ -244,7 +292,12 @@ export class Engine implements EngineHandle {
 
     if (this.needsResize) this.applyResize();
     // The rig must tick every frame: damping and flights keep animating after input ends.
-    if (this.rig.update(dt)) this.needsRender = true;
+    if (this.rig.update(dt)) {
+      this.needsRender = true;
+      this.updateBorderLod();
+      this.picker.invalidateHover(); // the globe moved under a resting cursor
+    }
+    if (this.picker.consumeHoverChange()) this.updateHover();
 
     if (this.needsRender || this.debugEl) {
       this.needsRender = false;
@@ -267,7 +320,85 @@ export class Engine implements EngineHandle {
     this.renderer.setSize(w, h, false);
     this.camera.aspect = w / h;
     this.camera.updateProjectionMatrix();
+    this.lines.setResolution(w, h);
     this.needsRender = true;
+  }
+
+  // ---- Borders and country picking ---------------------------------------------------
+
+  /** Picks the LOD level and width for the current camera distance; loads 50m on demand. */
+  private updateBorderLod(): void {
+    const distance = this.camera.position.length();
+    if (this.lines.setBorderWidth(borderWidthForDistance(distance))) this.needsRender = true;
+    const level = nextBorderLevel(distance, this.borderLevel);
+    if (this.borderLoads.get(level) === 'failed') return;
+    this.borderLevel = level;
+    if (this.lines.hasBorders(level)) {
+      if (this.lines.showBorders(level)) this.needsRender = true;
+      return;
+    }
+    if (this.borderLoads.has(level)) return; // already on its way
+    this.borderLoads.set(level, 'loading');
+    loadCountrySet(level)
+      .then((set) => {
+        this.borderLoads.delete(level);
+        if (this.disposed) return;
+        this.useCountrySet(set);
+        if (this.borderLevel === set.level && this.lines.showBorders(set.level)) {
+          this.needsRender = true;
+        }
+      })
+      .catch((err: unknown) => {
+        // Not fatal: the coarser borders stay up.
+        console.warn(`[terra-toy] could not load ${level} borders`, err);
+        this.borderLoads.set(level, 'failed');
+        this.borderLevel = '110m';
+      });
+  }
+
+  /** Adds a country set's borders and, if it is more detailed, uses it for picking too. */
+  private useCountrySet(set: CountrySet): void {
+    this.lines.addBorders(set.level, set.borders.coordinates);
+    if (this.countrySet?.level === '50m') return;
+    this.countrySet = set;
+    this.countryIndex = buildCountryIndex(set.countries);
+    // Redraw any highlight from the new data (e.g. 110m → 50m outline).
+    this.lines.showHover(null);
+    this.lines.showSelected(null);
+    this.syncHighlights();
+  }
+
+  /** Makes the highlight outlines match the store's hovered / selected countries. */
+  private syncHighlights(): void {
+    const index = this.countryIndex;
+    if (!index || !this.unsubscribeStore) return;
+    const { hoveredCountry: hovered, selectedCountry: selected } = this.store.getState().globe;
+    const sel = selected ? (index.find(selected) ?? null) : null;
+    // A selected country shows only its (stronger) selection outline.
+    const hov = hovered && !sameCountry(hovered, selected) ? (index.find(hovered) ?? null) : null;
+    const a = this.lines.showSelected(sel);
+    const b = this.lines.showHover(hov);
+    if (a || b) this.needsRender = true;
+  }
+
+  private updateHover(): void {
+    const at = this.picker.hover;
+    const country = at ? this.pickCountry(at) : null;
+    this.renderer.domElement.style.cursor = country ? 'pointer' : '';
+    this.store.getState().setHoveredCountry(country);
+  }
+
+  /** The country under a canvas position (NDC), or null over the sea / off the globe. */
+  private pickCountry(at: Ndc): CountryRef | null {
+    const index = this.countryIndex;
+    if (!index) return null;
+    this.camera.updateMatrixWorld(); // the rig moved the camera since the last render
+    this.raycaster.setFromCamera(_ndc.set(at.x, at.y), this.camera);
+    const hit = intersectGlobe(this.raycaster.ray, _hit);
+    if (!hit) return null;
+    const { lat, lng } = vec3ToLl(hit);
+    const shape = index.pick(lat, lng);
+    return shape ? { id: shape.id, name: shape.name } : null;
   }
 
   private readonly onVisibility = (): void => {
@@ -289,6 +420,9 @@ export class Engine implements EngineHandle {
     this.start();
   };
 }
+
+const _ndc = new Vector2();
+const _hit = new Vector3();
 
 /** Entry point used by the UI via dynamic `import()`. */
 export function createEngine(options: EngineOptions): Promise<EngineHandle> {
