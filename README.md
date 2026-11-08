@@ -6,7 +6,14 @@ The concept is inspired by [myearthtoy.com](https://myearthtoy.com) (see [`docs/
 
 ## Status
 
-🏗️ **Phase 0: scaffold.** Tooling, CI, geo math (`src/engine/geo.ts`), a WebGL capability check with a friendly fallback screen, and a loading screen are in place. The globe itself arrives in Phase 1. See [`docs/PLAN.md`](docs/PLAN.md) for the full build plan: tech stack, architecture, data model, phased milestones, asset strategy, starter content lists (20 landmarks, 20 animals, 15 routes), and open risks.
+🏗️ **Phase 1: MVP globe (in progress).** Phase 0 (tooling, CI, geo math, WebGL check with a friendly fallback, loading screen) is done. Phase 1 so far adds the real interactive globe:
+
+- `Engine` (renderer, frame loop, resize, pixel-ratio policy, pause when hidden) loaded lazily so three.js is its own chunk.
+- `GlobeRig`: orbit with inertia, altitude-scaled rotate speed, zoom-dependent tilt toward the horizon, eased great-circle `flyTo`, zoom steps, reset view, and a gentle idle auto-rotate (off with `prefers-reduced-motion`).
+- A stylised toy Earth painted at runtime from Natural Earth land (`world-atlas`): shallow-water halo, soft ice caps, sea gloss, and a Fresnel atmosphere.
+- HUD: zoom in/out, reset view, full screen. Add `?debug=1` for an fps / draw-call overlay.
+
+Borders, the content pipeline, landmarks and info cards come in the next Phase 1 PRs. See [`docs/PLAN.md`](docs/PLAN.md) for the full build plan: tech stack, architecture, data model, phased milestones, asset strategy, starter content lists (20 landmarks, 20 animals, 15 routes), and open risks.
 
 ## Develop
 
