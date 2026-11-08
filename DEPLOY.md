@@ -20,7 +20,7 @@ PRs do not deploy: the `deploy-preview` job is disabled to save Actions minutes.
 
 ## Required repo secrets
 
-- `CLOUDFLARE_API_TOKEN` — scoped token with only Account > Cloudflare Pages > Edit.
+- `CLOUDFLARE_API_TOKEN` — should be a scoped token with only Account > Cloudflare Pages > Edit. If a broader token is set, replace it with a scoped one (`gh secret set CLOUDFLARE_API_TOKEN`).
 - `CLOUDFLARE_ACCOUNT_ID`
 
 If the token is missing, the job logs a notice and skips the deploy.
