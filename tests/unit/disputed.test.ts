@@ -11,8 +11,9 @@ import {
 } from '../../src/engine/globe/disputed';
 import { sameCountry } from '../../src/engine/view';
 
-/** Points in the Kashmir region: [label, lat, lng, Natural Earth disputed-area name]. */
+/** Points in disputed areas: [label, lat, lng, Natural Earth disputed-area name]. */
 const DISPUTED: ReadonlyArray<readonly [string, number, number, string]> = [
+  // Kashmir region (PR #6).
   ['Siachen Glacier', 35.42, 77.1, 'Siachen Glacier'],
   ['Srinagar', 34.0837, 74.7973, 'Jammu and Kashmir'],
   ['Leh', 34.1526, 77.577, 'Jammu and Kashmir'],
@@ -20,6 +21,20 @@ const DISPUTED: ReadonlyArray<readonly [string, number, number, string]> = [
   ['Gilgit', 35.92, 74.31, 'Gilgit-Baltistan'],
   ['Aksai Chin', 35.0, 79.3, 'Aksai Chin'],
   ['Shaksam Valley', 36.1, 76.6, 'Shaksam Valley'],
+  // The rest of Natural Earth's list (spot checks).
+  ['Taipei', 25.033, 121.565, 'Taiwan'],
+  ['Kaohsiung', 22.63, 120.3, 'Taiwan'],
+  ['Simferopol', 44.952, 34.102, 'Crimea'],
+  ['Sevastopol', 44.6, 33.52, 'Crimea'],
+  ['Laayoune', 27.154, -13.2, 'W. Sahara'],
+  ['Katzrin', 32.99, 35.69, 'Golan Heights'],
+  ['Itanagar', 27.084, 93.605, 'Arunachal Pradesh'],
+  ['Kyrenia', 35.33, 33.32, 'N. Cyprus'],
+  ['Stanley', -51.693, -57.86, 'Falkland Is.'],
+  ['Iturup', 45.0, 147.9, 'Kuril Is.'],
+  ['Sukhumi', 43.0, 41.02, 'Abkhazia'],
+  ['Tiraspol', 46.84, 29.63, 'Transnistria'],
+  ['Hargeisa', 9.56, 44.065, 'Somaliland'],
 ];
 
 /** Undisputed places nearby that must keep their country name. */
@@ -29,12 +44,34 @@ const UNDISPUTED: ReadonlyArray<readonly [string, number, number, string]> = [
   ['Islamabad', 33.6844, 73.0479, 'Pakistan'],
   ['Lhasa', 29.65, 91.1, 'China'],
   ['Paris', 48.8566, 2.3522, 'France'],
+  ['Kyiv', 50.45, 30.52, 'Ukraine'],
+  ['Moscow', 55.76, 37.62, 'Russia'],
+  ['Beijing', 39.9, 116.4, 'China'],
+  ['Rabat', 34.02, -6.84, 'Morocco'],
+  ['Damascus', 33.51, 36.29, 'Syria'],
+  ['Tokyo', 35.68, 139.69, 'Japan'],
+  ['Buenos Aires', -34.6, -58.38, 'Argentina'],
 ];
 
 describe('disputedAreaAt', () => {
-  it('carries the Kashmir-region areas', () => {
-    expect(DISPUTED_AREAS.map((a) => a.name)).toEqual(
-      expect.arrayContaining(['Siachen Glacier', 'Jammu and Kashmir', 'Gilgit-Baltistan']),
+  it('carries every Natural Earth disputed area, not just Kashmir', () => {
+    const names = new Set(DISPUTED_AREAS.map((a) => a.name));
+    // 99 Natural Earth features; the two W. Sahara pieces share a name.
+    expect(names.size).toBe(98);
+    expect([...names]).toEqual(
+      expect.arrayContaining([
+        'Siachen Glacier',
+        'Jammu and Kashmir',
+        'Gilgit-Baltistan',
+        'Taiwan',
+        'Crimea',
+        'W. Sahara',
+        'Golan Heights',
+        'N. Cyprus',
+        'Arunachal Pradesh',
+        'Kuril Is.',
+        'Falkland Is.',
+      ]),
     );
   });
 

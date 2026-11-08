@@ -9,9 +9,11 @@
  * The overlay is used for picking only. It draws no lines, and a disputed area gets no
  * highlight outline, so the border rendering is unchanged.
  *
- * Data: Natural Earth 1:10m "admin 0 disputed areas" (public domain), the Kashmir region
- * only (Jammu and Kashmir, Azad Kashmir, Gilgit-Baltistan, Aksai Chin, Shaksam Valley,
- * Siachen Glacier), coordinates rounded to 0.001°. Add further areas the same way.
+ * Data: Natural Earth 1:10m "admin 0 disputed areas" (public domain), every area the file
+ * flags (99 features, 98 names: Kashmir and Siachen, Taiwan, Crimea, W. Sahara, Golan
+ * Heights, N. Cyprus, Arunachal Pradesh, the Kurils, the Falklands and so on), each
+ * MultiPolygon split into Polygons, coordinates rounded to 0.001°. Regenerate it with
+ * `scripts/disputed-areas.mjs`.
  */
 import { geoBounds, geoContains } from 'd3-geo';
 import type { Feature, FeatureCollection, Polygon } from 'geojson';
