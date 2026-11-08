@@ -20,8 +20,11 @@
   },
   "dependencies": {
     "@preact/signals": "^2.11.4",
+    "d3-geo": "^3.1.2",
     "preact": "^11.2.0",
     "three": "^0.187.0",
+    "topojson-client": "^3.1.0",
+    "world-atlas": "^2.0.2",
     "zustand": "^5.1.0"
   },
   "devDependencies": {
@@ -29,8 +32,11 @@
     "@eslint/js": "^10.0.1",
     "@playwright/test": "1.64.1",
     "@preact/preset-vite": "^2.10.6",
+    "@types/d3-geo": "^3.1.1",
+    "@types/geojson": "^7946.0.16",
     "@types/node": "^22.20.5",
     "@types/three": "^0.187.0",
+    "@types/topojson-client": "^3.1.5",
     "eslint": "^10.14.0",
     "eslint-config-prettier": "^10.1.8",
     "globals": "^17.14.0",

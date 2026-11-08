@@ -1,8 +1,8 @@
-/** Boot: loading screen → capability check → fallback or app (PLAN §3.1). */
+/** Boot: loading screen → capability check → fallback or app → globe (PLAN §3.1). */
 import { h, render } from 'preact';
 import './styles.css';
 import { checkWebGL } from './engine/capabilities';
-import { store } from './state/store';
+import { store, type ToyStore } from './state/store';
 import { Root } from './ui/Root';
 
 let resolveReady!: () => void;
@@ -11,6 +11,23 @@ window.__toyReady = new Promise<void>((resolve) => {
 });
 // Exposed in every build: the static site has no secrets, and e2e runs against `vite preview`.
 window.__toy = { store };
+
+/** Resolves once the globe has finished starting, successfully or not. */
+function globeSettled(st: ToyStore): Promise<void> {
+  const done = () => {
+    const { status } = st.getState().globe;
+    return status === 'ready' || status === 'error';
+  };
+  if (done()) return Promise.resolve();
+  return new Promise((resolve) => {
+    const unsub = st.subscribe(() => {
+      if (done()) {
+        unsub();
+        resolve();
+      }
+    });
+  });
+}
 
 const nextFrame = (): Promise<void> =>
   new Promise((resolve) => requestAnimationFrame(() => resolve()));
@@ -26,6 +43,8 @@ async function boot(): Promise<void> {
   const { setWebGL, setBoot } = store.getState();
   setWebGL(gl.reason ? { version: gl.version, reason: gl.reason } : { version: gl.version });
   setBoot(gl.ok ? 'ready' : 'no-webgl');
+  // The UI now mounts the globe; e2e and debug tools wait for it via __toyReady.
+  if (gl.ok) await globeSettled(store);
 }
 
 boot()

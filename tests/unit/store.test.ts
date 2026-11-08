@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { createToyStore, store } from '../../src/state/store';
+import { DEFAULT_VIEW } from '../../src/engine/view';
 
 describe('toy store', () => {
   it('starts in the loading phase with no WebGL info', () => {
@@ -36,5 +37,50 @@ describe('toy store', () => {
     a.getState().setBoot('ready');
     expect(b.getState().boot).toBe('loading');
     expect(typeof store.getState().setBoot).toBe('function');
+  });
+});
+
+describe('globe slice', () => {
+  it('starts idle at the default view', () => {
+    const g = createToyStore().getState().globe;
+    expect(g.status).toBe('idle');
+    expect(g.error).toBeUndefined();
+    expect(g.view).toEqual(DEFAULT_VIEW);
+    expect(g.view).not.toBe(DEFAULT_VIEW);
+  });
+
+  it('moves through loading → ready and keeps the view', () => {
+    const st = createToyStore();
+    st.getState().setGlobeView({ lat: 1, lng: 2, distance: 2.5 });
+    st.getState().setGlobeStatus('loading');
+    expect(st.getState().globe.status).toBe('loading');
+    st.getState().setGlobeStatus('ready');
+    expect(st.getState().globe).toEqual({
+      status: 'ready',
+      view: { lat: 1, lng: 2, distance: 2.5 },
+    });
+  });
+
+  it('stores an error message only for the error status', () => {
+    const st = createToyStore();
+    st.getState().setGlobeStatus('error', 'boom');
+    expect(st.getState().globe.status).toBe('error');
+    expect(st.getState().globe.error).toBe('boom');
+    st.getState().setGlobeStatus('loading');
+    expect(st.getState().globe.error).toBeUndefined();
+    st.getState().setGlobeStatus('ready', 'ignored');
+    expect(st.getState().globe.error).toBeUndefined();
+  });
+
+  it('copies the view and notifies subscribers once per write', () => {
+    const st = createToyStore();
+    const listener = vi.fn();
+    st.subscribe(listener);
+    const view = { lat: 10, lng: -20, distance: 1.8 };
+    st.getState().setGlobeView(view);
+    expect(listener).toHaveBeenCalledTimes(1);
+    expect(st.getState().globe.view).toEqual(view);
+    expect(st.getState().globe.view).not.toBe(view);
+    expect(st.getState().globe.status).toBe('idle');
   });
 });
