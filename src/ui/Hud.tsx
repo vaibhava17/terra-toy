@@ -1,6 +1,7 @@
 import type { ComponentChildren } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import type { GlobeController } from '../engine/view';
+import { CountryChip } from './CountryChip';
 
 const fullscreenSupported = (): boolean =>
   typeof document !== 'undefined' && document.fullscreenEnabled === true;
@@ -47,7 +48,7 @@ function HudButton({ label, onClick, children }: HudButtonProps) {
   );
 }
 
-/** Round on-screen controls (bottom-right) plus the title badge. */
+/** Round on-screen controls (bottom-right), the title badge and the country name chip. */
 export function Hud({ controller }: { controller: GlobeController }) {
   const [canFullscreen] = useState(fullscreenSupported);
   const [isFullscreen, setFullscreen] = useState(() => !!document.fullscreenElement);
@@ -83,6 +84,7 @@ export function Hud({ controller }: { controller: GlobeController }) {
           </HudButton>
         )}
       </nav>
+      <CountryChip />
     </>
   );
 }
