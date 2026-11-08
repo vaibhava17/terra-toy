@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { store } from '../state/store';
+import type { LandmarkData } from '../content/schema';
 import type { GlobeController } from '../engine/view';
 import { useStore } from './useStore';
 import { LoadingScreen } from './LoadingScreen';
@@ -7,13 +8,18 @@ import { Hud } from './Hud';
 
 const isDebug = (): boolean => new URLSearchParams(window.location.search).get('debug') === '1';
 
+/** `?focus=<landmark id>` (SKILL.md §1): open that landmark once the globe is up. */
+const focusParam = (): string | null => new URLSearchParams(window.location.search).get('focus');
+
 /**
- * Mounts the 3D globe into a full-viewport host. The engine (and three.js) is loaded
- * with a dynamic import so it lands in its own chunk, after the shell has painted.
+ * Mounts the 3D globe into a full-viewport host. The engine (and three.js) and the
+ * validated content are loaded with dynamic imports so they land in their own chunks,
+ * after the shell has painted.
  */
 export function GlobeView() {
   const hostRef = useRef<HTMLDivElement>(null);
   const [controller, setController] = useState<GlobeController | null>(null);
+  const [landmarks, setLandmarks] = useState<readonly LandmarkData[]>([]);
   const status = useStore((s) => s.globe.status);
   const error = useStore((s) => s.globe.error);
 
@@ -25,9 +31,11 @@ export function GlobeView() {
     const { setGlobeStatus } = store.getState();
     setGlobeStatus('loading');
 
-    import('../engine/Engine')
-      .then(({ createEngine }) => createEngine({ host, store, debug: isDebug() }))
-      .then((engine) => {
+    Promise.all([import('../engine/Engine'), import('../content/landmarks')])
+      .then(([{ createEngine }, content]) =>
+        createEngine({ host, store, debug: isDebug() }).then((engine) => ({ engine, content })),
+      )
+      .then(({ engine, content }) => {
         if (cancelled) {
           engine.dispose();
           return;
@@ -35,6 +43,10 @@ export function GlobeView() {
         dispose = () => engine.dispose();
         if (window.__toy) window.__toy.engine = engine.controller;
         setController(engine.controller);
+        setLandmarks(content.LANDMARKS);
+        // Unknown ids are ignored. The engine flies there when the selection changes.
+        const focus = content.findLandmark(focusParam());
+        if (focus) store.getState().setSelectedLandmark(focus.id);
         setGlobeStatus('ready');
       })
       .catch((err: unknown) => {
@@ -53,7 +65,7 @@ export function GlobeView() {
   return (
     <>
       <div ref={hostRef} class="globe-host" />
-      {status === 'ready' && controller && <Hud controller={controller} />}
+      {status === 'ready' && controller && <Hud controller={controller} landmarks={landmarks} />}
       {(status === 'idle' || status === 'loading') && (
         <div class="globe-overlay">
           <LoadingScreen />

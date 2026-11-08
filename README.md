@@ -14,8 +14,10 @@ The concept is inspired by [myearthtoy.com](https://myearthtoy.com) (see [`docs/
 - Country borders as pixel-width fat lines in one neutral colour (no political colouring of disputed areas). They follow the curve of the globe and switch from Natural Earth 1:110m to 1:50m detail as you zoom in. The 50m data loads only when it is first needed.
 - Country hover and tap: hovering with a mouse or pen outlines the country under the cursor. Tapping a country selects it, and its name shows in a chip at the bottom of the screen; tapping the sea or the chip's × clears it. Dragging to spin the globe never selects anything.
 - HUD: zoom in/out, reset view, full screen. Add `?debug=1` for an fps / draw-call overlay.
+- Content pipeline: one JSON file per landmark in `content/landmarks/`, checked by Zod schemas (`src/content/schema.ts`) in the app and by `npm run content:validate`. The 20 starter landmarks from PLAN §5.3 are in, with our own kid-friendly blurbs and sourced facts.
+- Landmarks as map pins (two instanced meshes for all of them). They keep a readable size at every zoom, hide behind the horizon, and highlight when selected. Tapping a pin flies in and opens an info card with the blurb, facts and their sources. The 🏛️ HUD button lists every landmark. Add `?focus=<id>` (for example `?focus=eiffel-tower`) to open one on load.
 
-The content pipeline, landmarks and info cards come in the next Phase 1 PRs. See [`docs/PLAN.md`](docs/PLAN.md) for the full build plan: tech stack, architecture, data model, phased milestones, asset strategy, starter content lists (20 landmarks, 20 animals, 15 routes), and open risks.
+Procedural 3D landmark models replace the pins in the next Phase 1 PR. See [`docs/PLAN.md`](docs/PLAN.md) for the full build plan: tech stack, architecture, data model, phased milestones, asset strategy, starter content lists (20 landmarks, 20 animals, 15 routes), and open risks.
 
 ## Develop
 
@@ -26,6 +28,7 @@ nvm use               # optional, picks Node 22 from .nvmrc
 npm ci                # install exact locked dependencies
 npm run dev           # Vite dev server at http://localhost:5173
 npm test              # Vitest unit tests (tests/unit)
+npm run content:validate  # Zod checks of content/** (also part of npm test)
 npm run test:e2e      # Playwright smoke tests (builds + previews on :4173; needs Chromium installed)
 npm run lint          # ESLint
 npm run typecheck     # tsc --noEmit

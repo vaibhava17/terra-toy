@@ -4,11 +4,13 @@ import { useStore } from './useStore';
 /**
  * Bottom-centre name badge. A selected (tapped) country shows a bold chip with a close
  * button and is announced politely to screen readers; otherwise a hovered country shows
- * a lighter, silent tag (hover changes too often to announce).
+ * a lighter, silent tag (hover changes too often to announce), unless a landmark card is open.
  */
 export function CountryChip() {
   const selected = useStore((s) => s.globe.selectedCountry);
   const hovered = useStore((s) => s.globe.hoveredCountry);
+  // The landmark card has the floor while it is open: no hover tag under (or over) it.
+  const landmarkOpen = useStore((s) => s.globe.selectedLandmark !== null);
 
   return (
     <div class="country-chip-area">
@@ -31,7 +33,7 @@ export function CountryChip() {
           </div>
         )}
       </div>
-      {!selected && hovered && (
+      {!selected && !landmarkOpen && hovered && (
         <div class="country-tag" aria-hidden="true">
           {hovered.name}
         </div>
