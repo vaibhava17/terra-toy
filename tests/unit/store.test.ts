@@ -58,6 +58,8 @@ describe('globe slice', () => {
     expect(st.getState().globe).toEqual({
       status: 'ready',
       view: { lat: 1, lng: 2, distance: 2.5 },
+      hoveredCountry: null,
+      selectedCountry: null,
     });
   });
 
@@ -82,5 +84,54 @@ describe('globe slice', () => {
     expect(st.getState().globe.view).toEqual(view);
     expect(st.getState().globe.view).not.toBe(view);
     expect(st.getState().globe.status).toBe('idle');
+  });
+});
+
+describe('country hover / selection', () => {
+  const FRANCE = { id: '250', name: 'France' };
+  const INDIA = { id: '356', name: 'India' };
+
+  it('starts with nothing hovered or selected', () => {
+    const g = createToyStore().getState().globe;
+    expect(g.hoveredCountry).toBeNull();
+    expect(g.selectedCountry).toBeNull();
+  });
+
+  it('sets, copies and clears the hovered and selected countries independently', () => {
+    const st = createToyStore();
+    st.getState().setHoveredCountry(INDIA);
+    st.getState().setSelectedCountry(FRANCE);
+    expect(st.getState().globe.hoveredCountry).toEqual(INDIA);
+    expect(st.getState().globe.hoveredCountry).not.toBe(INDIA);
+    expect(st.getState().globe.selectedCountry).toEqual(FRANCE);
+    st.getState().setSelectedCountry(null);
+    expect(st.getState().globe.selectedCountry).toBeNull();
+    expect(st.getState().globe.hoveredCountry).toEqual(INDIA);
+  });
+
+  it('notifies only when the country actually changes', () => {
+    const st = createToyStore();
+    const listener = vi.fn();
+    st.subscribe(listener);
+    st.getState().setSelectedCountry(FRANCE);
+    st.getState().setSelectedCountry({ ...FRANCE });
+    st.getState().setHoveredCountry(null);
+    expect(listener).toHaveBeenCalledTimes(1);
+    st.getState().setHoveredCountry(FRANCE);
+    st.getState().setHoveredCountry({ id: '250', name: 'France' });
+    expect(listener).toHaveBeenCalledTimes(2);
+    st.getState().setSelectedCountry(null);
+    st.getState().setSelectedCountry(null);
+    expect(listener).toHaveBeenCalledTimes(3);
+  });
+
+  it('keeps hover and selection across status and view changes', () => {
+    const st = createToyStore();
+    st.getState().setHoveredCountry(INDIA);
+    st.getState().setSelectedCountry(FRANCE);
+    st.getState().setGlobeStatus('ready');
+    st.getState().setGlobeView({ lat: 0, lng: 0, distance: 2 });
+    expect(st.getState().globe.hoveredCountry).toEqual(INDIA);
+    expect(st.getState().globe.selectedCountry).toEqual(FRANCE);
   });
 });

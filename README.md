@@ -11,9 +11,11 @@ The concept is inspired by [myearthtoy.com](https://myearthtoy.com) (see [`docs/
 - `Engine` (renderer, frame loop, resize, pixel-ratio policy, pause when hidden) loaded lazily so three.js is its own chunk.
 - `GlobeRig`: orbit with inertia, altitude-scaled rotate speed, zoom-dependent tilt toward the horizon, eased great-circle `flyTo`, zoom steps, reset view, and a gentle idle auto-rotate (off with `prefers-reduced-motion`).
 - A stylised toy Earth painted at runtime from Natural Earth land (`world-atlas`): shallow-water halo, soft ice caps, sea gloss, and a Fresnel atmosphere.
+- Country borders as pixel-width fat lines in one neutral colour (no political colouring of disputed areas). They follow the curve of the globe and switch from Natural Earth 1:110m to 1:50m detail as you zoom in. The 50m data loads only when it is first needed.
+- Country hover and tap: hovering with a mouse or pen outlines the country under the cursor. Tapping a country selects it, and its name shows in a chip at the bottom of the screen; tapping the sea or the chip's × clears it. Dragging to spin the globe never selects anything.
 - HUD: zoom in/out, reset view, full screen. Add `?debug=1` for an fps / draw-call overlay.
 
-Borders, the content pipeline, landmarks and info cards come in the next Phase 1 PRs. See [`docs/PLAN.md`](docs/PLAN.md) for the full build plan: tech stack, architecture, data model, phased milestones, asset strategy, starter content lists (20 landmarks, 20 animals, 15 routes), and open risks.
+The content pipeline, landmarks and info cards come in the next Phase 1 PRs. See [`docs/PLAN.md`](docs/PLAN.md) for the full build plan: tech stack, architecture, data model, phased milestones, asset strategy, starter content lists (20 landmarks, 20 animals, 15 routes), and open risks.
 
 ## Develop
 

@@ -19,6 +19,20 @@ export const DEFAULT_VIEW: Readonly<GlobeViewState> = Object.freeze({
   distance: 3,
 });
 
+/** A country as the store and UI see it (picked on the globe by the engine). */
+export interface CountryRef {
+  /** ISO 3166-1 numeric code from Natural Earth, or the name for the few without one. */
+  id: string;
+  /** English display name from Natural Earth. */
+  name: string;
+}
+
+/** Same country? (Null-safe; compares id and name.) */
+export function sameCountry(a: CountryRef | null, b: CountryRef | null): boolean {
+  if (a === null || b === null) return a === b;
+  return a.id === b.id && a.name === b.name;
+}
+
 /** What the UI may ask the globe to do. Implemented by the engine's GlobeRig. */
 export interface GlobeController {
   zoomIn(): void;

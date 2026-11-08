@@ -276,3 +276,59 @@ body {
     monospace;
   pointer-events: none;
 }
+
+/* Country name chip (bottom-centre). Clear of the HUD column on the right. */
+.country-chip-area {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  max-width: calc(100% - 9rem);
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.country-chip,
+.country-tag {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--ink);
+  font-weight: 800;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+  white-space: nowrap;
+}
+
+.country-chip {
+  padding: 0.25rem 0.3rem 0.25rem 0.9rem;
+  font-size: 1.25rem;
+  border: 3px solid var(--accent);
+  pointer-events: auto;
+}
+
+.country-chip-name,
+.country-tag {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.country-chip-close {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  flex: none;
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.country-tag {
+  padding: 0.35rem 1rem;
+  font-size: 1rem;
+  opacity: 0.9;
+}
