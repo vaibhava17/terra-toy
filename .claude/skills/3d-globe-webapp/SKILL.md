@@ -16,7 +16,7 @@ Full plan: [`docs/PLAN.md`](../../../docs/PLAN.md). Reference analysis: [`docs/A
 
 1. **Add a landmark:**
    - Create `content/landmarks/<id>.json` (schema in `docs/PLAN.md` §3.2), add a builder at `src/models/landmarks/<model>.ts`, and register it in `src/models/index.ts`.
-   - Run `pnpm content:validate && pnpm test models`, then check the result with `pnpm dev` at `?focus=<id>`, a debug flag that calls `flyTo` and opens the card.
+   - Run `npm run content:validate` (lands in Phase 1) and `npm test -- models`, then check the result with `npm run dev` at `?focus=<id>`, a debug flag that calls `flyTo` and opens the card.
 2. **Add an animal:** pick a rig (Quadruped/Bird/Fish/Special), pass the variant params, give at least 1 spawn circle, and make sure `medium` matches the land/sea mask. The validator rejects land animals placed in the sea.
 3. **Add a route/vehicle:** list the waypoints in order and cross the antimeridian by unwrapping longitudes. The route unit test `routes.test.ts` checks every route for NaN and for leg-speed sanity.
 4. **Model rules:**
