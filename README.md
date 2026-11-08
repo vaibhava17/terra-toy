@@ -12,6 +12,7 @@ The concept is inspired by [myearthtoy.com](https://myearthtoy.com) (see [`docs/
 - `GlobeRig`: orbit with inertia, altitude-scaled rotate speed, zoom-dependent tilt toward the horizon, eased great-circle `flyTo`, zoom steps, reset view, and a gentle idle auto-rotate (off with `prefers-reduced-motion`).
 - A stylised toy Earth painted at runtime from Natural Earth land (`world-atlas`): shallow-water halo, soft ice caps, sea gloss, and a Fresnel atmosphere.
 - Country borders as pixel-width fat lines in one neutral colour (no political colouring of disputed areas). They follow the curve of the globe and switch from Natural Earth 1:110m to 1:50m detail as you zoom in. The 50m data loads only when it is first needed.
+- Tapping or hovering a disputed area (currently the Kashmir region, including Siachen) shows a neutral "Disputed area" label instead of a claimant country's name, from a small Natural Earth disputed-areas overlay (`src/engine/globe/disputed.ts`).
 - Country hover and tap: hovering with a mouse or pen outlines the country under the cursor. Tapping a country selects it, and its name shows in a chip at the bottom of the screen; tapping the sea or the chip's × clears it. Dragging to spin the globe never selects anything.
 - HUD: zoom in/out, reset view, full screen. Add `?debug=1` for an fps / draw-call overlay.
 

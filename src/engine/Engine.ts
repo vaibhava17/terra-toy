@@ -25,6 +25,7 @@ import { vec3ToLl } from './geo';
 import { CountryLines } from './globe/Lines';
 import { borderWidthForDistance, nextBorderLevel, type BorderLevel } from './globe/borderMath';
 import { buildCountryIndex, type CountryIndex } from './globe/countryPick';
+import { pickCountryRef } from './globe/disputed';
 import { loadCountrySet, type CountrySet } from './globe/countries';
 import { createEarth, type Earth } from './globe/Earth';
 import { intersectGlobe } from './picking';
@@ -397,8 +398,7 @@ export class Engine implements EngineHandle {
     const hit = intersectGlobe(this.raycaster.ray, _hit);
     if (!hit) return null;
     const { lat, lng } = vec3ToLl(hit);
-    const shape = index.pick(lat, lng);
-    return shape ? { id: shape.id, name: shape.name } : null;
+    return pickCountryRef(index, lat, lng);
   }
 
   private readonly onVisibility = (): void => {
