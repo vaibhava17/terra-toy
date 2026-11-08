@@ -1,0 +1,38 @@
+{
+  "id": "big-ben",
+  "kind": "landmark",
+  "category": "tower",
+  "pos": {
+    "lat": 51.5007,
+    "lng": -0.1246
+  },
+  "heading": 0,
+  "country": "GB",
+  "continent": "europe",
+  "name": {
+    "en": "Big Ben"
+  },
+  "blurb": {
+    "en": "A famous clock tower in London. Big Ben is really the nickname of the giant bell inside, which bongs every hour."
+  },
+  "facts": [
+    {
+      "key": "completed",
+      "value": 1859,
+      "source": "https://en.wikipedia.org/wiki/Big_Ben"
+    },
+    {
+      "key": "height_m",
+      "value": 96,
+      "source": "https://en.wikipedia.org/wiki/Big_Ben"
+    }
+  ],
+  "tags": ["clock", "bell", "london", "tower"],
+  "quiz": {
+    "difficulty": 1
+  },
+  "verified": {
+    "by": "agent",
+    "date": "2026-11-08"
+  }
+}

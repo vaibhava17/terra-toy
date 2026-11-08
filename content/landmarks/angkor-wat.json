@@ -1,0 +1,33 @@
+{
+  "id": "angkor-wat",
+  "kind": "landmark",
+  "category": "temple",
+  "pos": {
+    "lat": 13.4125,
+    "lng": 103.867
+  },
+  "heading": 0,
+  "country": "KH",
+  "continent": "asia",
+  "name": {
+    "en": "Angkor Wat"
+  },
+  "blurb": {
+    "en": "A huge temple in Cambodia with five tall towers shaped like lotus buds, surrounded by a wide moat of water."
+  },
+  "facts": [
+    {
+      "key": "built",
+      "value": "Early 1100s",
+      "source": "https://en.wikipedia.org/wiki/Angkor_Wat"
+    }
+  ],
+  "tags": ["temple", "towers", "moat"],
+  "quiz": {
+    "difficulty": 2
+  },
+  "verified": {
+    "by": "agent",
+    "date": "2026-11-08"
+  }
+}

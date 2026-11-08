@@ -1,0 +1,38 @@
+{
+  "id": "mount-fuji",
+  "kind": "landmark",
+  "category": "mountain",
+  "pos": {
+    "lat": 35.3606,
+    "lng": 138.7274
+  },
+  "heading": 0,
+  "country": "JP",
+  "continent": "asia",
+  "name": {
+    "en": "Mount Fuji"
+  },
+  "blurb": {
+    "en": "The tallest mountain in Japan, a volcano with a snowy top and an almost perfect cone shape."
+  },
+  "facts": [
+    {
+      "key": "elevation_m",
+      "value": 3776,
+      "source": "https://en.wikipedia.org/wiki/Mount_Fuji"
+    },
+    {
+      "key": "last_eruption",
+      "value": 1707,
+      "source": "https://en.wikipedia.org/wiki/Mount_Fuji"
+    }
+  ],
+  "tags": ["volcano", "snow", "mountain"],
+  "quiz": {
+    "difficulty": 1
+  },
+  "verified": {
+    "by": "agent",
+    "date": "2026-11-08"
+  }
+}

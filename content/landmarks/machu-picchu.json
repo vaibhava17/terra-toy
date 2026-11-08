@@ -1,0 +1,38 @@
+{
+  "id": "machu-picchu",
+  "kind": "landmark",
+  "category": "ancient",
+  "pos": {
+    "lat": -13.1631,
+    "lng": -72.545
+  },
+  "heading": 0,
+  "country": "PE",
+  "continent": "south-america",
+  "name": {
+    "en": "Machu Picchu"
+  },
+  "blurb": {
+    "en": "A stone town the Inca built high up on a mountain ridge in the Andes. Its stepped terraces were used for growing food."
+  },
+  "facts": [
+    {
+      "key": "built",
+      "value": "1400s",
+      "source": "https://en.wikipedia.org/wiki/Machu_Picchu"
+    },
+    {
+      "key": "elevation_m",
+      "value": 2430,
+      "source": "https://en.wikipedia.org/wiki/Machu_Picchu"
+    }
+  ],
+  "tags": ["inca", "andes", "terraces", "mountain"],
+  "quiz": {
+    "difficulty": 2
+  },
+  "verified": {
+    "by": "agent",
+    "date": "2026-11-08"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "id": "gyeongbokgung",
+  "kind": "landmark",
+  "category": "palace",
+  "pos": {
+    "lat": 37.5796,
+    "lng": 126.977
+  },
+  "heading": 0,
+  "country": "KR",
+  "continent": "asia",
+  "name": {
+    "en": "Gyeongbokgung Palace"
+  },
+  "blurb": {
+    "en": "The biggest royal palace in Seoul, with colourful painted halls and curved tiled roofs, where kings of Korea once lived."
+  },
+  "facts": [
+    {
+      "key": "built",
+      "value": 1395,
+      "source": "https://en.wikipedia.org/wiki/Gyeongbokgung"
+    }
+  ],
+  "tags": ["palace", "seoul", "kings"],
+  "quiz": {
+    "difficulty": 3
+  },
+  "verified": {
+    "by": "agent",
+    "date": "2026-11-08"
+  }
+}

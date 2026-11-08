@@ -1,0 +1,38 @@
+{
+  "id": "great-wall-mutianyu",
+  "kind": "landmark",
+  "category": "wall",
+  "pos": {
+    "lat": 40.4319,
+    "lng": 116.5704
+  },
+  "heading": 0,
+  "country": "CN",
+  "continent": "asia",
+  "name": {
+    "en": "Great Wall at Mutianyu"
+  },
+  "blurb": {
+    "en": "A stretch of the Great Wall of China that winds along green mountain tops near Beijing. Soldiers once kept watch from its towers."
+  },
+  "facts": [
+    {
+      "key": "rebuilt",
+      "value": "Ming dynasty",
+      "source": "https://en.wikipedia.org/wiki/Mutianyu"
+    },
+    {
+      "key": "total_length_km",
+      "value": 21196,
+      "source": "https://en.wikipedia.org/wiki/Great_Wall_of_China"
+    }
+  ],
+  "tags": ["wall", "mountains", "beijing", "watchtowers"],
+  "quiz": {
+    "difficulty": 1
+  },
+  "verified": {
+    "by": "agent",
+    "date": "2026-11-08"
+  }
+}

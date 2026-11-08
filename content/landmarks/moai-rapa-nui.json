@@ -1,0 +1,38 @@
+{
+  "id": "moai-rapa-nui",
+  "kind": "landmark",
+  "category": "statue",
+  "pos": {
+    "lat": -27.1258,
+    "lng": -109.277
+  },
+  "heading": 0,
+  "country": "CL",
+  "continent": "oceania",
+  "name": {
+    "en": "Moai of Rapa Nui"
+  },
+  "blurb": {
+    "en": "Giant stone heads and bodies carved long ago by the people of Rapa Nui, a small island far out in the Pacific Ocean."
+  },
+  "facts": [
+    {
+      "key": "carved",
+      "value": "About 1250–1500",
+      "source": "https://en.wikipedia.org/wiki/Moai"
+    },
+    {
+      "key": "statues",
+      "value": "Nearly 900",
+      "source": "https://en.wikipedia.org/wiki/Moai"
+    }
+  ],
+  "tags": ["statues", "island", "stone", "pacific"],
+  "quiz": {
+    "difficulty": 2
+  },
+  "verified": {
+    "by": "agent",
+    "date": "2026-11-08"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "burj-khalifa",
+  "kind": "landmark",
+  "category": "tower",
+  "pos": {
+    "lat": 25.1972,
+    "lng": 55.2744
+  },
+  "heading": 0,
+  "country": "AE",
+  "continent": "asia",
+  "name": {
+    "en": "Burj Khalifa"
+  },
+  "blurb": {
+    "en": "The tallest building in the world, rising high above the city of Dubai like a giant silver needle."
+  },
+  "facts": [
+    {
+      "key": "opened",
+      "value": 2010,
+      "source": "https://en.wikipedia.org/wiki/Burj_Khalifa"
+    },
+    {
+      "key": "height_m",
+      "value": 828,
+      "source": "https://en.wikipedia.org/wiki/Burj_Khalifa"
+    }
+  ],
+  "tags": ["skyscraper", "dubai", "record"],
+  "quiz": {
+    "difficulty": 1
+  },
+  "verified": {
+    "by": "agent",
+    "date": "2026-11-08"
+  }
+}

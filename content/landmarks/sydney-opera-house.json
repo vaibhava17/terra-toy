@@ -1,0 +1,38 @@
+{
+  "id": "sydney-opera-house",
+  "kind": "landmark",
+  "category": "building",
+  "pos": {
+    "lat": -33.8568,
+    "lng": 151.2153
+  },
+  "heading": 0,
+  "country": "AU",
+  "continent": "oceania",
+  "name": {
+    "en": "Sydney Opera House"
+  },
+  "blurb": {
+    "en": "A concert hall by the harbour in Sydney with white roofs that look like sails or shells. Music, plays and dance shows happen inside."
+  },
+  "facts": [
+    {
+      "key": "opened",
+      "value": 1973,
+      "source": "https://en.wikipedia.org/wiki/Sydney_Opera_House"
+    },
+    {
+      "key": "architect",
+      "value": "Jørn Utzon",
+      "source": "https://en.wikipedia.org/wiki/Sydney_Opera_House"
+    }
+  ],
+  "tags": ["music", "harbour", "sails"],
+  "quiz": {
+    "difficulty": 1
+  },
+  "verified": {
+    "by": "agent",
+    "date": "2026-11-08"
+  }
+}

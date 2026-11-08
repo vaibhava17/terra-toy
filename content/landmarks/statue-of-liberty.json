@@ -1,0 +1,38 @@
+{
+  "id": "statue-of-liberty",
+  "kind": "landmark",
+  "category": "statue",
+  "pos": {
+    "lat": 40.6892,
+    "lng": -74.0445
+  },
+  "heading": 0,
+  "country": "US",
+  "continent": "north-america",
+  "name": {
+    "en": "Statue of Liberty"
+  },
+  "blurb": {
+    "en": "A huge copper lady holding up a torch, standing on an island in New York Harbor. She was a gift from the people of France."
+  },
+  "facts": [
+    {
+      "key": "unveiled",
+      "value": 1886,
+      "source": "https://en.wikipedia.org/wiki/Statue_of_Liberty"
+    },
+    {
+      "key": "height_with_base_m",
+      "value": 93,
+      "source": "https://en.wikipedia.org/wiki/Statue_of_Liberty"
+    }
+  ],
+  "tags": ["copper", "new-york", "statue", "gift"],
+  "quiz": {
+    "difficulty": 1
+  },
+  "verified": {
+    "by": "agent",
+    "date": "2026-11-08"
+  }
+}

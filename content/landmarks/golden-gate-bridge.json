@@ -1,0 +1,38 @@
+{
+  "id": "golden-gate-bridge",
+  "kind": "landmark",
+  "category": "bridge",
+  "pos": {
+    "lat": 37.8199,
+    "lng": -122.4783
+  },
+  "heading": 0,
+  "country": "US",
+  "continent": "north-america",
+  "name": {
+    "en": "Golden Gate Bridge"
+  },
+  "blurb": {
+    "en": "A long orange-red bridge held up by thick cables, crossing the windy entrance to San Francisco Bay."
+  },
+  "facts": [
+    {
+      "key": "opened",
+      "value": 1937,
+      "source": "https://en.wikipedia.org/wiki/Golden_Gate_Bridge"
+    },
+    {
+      "key": "main_span_m",
+      "value": 1280,
+      "source": "https://en.wikipedia.org/wiki/Golden_Gate_Bridge"
+    }
+  ],
+  "tags": ["bridge", "san-francisco", "cables"],
+  "quiz": {
+    "difficulty": 1
+  },
+  "verified": {
+    "by": "agent",
+    "date": "2026-11-08"
+  }
+}
