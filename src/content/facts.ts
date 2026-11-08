@@ -19,6 +19,7 @@ export const FACT_LABELS: Readonly<Record<string, string>> = {
   elevation: 'Height above the sea',
   main_span: 'Longest span',
   total_length: 'Whole length',
+  great_wall_length: 'Whole Great Wall',
   material: 'Made of',
   architect: 'Designed by',
   last_eruption: 'Last eruption',

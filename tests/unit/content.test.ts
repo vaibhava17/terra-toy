@@ -189,6 +189,10 @@ describe('formatFact', () => {
       label: 'Whole length',
       value: '21,196 km',
     });
+    expect(formatFact({ key: 'great_wall_length_km', value: 21196 })).toEqual({
+      label: 'Whole Great Wall',
+      value: '21,196 km',
+    });
     expect(formatFact({ key: 'built', value: '1887–1889' })).toEqual({
       label: 'Built',
       value: '1887–1889',

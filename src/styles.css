@@ -466,25 +466,39 @@ body {
   font-weight: 800;
 }
 
-/* Narrow screens: a bottom sheet. */
+/* Narrow screens: a bottom sheet that stops short of the HUD column on the right, so
+   Landmarks, zoom, reset and full screen stay tappable while a card is open. */
 @media (max-width: 640px) {
   .info-card {
     top: auto;
     left: 0;
-    right: 0;
+    right: calc(max(1rem, env(safe-area-inset-right)) + 52px + 0.75rem);
     bottom: 0;
-    width: 100%;
+    width: auto;
     max-height: 55%;
-    border-width: 3px 0 0;
+    border-width: 3px 3px 0 0;
     border-radius: 1.25rem 1.25rem 0 0;
     padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+}
+
+/* Short landscape phones: the HUD is a row along the bottom (see .hud above), so the
+   sheet floats above that row instead of beside it. */
+@media (max-width: 640px) and (max-height: 420px) {
+  .info-card {
+    left: max(0.75rem, env(safe-area-inset-left));
+    right: max(0.75rem, env(safe-area-inset-right));
+    bottom: calc(max(1rem, env(safe-area-inset-bottom)) + 52px + 0.75rem);
+    border-width: 3px;
+    border-radius: 1.25rem;
+    padding-bottom: 1rem;
   }
 }
 
 /* ---- Landmark menu (opens beside the HUD column) ---------------------------------- */
 .landmark-list {
   position: absolute;
-  z-index: 3;
+  z-index: 4; /* above the info card, which can be open at the same time */
   right: calc(max(1rem, env(safe-area-inset-right)) + 52px + 0.75rem);
   bottom: max(1rem, env(safe-area-inset-bottom));
   width: min(17rem, calc(100% - 52px - 2.75rem));

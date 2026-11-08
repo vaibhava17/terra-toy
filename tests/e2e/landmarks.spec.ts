@@ -91,3 +91,41 @@ test('tapping a pin selects its landmark (not the country under it)', async ({ p
   // The tap also flies in to the landmark.
   await expectViewNear(page, { ...SYDNEY, distance: LANDMARK_VIEW_DISTANCE });
 });
+
+for (const viewport of [
+  { width: 390, height: 844 },
+  { width: 640, height: 400 },
+]) {
+  test(`phone ${viewport.width}x${viewport.height}: the open card leaves the HUD usable`, async ({
+    page,
+  }) => {
+    test.setTimeout(120_000);
+    await page.setViewportSize(viewport);
+    await page.goto('/?focus=eiffel-tower');
+    test.skip((await bootPhase(page)) !== 'ready', 'WebGL is not available in this browser');
+    await expect(page.getByTestId('info-card')).toBeVisible();
+
+    // Every HUD button is the topmost element at its own centre (nothing covers it).
+    const hud = page.getByRole('navigation', { name: 'Globe controls' });
+    for (const button of await hud.getByRole('button').all()) {
+      const covered = await button.evaluate((el) => {
+        const r = el.getBoundingClientRect();
+        const top = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+        return !(top && el.contains(top));
+      });
+      expect(covered, (await button.getAttribute('aria-label')) ?? 'HUD button').toBe(false);
+    }
+
+    await expectViewNear(page, { ...EIFFEL, distance: LANDMARK_VIEW_DISTANCE });
+    await hud.getByRole('button', { name: 'Zoom in' }).click();
+    await expect
+      .poll(async () => (await globeState(page)).view.distance)
+      .toBeLessThan(LANDMARK_VIEW_DISTANCE - 0.01);
+
+    // The menu opens over the card and picking another landmark swaps the card.
+    await hud.getByRole('button', { name: 'Landmarks' }).click();
+    await page.getByRole('button', { name: /Sydney Opera House/ }).click();
+    await expect.poll(async () => (await globeState(page)).selectedLandmark).toBe(SYDNEY.id);
+    await expect(page.getByTestId('info-card')).toContainText('Sydney Opera House');
+  });
+}
