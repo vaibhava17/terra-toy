@@ -22,8 +22,6 @@ const DISPUTED: ReadonlyArray<readonly [string, number, number, string]> = [
   ['Aksai Chin', 35.0, 79.3, 'Aksai Chin'],
   ['Shaksam Valley', 36.1, 76.6, 'Shaksam Valley'],
   // The rest of Natural Earth's list (spot checks).
-  ['Taipei', 25.033, 121.565, 'Taiwan'],
-  ['Kaohsiung', 22.63, 120.3, 'Taiwan'],
   ['Simferopol', 44.952, 34.102, 'Crimea'],
   ['Sevastopol', 44.6, 33.52, 'Crimea'],
   ['Laayoune', 27.154, -13.2, 'W. Sahara'],
@@ -34,7 +32,29 @@ const DISPUTED: ReadonlyArray<readonly [string, number, number, string]> = [
   ['Iturup', 45.0, 147.9, 'Kuril Is.'],
   ['Sukhumi', 43.0, 41.02, 'Abkhazia'],
   ['Tiraspol', 46.84, 29.63, 'Transnistria'],
-  ['Hargeisa', 9.56, 44.065, 'Somaliland'],
+  ['Shebaa Farms', 33.3, 35.68, 'Shebaa Farms'],
+];
+
+/**
+ * Whole territories Natural Earth also flags as disputed. They are left out of the
+ * overlay on purpose (Vaibhav, 09 Nov) and show their normal country name, as before:
+ * [label, lat, lng, country name in world-atlas at 110m, at 50m]. Coastal cities use a
+ * point a few km inland, as the coarse coastlines put the city centre in the sea. The
+ * Gaza Strip is too small to be land at 110m at all, so there it is sea (null), as it
+ * was before the overlay.
+ */
+const WHOLE_TERRITORY: ReadonlyArray<
+  readonly [string, number, number, string | null, string | null]
+> = [
+  ['Taipei', 25.033, 121.565, 'Taiwan', 'Taiwan'],
+  ['Kaohsiung (inland)', 22.75, 120.45, 'Taiwan', 'Taiwan'],
+  ['Tel Aviv', 32.0853, 34.7818, 'Israel', 'Israel'],
+  ['Pristina', 42.6629, 21.1655, 'Kosovo', 'Kosovo'],
+  ['Hargeisa', 9.56, 44.065, 'Somaliland', 'Somaliland'],
+  ['Belize City (inland)', 17.5, -88.3, 'Belize', 'Belize'],
+  ['Gaza City', 31.5017, 34.4668, null, 'Palestine'],
+  ['Ramallah', 31.9038, 35.2034, 'Palestine', 'Palestine'],
+  ['Kota Kinabalu (inland)', 5.95, 116.2, 'Malaysia', 'Malaysia'],
 ];
 
 /** Undisputed places nearby that must keep their country name. */
@@ -54,16 +74,16 @@ const UNDISPUTED: ReadonlyArray<readonly [string, number, number, string]> = [
 ];
 
 describe('disputedAreaAt', () => {
-  it('carries every Natural Earth disputed area, not just Kashmir', () => {
+  it('carries the Natural Earth border disputes, not just Kashmir', () => {
     const names = new Set(DISPUTED_AREAS.map((a) => a.name));
-    // 99 Natural Earth features; the two W. Sahara pieces share a name.
-    expect(names.size).toBe(98);
+    // 99 Natural Earth features, 8 whole territories left out; the two W. Sahara pieces
+    // share a name.
+    expect(names.size).toBe(90);
     expect([...names]).toEqual(
       expect.arrayContaining([
         'Siachen Glacier',
         'Jammu and Kashmir',
         'Gilgit-Baltistan',
-        'Taiwan',
         'Crimea',
         'W. Sahara',
         'Golan Heights',
@@ -80,6 +100,26 @@ describe('disputedAreaAt', () => {
   });
 
   it.each(UNDISPUTED)('%s is not', (_label, lat, lng) => {
+    expect(disputedAreaAt(lat, lng)).toBeNull();
+  });
+
+  it('leaves out the whole territories Natural Earth flags', () => {
+    const names = new Set(DISPUTED_AREAS.map((a) => a.name));
+    for (const n of [
+      'Taiwan',
+      'Israel',
+      'Kosovo',
+      'Somaliland',
+      'Gaza',
+      'West Bank',
+      'Belize',
+      'North Borneo',
+    ]) {
+      expect(names.has(n), n).toBe(false);
+    }
+  });
+
+  it.each(WHOLE_TERRITORY)('%s is not (whole territory)', (_label, lat, lng) => {
     expect(disputedAreaAt(lat, lng)).toBeNull();
   });
 
@@ -109,6 +149,15 @@ describe.each<BorderLevel>(['110m', '50m'])('pickCountryRef (%s)', (level) => {
   it.each(UNDISPUTED)('%s keeps its country name', (_label, lat, lng, name) => {
     expect(pickCountryRef(index, lat, lng)?.name).toBe(name);
   });
+
+  it.each(WHOLE_TERRITORY)(
+    '%s shows its normal country name, not "Disputed area"',
+    (_label, lat, lng, at110m, at50m) => {
+      const ref = pickCountryRef(index, lat, lng);
+      expect(ref?.name).not.toBe(DISPUTED_LABEL);
+      expect(ref?.name ?? null).toBe(level === '110m' ? at110m : at50m);
+    },
+  );
 
   it('returns null over the sea', () => {
     expect(pickCountryRef(index, 30, -40)).toBeNull();

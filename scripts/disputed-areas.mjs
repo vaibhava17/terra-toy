@@ -1,5 +1,6 @@
 // Builds src/engine/globe/disputed-areas.json from Natural Earth's 1:10m
-// "admin 0 disputed areas" (public domain), keeping every area the file flags.
+// "admin 0 disputed areas" (public domain), keeping every area the file flags
+// except the whole territories listed in WHOLE_TERRITORIES below.
 //
 //   curl -sSfLo /tmp/ne.geojson \
 //     https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_admin_0_disputed_areas.geojson
@@ -48,11 +49,30 @@ const clean = (s) =>
     .replace(/\uFEFF/g, '')
     .trim();
 
+// Natural Earth also flags some whole countries/territories, not just border strips.
+// Those keep their normal country name (Vaibhav, 09 Nov), so they are left out here.
+// Natural Earth names; the run fails if one of them is no longer in the file.
+const WHOLE_TERRITORIES = new Set([
+  'Belize',
+  'Gaza',
+  'Israel',
+  'Kosovo',
+  'North Borneo', // Sabah
+  'Somaliland',
+  'Taiwan',
+  'West Bank',
+]);
+
 const fc = JSON.parse(readFileSync(src, 'utf8'));
 const features = [];
+const excluded = new Set();
 for (const f of fc.features) {
   const p = f.properties;
   const name = clean(p.BRK_NAME) || clean(p.NAME);
+  if (WHOLE_TERRITORIES.has(name)) {
+    excluded.add(name);
+    continue;
+  }
   const note = clean(p.NOTE_BRK);
   const g = f.geometry;
   const polys = g.type === 'MultiPolygon' ? g.coordinates : [g.coordinates];
@@ -64,6 +84,10 @@ for (const f of fc.features) {
     });
   }
 }
+const missing = [...WHOLE_TERRITORIES].filter((n) => !excluded.has(n));
+if (missing.length) throw new Error(`excluded names not in the source: ${missing.join(', ')}`);
 features.sort((a, b) => a.properties.name.localeCompare(b.properties.name, 'en'));
 writeFileSync(out, JSON.stringify({ type: 'FeatureCollection', features }) + '\n');
-console.log(`${fc.features.length} Natural Earth areas -> ${features.length} polygons`);
+console.log(
+  `${fc.features.length} Natural Earth areas, ${excluded.size} whole territories left out -> ${features.length} polygons`,
+);

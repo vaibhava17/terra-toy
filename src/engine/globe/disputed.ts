@@ -10,10 +10,11 @@
  * highlight outline, so the border rendering is unchanged.
  *
  * Data: Natural Earth 1:10m "admin 0 disputed areas" (public domain), every area the file
- * flags (99 features, 98 names: Kashmir and Siachen, Taiwan, Crimea, W. Sahara, Golan
- * Heights, N. Cyprus, Arunachal Pradesh, the Kurils, the Falklands and so on), each
- * MultiPolygon split into Polygons, coordinates rounded to 0.001°. Regenerate it with
- * `scripts/disputed-areas.mjs`.
+ * flags (Kashmir and Siachen, Crimea, W. Sahara, Golan Heights, N. Cyprus, Arunachal
+ * Pradesh, the Kurils, the Falklands and so on: 90 names), except the whole territories
+ * it also flags (Taiwan, Israel, Kosovo, Somaliland, Gaza, West Bank, Belize, North
+ * Borneo/Sabah), which keep their normal country name. Each MultiPolygon is split into
+ * Polygons, coordinates rounded to 0.001°. Regenerate it with `scripts/disputed-areas.mjs`.
  */
 import { geoBounds, geoContains } from 'd3-geo';
 import type { Feature, FeatureCollection, Polygon } from 'geojson';
