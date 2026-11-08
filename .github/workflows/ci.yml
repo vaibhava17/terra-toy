@@ -31,6 +31,51 @@ jobs:
       - run: npm run format:check
       - run: npm test
       - run: npm run build
+      - uses: actions/upload-artifact@v4
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        with:
+          name: dist
+          path: dist/
+          retention-days: 1
+
+  # Production deploy to Cloudflare Pages on every push to main (see DEPLOY.md).
+  # No npm ci here: the Cloudflare token must not be exposed to dependency install scripts.
+  deploy-production:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      deployments: write
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: false
+    environment:
+      name: production
+      url: https://terra-toy.heyvaibhav.dev
+    steps:
+      - id: secrets
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          if [ -n "$CF_TOKEN" ]; then
+            echo ok=true >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::CLOUDFLARE_API_TOKEN not set; skipping deploy"
+            echo ok=false >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/download-artifact@v4
+        if: steps.secrets.outputs.ok == 'true'
+        with:
+          name: dist
+          path: dist
+      - uses: cloudflare/wrangler-action@v3
+        if: steps.secrets.outputs.ok == 'true'
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=terra-toy --branch=main --commit-hash=${{ github.sha }}
 
   # TODO(TERRA): enable once the GitHub Actions budget allows SwiftShader e2e runs.
   e2e:
@@ -54,8 +99,8 @@ jobs:
           path: playwright-report/
           retention-days: 7
 
-  # TODO(TERRA): Cloudflare Pages preview deploy per PR — not configured yet.
-  # Needs repo secrets CLOUDFLARE_API_TOKEN + CLOUDFLARE_ACCOUNT_ID and a Pages project.
+  # TODO(TERRA): Cloudflare Pages preview deploy per PR. The Pages project (terra-toy) and
+  # repo secrets now exist; this job stays disabled to save GitHub Actions minutes.
   deploy-preview:
     if: false
     needs: check

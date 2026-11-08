@@ -34,7 +34,7 @@ Before opening a PR, run `typecheck`, `lint`, `format:check`, `test` and `build`
 
 ## Tech
 
-Vite 6 + TypeScript (strict) + three.js (imperative) + Preact (UI overlay) + Zustand (state) + Vitest/Playwright (tests). Zod content validation arrives in Phase 1. Deploy target: Cloudflare Pages or GitHub Pages (static site, no required backend).
+Vite 6 + TypeScript (strict) + three.js (imperative) + Preact (UI overlay) + Zustand (state) + Vitest/Playwright (tests). Zod content validation arrives in Phase 1. Deployed to Cloudflare Pages at https://terra-toy.heyvaibhav.dev on every push to `main`; see [DEPLOY.md](DEPLOY.md).
 
 ## License
 
