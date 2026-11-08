@@ -3,7 +3,7 @@
   "features": [
     {
       "type": "Feature",
-      "properties": { "name": "Abkhazia", "note": "Self admin.; Claimed by Georgia" },
+      "properties": { "name": "Abkhazia" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -167,7 +167,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Abu Musa I.", "note": "Admin. by Iran; Claimed by UAE" },
+      "properties": { "name": "Abu Musa I." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -192,7 +192,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Abyei", "note": "Admin. by Sudan; Claimed by South Sudan" },
+      "properties": { "name": "Abyei" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -222,7 +222,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Aksai Chin", "note": "Admin. by China; Claimed by India" },
+      "properties": { "name": "Aksai Chin" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -443,7 +443,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Artsakh", "note": "Self admin.; Claimed by Azer." },
+      "properties": { "name": "Artsakh" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -686,7 +686,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Arunachal Pradesh", "note": "Admin. by India; Claimed by China" },
+      "properties": { "name": "Arunachal Pradesh" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1100,7 +1100,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Azad Kashmir", "note": "Admin. by Pakistan; Claimed by India" },
+      "properties": { "name": "Azad Kashmir" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1501,10 +1501,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Bajo Nuevo Bank (Petrel Is.)",
-        "note": "Claimed by Colombia, Jamaica, Nicaragua and the United States"
-      },
+      "properties": { "name": "Bajo Nuevo Bank (Petrel Is.)" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1519,10 +1516,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Bajo Nuevo Bank (Petrel Is.)",
-        "note": "Claimed by Colombia, Jamaica, Nicaragua and the United States"
-      },
+      "properties": { "name": "Bajo Nuevo Bank (Petrel Is.)" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1538,10 +1532,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Bajo Nuevo Bank (Petrel Is.)",
-        "note": "Claimed by Colombia, Jamaica, Nicaragua and the United States"
-      },
+      "properties": { "name": "Bajo Nuevo Bank (Petrel Is.)" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1556,10 +1547,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Bajo Nuevo Bank (Petrel Is.)",
-        "note": "Claimed by Colombia, Jamaica, Nicaragua and the United States"
-      },
+      "properties": { "name": "Bajo Nuevo Bank (Petrel Is.)" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1574,10 +1562,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Bajo Nuevo Bank (Petrel Is.)",
-        "note": "Claimed by Colombia, Jamaica, Nicaragua and the United States"
-      },
+      "properties": { "name": "Bajo Nuevo Bank (Petrel Is.)" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1592,7 +1577,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Bara Hotii Valleys", "note": "Admin. by India; Claimed by China" },
+      "properties": { "name": "Bara Hotii Valleys" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1639,10 +1624,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Bassas da India",
-        "note": "Admin. by France; Claimed by Madagascar"
-      },
+      "properties": { "name": "Bassas da India" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1657,10 +1639,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Bassas da India",
-        "note": "Admin. by France; Claimed by Madagascar"
-      },
+      "properties": { "name": "Bassas da India" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1675,10 +1654,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Bassas da India",
-        "note": "Admin. by France; Claimed by Madagascar"
-      },
+      "properties": { "name": "Bassas da India" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1693,86 +1669,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Baykonur", "note": "Leased to Russia by Kazakhstan" },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [63.384, 45.566],
-            [63.324, 45.568],
-            [63.266, 45.574],
-            [63.21, 45.584],
-            [63.157, 45.598],
-            [63.106, 45.616],
-            [63.058, 45.636],
-            [63.013, 45.66],
-            [62.971, 45.687],
-            [62.934, 45.716],
-            [62.9, 45.748],
-            [62.871, 45.782],
-            [62.846, 45.818],
-            [62.827, 45.856],
-            [62.813, 45.895],
-            [62.804, 45.936],
-            [62.801, 45.978],
-            [62.804, 46.021],
-            [62.813, 46.061],
-            [62.827, 46.101],
-            [62.846, 46.139],
-            [62.871, 46.175],
-            [62.9, 46.209],
-            [62.934, 46.241],
-            [62.971, 46.27],
-            [63.013, 46.297],
-            [63.058, 46.32],
-            [63.106, 46.341],
-            [63.157, 46.358],
-            [63.21, 46.372],
-            [63.266, 46.382],
-            [63.324, 46.389],
-            [63.384, 46.391],
-            [63.444, 46.389],
-            [63.501, 46.382],
-            [63.557, 46.372],
-            [63.611, 46.358],
-            [63.662, 46.341],
-            [63.71, 46.32],
-            [63.755, 46.297],
-            [63.796, 46.27],
-            [63.834, 46.241],
-            [63.868, 46.209],
-            [63.897, 46.175],
-            [63.921, 46.139],
-            [63.941, 46.101],
-            [63.955, 46.061],
-            [63.964, 46.021],
-            [63.967, 45.978],
-            [63.964, 45.936],
-            [63.955, 45.895],
-            [63.941, 45.856],
-            [63.921, 45.818],
-            [63.897, 45.782],
-            [63.868, 45.748],
-            [63.834, 45.716],
-            [63.796, 45.687],
-            [63.755, 45.66],
-            [63.71, 45.636],
-            [63.662, 45.616],
-            [63.611, 45.598],
-            [63.557, 45.584],
-            [63.501, 45.574],
-            [63.444, 45.568],
-            [63.384, 45.566]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Bhutan (Chumbi salient)",
-        "note": "Admin. by Bhutan; Claimed by China"
-      },
+      "properties": { "name": "Bhutan (Chumbi salient)" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1823,10 +1720,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Bhutan (northwest valleys)",
-        "note": "Admin. by Bhutan; Claimed by China"
-      },
+      "properties": { "name": "Bhutan (northwest valleys)" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1902,7 +1796,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Bir Tawil", "note": "Between Egypt and Sudan" },
+      "properties": { "name": "Bir Tawil" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1926,7 +1820,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Bird Island", "note": "Admin. by Venezuela; Claimed by multiple" },
+      "properties": { "name": "Bird Island" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1944,10 +1838,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Br. Indian Ocean Ter.",
-        "note": "Admin. by U.K.; Claimed by Mauritius and Seychelles"
-      },
+      "properties": { "name": "Br. Indian Ocean Ter." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1963,10 +1854,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Br. Indian Ocean Ter.",
-        "note": "Admin. by U.K.; Claimed by Mauritius and Seychelles"
-      },
+      "properties": { "name": "Br. Indian Ocean Ter." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1985,10 +1873,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Br. Indian Ocean Ter.",
-        "note": "Admin. by U.K.; Claimed by Mauritius and Seychelles"
-      },
+      "properties": { "name": "Br. Indian Ocean Ter." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -2008,10 +1893,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Br. Indian Ocean Ter.",
-        "note": "Admin. by U.K.; Claimed by Mauritius and Seychelles"
-      },
+      "properties": { "name": "Br. Indian Ocean Ter." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -2029,10 +1911,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Br. Indian Ocean Ter.",
-        "note": "Admin. by U.K.; Claimed by Mauritius and Seychelles"
-      },
+      "properties": { "name": "Br. Indian Ocean Ter." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -2049,10 +1928,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Br. Indian Ocean Ter.",
-        "note": "Admin. by U.K.; Claimed by Mauritius and Seychelles"
-      },
+      "properties": { "name": "Br. Indian Ocean Ter." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -2069,10 +1945,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Br. Indian Ocean Ter.",
-        "note": "Admin. by U.K.; Claimed by Mauritius and Seychelles"
-      },
+      "properties": { "name": "Br. Indian Ocean Ter." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -2089,10 +1962,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Br. Indian Ocean Ter.",
-        "note": "Admin. by U.K.; Claimed by Mauritius and Seychelles"
-      },
+      "properties": { "name": "Br. Indian Ocean Ter." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -2112,7 +1982,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Brazilian Island", "note": "Claimed by Brazil and Uruguay" },
+      "properties": { "name": "Brazilian Island" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -2128,32 +1998,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Ceuta" },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [-5.341, 35.847],
-            [-5.363, 35.864],
-            [-5.378, 35.882],
-            [-5.39, 35.902],
-            [-5.399, 35.925],
-            [-5.385, 35.926],
-            [-5.366, 35.925],
-            [-5.344, 35.915],
-            [-5.327, 35.904],
-            [-5.309, 35.901],
-            [-5.283, 35.912],
-            [-5.292, 35.891],
-            [-5.336, 35.862],
-            [-5.341, 35.847]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": { "name": "Corner of Artigas", "note": "Admin. by Brazil; Claimed by Uruguay" },
+      "properties": { "name": "Corner of Artigas" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -2196,10 +2041,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Courantyne Headwaters",
-        "note": "Admin. by Guyana; Claimed by Suriname"
-      },
+      "properties": { "name": "Courantyne Headwaters" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -2561,7 +2403,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Crimea", "note": "Admin. by Russia; Claimed by Ukraine" },
+      "properties": { "name": "Crimea" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -3249,7 +3091,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Demchok", "note": "Admin. by India; Claimed by China" },
+      "properties": { "name": "Demchok" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -3305,10 +3147,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Diego Garcia NSF",
-        "note": "Leased to U.S.A by U.K.; Claimed by Mauritius and Seychelles"
-      },
+      "properties": { "name": "Diego Garcia NSF" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -3346,10 +3185,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Diego Garcia NSF",
-        "note": "Leased to U.S.A by U.K.; Claimed by Mauritius and Seychelles"
-      },
+      "properties": { "name": "Diego Garcia NSF" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -3378,7 +3214,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Dokdo", "note": "Admin. by South Korea; Claimed by Japan" },
+      "properties": { "name": "Dokdo" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -3394,10 +3230,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Donetsk People's Republic",
-        "note": "Self admin.; Claimed by Ukraine"
-      },
+      "properties": { "name": "Donetsk People's Republic" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -3592,7 +3425,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Doumera Island", "note": "Admin. By Eritrea; Claimed by Djibouti" },
+      "properties": { "name": "Doumera Island" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -3634,7 +3467,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "East Jerusalem", "note": "Admin. By Israel; Claimed by Palestine" },
+      "properties": { "name": "East Jerusalem" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -3742,7 +3575,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Europa Island", "note": "Admin. by France; Claimed by Madagascar" },
+      "properties": { "name": "Europa Island" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -3774,7 +3607,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Falkland Is.", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "Falkland Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -3819,7 +3652,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Falkland Is.", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "Falkland Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -3858,7 +3691,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Falkland Is.", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "Falkland Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -3942,7 +3775,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Falkland Is.", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "Falkland Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -3971,7 +3804,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Falkland Is.", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "Falkland Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -4375,7 +4208,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Falkland Is.", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "Falkland Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -4403,7 +4236,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Falkland Is.", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "Falkland Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -4459,7 +4292,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Falkland Is.", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "Falkland Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -4996,7 +4829,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Falkland Is.", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "Falkland Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -5045,7 +4878,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Falkland Is.", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "Falkland Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -5081,7 +4914,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Falkland Is.", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "Falkland Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -5152,7 +4985,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Falkland Is.", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "Falkland Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -5184,7 +5017,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Falkland Is.", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "Falkland Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -5220,7 +5053,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Falkland Is.", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "Falkland Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -5247,7 +5080,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Falkland Is.", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "Falkland Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -5279,7 +5112,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Falkland Is.", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "Falkland Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -5303,7 +5136,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Falkland Is.", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "Falkland Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -5326,7 +5159,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Falkland Is.", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "Falkland Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -5351,7 +5184,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Falkland Is.", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "Falkland Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -5383,7 +5216,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Falkland Is.", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "Falkland Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -5402,7 +5235,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Falkland Is.", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "Falkland Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -5422,7 +5255,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Falkland Is.", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "Falkland Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -5443,7 +5276,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Falkland Is.", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "Falkland Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -5472,7 +5305,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Gibraltar", "note": "Admin. By U.K.; Claimed by Spain" },
+      "properties": { "name": "Gibraltar" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -5490,7 +5323,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Gilgit-Baltistan", "note": "Admin. by Pakistan; Claimed by India" },
+      "properties": { "name": "Gilgit-Baltistan" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -6092,7 +5925,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Glorioso Is.", "note": "Admin. by France; Claimed by Madagascar" },
+      "properties": { "name": "Glorioso Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -6107,7 +5940,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Golan Heights", "note": "Admin. By Israel; Claimed by Syria" },
+      "properties": { "name": "Golan Heights" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -6215,10 +6048,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Guantanamo Bay USNB",
-        "note": "Leased to U.S.A. by Cuba; Claimed by Cuba"
-      },
+      "properties": { "name": "Guantanamo Bay USNB" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -6249,10 +6079,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Guantanamo Bay USNB",
-        "note": "Leased to U.S.A. by Cuba; Claimed by Cuba"
-      },
+      "properties": { "name": "Guantanamo Bay USNB" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -6287,7 +6114,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Halayib Triangle", "note": "Admin. by Egypt; Claimed by Sudan" },
+      "properties": { "name": "Halayib Triangle" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -6392,7 +6219,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Halayib Triangle", "note": "Admin. by Egypt; Claimed by Sudan" },
+      "properties": { "name": "Halayib Triangle" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -6421,7 +6248,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Halayib Triangle", "note": "Admin. by Egypt; Claimed by Sudan" },
+      "properties": { "name": "Halayib Triangle" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -6444,7 +6271,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Halayib Triangle", "note": "Admin. by Egypt; Claimed by Sudan" },
+      "properties": { "name": "Halayib Triangle" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -6473,7 +6300,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Halayib Triangle", "note": "Admin. by Egypt; Claimed by Sudan" },
+      "properties": { "name": "Halayib Triangle" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -6505,7 +6332,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Hans Island", "note": "Admin. by Denmark; Claimed by Canada" },
+      "properties": { "name": "Hans Island" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -6549,7 +6376,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Ilemi Triangle", "note": "Admin. by Kenya; Claimed by South Sudan" },
+      "properties": { "name": "Ilemi Triangle" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -6568,7 +6395,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Ilemi Triangle", "note": "Admin. by Kenya; Claimed by South Sudan" },
+      "properties": { "name": "Ilemi Triangle" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -6616,7 +6443,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Isla del Perejil", "note": "Admin. by Spain; Claimed by Morocco" },
+      "properties": { "name": "Isla del Perejil" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -6633,7 +6460,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Islas Chafarinas", "note": "Admin. by Spain; Claimed by Morocco" },
+      "properties": { "name": "Islas Chafarinas" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -6650,7 +6477,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Islas Chafarinas", "note": "Admin. by Spain; Claimed by Morocco" },
+      "properties": { "name": "Islas Chafarinas" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -6667,7 +6494,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Islas Chafarinas", "note": "Admin. by Spain; Claimed by Morocco" },
+      "properties": { "name": "Islas Chafarinas" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -6683,7 +6510,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Jammu and Kashmir", "note": "Admin. by India; Claimed by Pakistan" },
+      "properties": { "name": "Jammu and Kashmir" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -7202,10 +7029,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Juan De Nova I.",
-        "note": "Admin. by France; Claimed by Madagascar"
-      },
+      "properties": { "name": "Juan De Nova I." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -7221,10 +7045,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Junagadh and Manavadar",
-        "note": "Admin. by India; Claimed by Pakistan"
-      },
+      "properties": { "name": "Junagadh and Manavadar" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -7346,283 +7167,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Korean Demilitarized Zone (north)",
-        "note": "Since 1953 a 2 km buffer north of the military demarcation line, patrolled by North Korea"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [128.365, 38.624],
-            [128.308, 38.601],
-            [128.281, 38.584],
-            [128.275, 38.571],
-            [128.277, 38.554],
-            [128.285, 38.52],
-            [128.281, 38.484],
-            [128.268, 38.454],
-            [128.249, 38.426],
-            [128.226, 38.4],
-            [128.172, 38.356],
-            [128.108, 38.324],
-            [128.04, 38.304],
-            [127.972, 38.3],
-            [127.867, 38.305],
-            [127.801, 38.294],
-            [127.787, 38.297],
-            [127.775, 38.306],
-            [127.762, 38.321],
-            [127.754, 38.325],
-            [127.561, 38.312],
-            [127.502, 38.298],
-            [127.472, 38.296],
-            [127.377, 38.319],
-            [127.254, 38.31],
-            [127.222, 38.313],
-            [127.157, 38.307],
-            [127.09, 38.286],
-            [127.027, 38.254],
-            [126.972, 38.219],
-            [126.966, 38.213],
-            [126.954, 38.201],
-            [126.94, 38.174],
-            [126.92, 38.135],
-            [126.903, 38.12],
-            [126.865, 38.096],
-            [126.847, 38.082],
-            [126.762, 37.979],
-            [126.722, 37.954],
-            [126.696, 37.946],
-            [126.678, 37.945],
-            [126.666, 37.938],
-            [126.661, 37.914],
-            [126.667, 37.828],
-            [126.656, 37.815],
-            [126.652, 37.799],
-            [126.642, 37.798],
-            [126.621, 37.788],
-            [126.607, 37.918],
-            [126.619, 37.972],
-            [126.639, 37.983],
-            [126.661, 37.996],
-            [126.673, 37.997],
-            [126.686, 37.998],
-            [126.7, 38.003],
-            [126.726, 38.019],
-            [126.81, 38.12],
-            [126.814, 38.123],
-            [126.834, 38.139],
-            [126.837, 38.141],
-            [126.872, 38.162],
-            [126.877, 38.167],
-            [126.896, 38.205],
-            [126.91, 38.232],
-            [126.916, 38.238],
-            [126.938, 38.26],
-            [127, 38.3],
-            [127.071, 38.335],
-            [127.147, 38.36],
-            [127.222, 38.366],
-            [127.226, 38.365],
-            [127.254, 38.363],
-            [127.381, 38.372],
-            [127.476, 38.349],
-            [127.494, 38.351],
-            [127.553, 38.365],
-            [127.765, 38.379],
-            [127.778, 38.372],
-            [127.795, 38.363],
-            [127.802, 38.356],
-            [127.808, 38.349],
-            [127.864, 38.358],
-            [127.971, 38.353],
-            [128.031, 38.357],
-            [128.089, 38.373],
-            [128.143, 38.401],
-            [128.189, 38.438],
-            [128.207, 38.458],
-            [128.221, 38.479],
-            [128.229, 38.498],
-            [128.232, 38.517],
-            [128.225, 38.545],
-            [128.224, 38.547],
-            [128.22, 38.581],
-            [128.227, 38.595],
-            [128.24, 38.621],
-            [128.253, 38.629],
-            [128.284, 38.649],
-            [128.345, 38.673],
-            [128.36, 38.675],
-            [128.361, 38.661],
-            [128.36, 38.643],
-            [128.365, 38.625],
-            [128.365, 38.624]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Korean Demilitarized Zone (south)",
-        "note": "Since 1953 a 2 km buffer south of the military demarcation line, patrolled by South Korea"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [128.365, 38.624],
-            [128.395, 38.578],
-            [128.385, 38.576],
-            [128.332, 38.554],
-            [128.339, 38.523],
-            [128.338, 38.513],
-            [128.333, 38.47],
-            [128.33, 38.464],
-            [128.315, 38.428],
-            [128.311, 38.423],
-            [128.29, 38.393],
-            [128.288, 38.391],
-            [128.262, 38.361],
-            [128.201, 38.311],
-            [128.128, 38.274],
-            [128.049, 38.252],
-            [127.972, 38.247],
-            [127.87, 38.252],
-            [127.8, 38.24],
-            [127.79, 38.242],
-            [127.764, 38.247],
-            [127.754, 38.255],
-            [127.738, 38.268],
-            [127.735, 38.271],
-            [127.569, 38.26],
-            [127.51, 38.246],
-            [127.506, 38.245],
-            [127.467, 38.243],
-            [127.373, 38.265],
-            [127.254, 38.257],
-            [127.249, 38.257],
-            [127.222, 38.26],
-            [127.168, 38.255],
-            [127.11, 38.237],
-            [127.053, 38.208],
-            [127.021, 38.188],
-            [127.005, 38.178],
-            [126.997, 38.169],
-            [126.963, 38.102],
-            [126.955, 38.096],
-            [126.935, 38.077],
-            [126.931, 38.075],
-            [126.895, 38.053],
-            [126.885, 38.044],
-            [126.797, 37.939],
-            [126.744, 37.905],
-            [126.737, 37.903],
-            [126.715, 37.897],
-            [126.72, 37.832],
-            [126.705, 37.8],
-            [126.686, 37.782],
-            [126.685, 37.794],
-            [126.689, 37.814],
-            [126.7, 37.83],
-            [126.692, 37.837],
-            [126.683, 37.836],
-            [126.667, 37.828],
-            [126.661, 37.914],
-            [126.666, 37.938],
-            [126.678, 37.945],
-            [126.696, 37.946],
-            [126.722, 37.954],
-            [126.762, 37.979],
-            [126.847, 38.082],
-            [126.865, 38.096],
-            [126.903, 38.12],
-            [126.92, 38.135],
-            [126.94, 38.174],
-            [126.954, 38.201],
-            [126.966, 38.213],
-            [126.972, 38.219],
-            [127.027, 38.254],
-            [127.09, 38.286],
-            [127.157, 38.307],
-            [127.222, 38.313],
-            [127.254, 38.31],
-            [127.377, 38.319],
-            [127.472, 38.296],
-            [127.502, 38.298],
-            [127.561, 38.312],
-            [127.754, 38.325],
-            [127.762, 38.321],
-            [127.775, 38.306],
-            [127.787, 38.297],
-            [127.801, 38.294],
-            [127.867, 38.305],
-            [127.972, 38.3],
-            [128.04, 38.304],
-            [128.108, 38.324],
-            [128.172, 38.356],
-            [128.226, 38.4],
-            [128.249, 38.426],
-            [128.268, 38.454],
-            [128.281, 38.484],
-            [128.285, 38.52],
-            [128.277, 38.554],
-            [128.275, 38.571],
-            [128.281, 38.584],
-            [128.308, 38.601],
-            [128.365, 38.624]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Korean islands under UN jurisdiction",
-        "note": "Since 1953 islands south of maritime Northern Limit Line, patrolled by South Korea including Yeonpyeong, Baengnyeong, and Daecheong Is."
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [125.688, 37.679],
-            [125.699, 37.678],
-            [125.706, 37.672],
-            [125.703, 37.661],
-            [125.694, 37.654],
-            [125.688, 37.652],
-            [125.685, 37.657],
-            [125.679, 37.67],
-            [125.68, 37.678],
-            [125.688, 37.679]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Korean islands under UN jurisdiction",
-        "note": "Since 1953 islands south of maritime Northern Limit Line, patrolled by South Korea including Yeonpyeong, Baengnyeong, and Daecheong Is."
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [125.713, 37.603],
-            [125.706, 37.602],
-            [125.709, 37.611],
-            [125.719, 37.614],
-            [125.72, 37.609],
-            [125.713, 37.603]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": { "name": "Kuril Is.", "note": "Admin. by Russia; Claimed by Japan" },
+      "properties": { "name": "Kuril Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -7652,7 +7197,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Kuril Is.", "note": "Admin. by Russia; Claimed by Japan" },
+      "properties": { "name": "Kuril Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -7710,7 +7255,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Kuril Is.", "note": "Admin. by Russia; Claimed by Japan" },
+      "properties": { "name": "Kuril Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -7853,7 +7398,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Kuril Is.", "note": "Admin. by Russia; Claimed by Japan" },
+      "properties": { "name": "Kuril Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -8044,7 +7589,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Kuril Is.", "note": "Admin. by Russia; Claimed by Japan" },
+      "properties": { "name": "Kuril Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -8080,7 +7625,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Kuril Is.", "note": "Admin. by Russia; Claimed by Japan" },
+      "properties": { "name": "Kuril Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -8122,7 +7667,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Kuril Is.", "note": "Admin. by Russia; Claimed by Japan" },
+      "properties": { "name": "Kuril Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -8146,7 +7691,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Lawa Headwaters", "note": "Admin. by France; Claimed by Suriname" },
+      "properties": { "name": "Lawa Headwaters" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -8297,10 +7842,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Luhansk People's Republic",
-        "note": "Self admin.; Claimed by Ukraine"
-      },
+      "properties": { "name": "Luhansk People's Republic" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -8537,10 +8079,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Matthew and Hunter Is.",
-        "note": "Admin. by New Caledonia for France; Claimed by Vanuatu"
-      },
+      "properties": { "name": "Matthew and Hunter Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -8556,10 +8095,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Matthew and Hunter Is.",
-        "note": "Admin. by New Caledonia for France; Claimed by Vanuatu"
-      },
+      "properties": { "name": "Matthew and Hunter Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -8575,7 +8111,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Mayotte", "note": "Admin. by France; Claimed by Comoros" },
+      "properties": { "name": "Mayotte" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -8595,7 +8131,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Mayotte", "note": "Admin. by France; Claimed by Comoros" },
+      "properties": { "name": "Mayotte" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -8687,10 +8223,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Mbane Island",
-        "note": "Admin by Gabon; Claimed by Equatorial Guinea"
-      },
+      "properties": { "name": "Mbane Island" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -8705,25 +8238,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Melilla" },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [-2.948, 35.33],
-            [-2.922, 35.288],
-            [-2.913, 35.277],
-            [-2.943, 35.268],
-            [-2.964, 35.286],
-            [-2.967, 35.314],
-            [-2.948, 35.33]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": { "name": "Mount Scopus", "note": "Admin. By Israel; Claimed by Palestine" },
+      "properties": { "name": "Mount Scopus" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -8753,7 +8268,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "N. Cyprus", "note": "Self admin.; Claimed by Cyprus" },
+      "properties": { "name": "N. Cyprus" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -8956,7 +8471,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "N. Cyprus", "note": "Self admin.; Claimed by Cyprus" },
+      "properties": { "name": "N. Cyprus" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -8976,7 +8491,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Navassa I.", "note": "Admin. by U.S.A.; Claimed by Haiti" },
+      "properties": { "name": "Navassa I." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9016,7 +8531,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Near Om Parvat", "note": "Admin. by India; Claimed by Nepal" },
+      "properties": { "name": "Near Om Parvat" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9039,10 +8554,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "No Man's Land (Fort Latrun)",
-        "note": "Admin. By Israel; Claimed by Palestine"
-      },
+      "properties": { "name": "No Man's Land (Fort Latrun)" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9103,10 +8615,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "No Man's Land (Jerusalem)",
-        "note": "Admin. By Israel; Claimed by Palestine"
-      },
+      "properties": { "name": "No Man's Land (Jerusalem)" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9142,7 +8651,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Olivenza", "note": "Admin. by Spain; Claimed by Portugal" },
+      "properties": { "name": "Olivenza" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9190,10 +8699,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Paracel Is.",
-        "note": "Admin. by China; Claimed by Vietnam and Taiwan"
-      },
+      "properties": { "name": "Paracel Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9214,10 +8720,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Paracel Is.",
-        "note": "Admin. by China; Claimed by Vietnam and Taiwan"
-      },
+      "properties": { "name": "Paracel Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9234,10 +8737,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Paracel Is.",
-        "note": "Admin. by China; Claimed by Vietnam and Taiwan"
-      },
+      "properties": { "name": "Paracel Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9258,10 +8758,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Paracel Is.",
-        "note": "Admin. by China; Claimed by Vietnam and Taiwan"
-      },
+      "properties": { "name": "Paracel Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9280,10 +8777,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Paracel Is.",
-        "note": "Admin. by China; Claimed by Vietnam and Taiwan"
-      },
+      "properties": { "name": "Paracel Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9302,10 +8796,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Paracel Is.",
-        "note": "Admin. by China; Claimed by Vietnam and Taiwan"
-      },
+      "properties": { "name": "Paracel Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9324,10 +8815,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Paracel Is.",
-        "note": "Admin. by China; Claimed by Vietnam and Taiwan"
-      },
+      "properties": { "name": "Paracel Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9342,10 +8830,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Paracel Is.",
-        "note": "Admin. by China; Claimed by Vietnam and Taiwan"
-      },
+      "properties": { "name": "Paracel Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9360,10 +8845,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Paracel Is.",
-        "note": "Admin. by China; Claimed by Vietnam and Taiwan"
-      },
+      "properties": { "name": "Paracel Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9378,10 +8860,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Paracel Is.",
-        "note": "Admin. by China; Claimed by Vietnam and Taiwan"
-      },
+      "properties": { "name": "Paracel Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9396,10 +8875,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Paracel Is.",
-        "note": "Admin. by China; Claimed by Vietnam and Taiwan"
-      },
+      "properties": { "name": "Paracel Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9414,10 +8890,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Paracel Is.",
-        "note": "Admin. by China; Claimed by Vietnam and Taiwan"
-      },
+      "properties": { "name": "Paracel Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9432,10 +8905,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Paracel Is.",
-        "note": "Admin. by China; Claimed by Vietnam and Taiwan"
-      },
+      "properties": { "name": "Paracel Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9450,10 +8920,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Paracel Is.",
-        "note": "Admin. by China; Claimed by Vietnam and Taiwan"
-      },
+      "properties": { "name": "Paracel Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9468,10 +8935,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Paracel Is.",
-        "note": "Admin. by China; Claimed by Vietnam and Taiwan"
-      },
+      "properties": { "name": "Paracel Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9486,10 +8950,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Paracel Is.",
-        "note": "Admin. by China; Claimed by Vietnam and Taiwan"
-      },
+      "properties": { "name": "Paracel Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9504,10 +8965,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Paracel Is.",
-        "note": "Admin. by China; Claimed by Vietnam and Taiwan"
-      },
+      "properties": { "name": "Paracel Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9522,10 +8980,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Paracel Is.",
-        "note": "Admin. by China; Claimed by Vietnam and Taiwan"
-      },
+      "properties": { "name": "Paracel Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9540,7 +8995,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Penon de Alhucemas", "note": "Admin. by Spain; Claimed by Morocco" },
+      "properties": { "name": "Penon de Alhucemas" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9555,7 +9010,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Penon de Alhucemas", "note": "Admin. by Spain; Claimed by Morocco" },
+      "properties": { "name": "Penon de Alhucemas" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9571,10 +9026,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Peñón de Vélez de la Gomera",
-        "note": "Admin. by Spain; Claimed by Morocco"
-      },
+      "properties": { "name": "Peñón de Vélez de la Gomera" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9594,10 +9046,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Pinnacle Is.",
-        "note": "Admin. by Japan; Claimed by China and Taiwan"
-      },
+      "properties": { "name": "Pinnacle Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9613,10 +9062,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Pinnacle Is.",
-        "note": "Admin. by Japan; Claimed by China and Taiwan"
-      },
+      "properties": { "name": "Pinnacle Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9631,10 +9077,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Pinnacle Is.",
-        "note": "Admin. by Japan; Claimed by China and Taiwan"
-      },
+      "properties": { "name": "Pinnacle Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9649,10 +9092,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Pinnacle Is.",
-        "note": "Admin. by Japan; Claimed by China and Taiwan"
-      },
+      "properties": { "name": "Pinnacle Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9670,10 +9110,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Pinnacle Is.",
-        "note": "Admin. by Japan; Claimed by China and Taiwan"
-      },
+      "properties": { "name": "Pinnacle Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9688,10 +9125,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Pinnacle Is.",
-        "note": "Admin. by Japan; Claimed by China and Taiwan"
-      },
+      "properties": { "name": "Pinnacle Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9706,10 +9140,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Pinnacle Is.",
-        "note": "Admin. by Japan; Claimed by China and Taiwan"
-      },
+      "properties": { "name": "Pinnacle Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9725,10 +9156,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Pinnacle Is.",
-        "note": "Admin. by Japan; Claimed by China and Taiwan"
-      },
+      "properties": { "name": "Pinnacle Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9743,10 +9171,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Pinnacle Is.",
-        "note": "Admin. by Japan; Claimed by China and Taiwan"
-      },
+      "properties": { "name": "Pinnacle Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9764,10 +9189,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Rockall I.",
-        "note": "Admin by U.K.; Claimed by Ireland, Denmark, and Iceland"
-      },
+      "properties": { "name": "Rockall I." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9785,7 +9207,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "S. Georgia", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "S. Georgia" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9815,7 +9237,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "S. Georgia", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "S. Georgia" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -9833,7 +9255,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "S. Georgia", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "S. Georgia" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -10278,7 +9700,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "S. Georgia", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "S. Georgia" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -10297,7 +9719,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "S. Georgia", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "S. Georgia" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -10317,7 +9739,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "S. Georgia", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "S. Georgia" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -10337,7 +9759,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "S. Georgia", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "S. Georgia" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -10355,7 +9777,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "S. Georgia", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "S. Georgia" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -10374,7 +9796,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "S. Sandwich Is.", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "S. Sandwich Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -10397,7 +9819,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "S. Sandwich Is.", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "S. Sandwich Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -10425,7 +9847,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "S. Sandwich Is.", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "S. Sandwich Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -10448,7 +9870,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "S. Sandwich Is.", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "S. Sandwich Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -10481,7 +9903,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "S. Sandwich Is.", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "S. Sandwich Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -10509,7 +9931,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "S. Sandwich Is.", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "S. Sandwich Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -10533,7 +9955,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "S. Sandwich Is.", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "S. Sandwich Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -10558,7 +9980,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "S. Sandwich Is.", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "S. Sandwich Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -10581,7 +10003,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "S. Sandwich Is.", "note": "Admin. by U.K.; Claimed by Argentina" },
+      "properties": { "name": "S. Sandwich Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -10599,7 +10021,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Samdu Valleys", "note": "Admin. by India; Claimed by China" },
+      "properties": { "name": "Samdu Valleys" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -10630,10 +10052,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Sapodilla Cayes",
-        "note": "Admin. by Belize; Claimed by Honduras and Guatemala"
-      },
+      "properties": { "name": "Sapodilla Cayes" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -10649,10 +10068,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Sapodilla Cayes",
-        "note": "Admin. by Belize; Claimed by Honduras and Guatemala"
-      },
+      "properties": { "name": "Sapodilla Cayes" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -10709,10 +10125,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Serranilla Bank",
-        "note": "Claimed by Colombia, Honduras, Nicaragua, and the United States"
-      },
+      "properties": { "name": "Serranilla Bank" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -10727,10 +10140,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Shaksam Valley",
-        "note": "Admin. by China; Ceded to China by Pakistan; Claimed by India"
-      },
+      "properties": { "name": "Shaksam Valley" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -10853,7 +10263,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Shebaa Farms", "note": "Admin. By Israel; Claimed by Lebanon" },
+      "properties": { "name": "Shebaa Farms" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -10876,7 +10286,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Siachen Glacier", "note": "Claimed by Pakistan and India" },
+      "properties": { "name": "Siachen Glacier" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -10925,7 +10335,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "South Ossetia", "note": "Self admin.; Claimed by Georgia" },
+      "properties": { "name": "South Ossetia" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -11067,10 +10477,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Southern Patagonian Ice Field",
-        "note": "Claimed by Chile and Argentina; under survey"
-      },
+      "properties": { "name": "Southern Patagonian Ice Field" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -11121,10 +10528,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Spratly Is.",
-        "note": "Claimed by China, Taiwan, Malaysia, the Philippines, and Brunei"
-      },
+      "properties": { "name": "Spratly Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -11139,10 +10543,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Spratly Is.",
-        "note": "Claimed by China, Taiwan, Malaysia, the Philippines, and Brunei"
-      },
+      "properties": { "name": "Spratly Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -11164,10 +10565,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Spratly Is.",
-        "note": "Claimed by China, Taiwan, Malaysia, the Philippines, and Brunei"
-      },
+      "properties": { "name": "Spratly Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -11185,10 +10583,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Spratly Is.",
-        "note": "Claimed by China, Taiwan, Malaysia, the Philippines, and Brunei"
-      },
+      "properties": { "name": "Spratly Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -11208,10 +10603,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Spratly Is.",
-        "note": "Claimed by China, Taiwan, Malaysia, the Philippines, and Brunei"
-      },
+      "properties": { "name": "Spratly Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -11230,10 +10622,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Spratly Is.",
-        "note": "Claimed by China, Taiwan, Malaysia, the Philippines, and Brunei"
-      },
+      "properties": { "name": "Spratly Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -11252,10 +10641,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Spratly Is.",
-        "note": "Claimed by China, Taiwan, Malaysia, the Philippines, and Brunei"
-      },
+      "properties": { "name": "Spratly Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -11274,10 +10660,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Spratly Is.",
-        "note": "Claimed by China, Taiwan, Malaysia, the Philippines, and Brunei"
-      },
+      "properties": { "name": "Spratly Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -11301,10 +10684,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Spratly Is.",
-        "note": "Claimed by China, Taiwan, Malaysia, the Philippines, and Brunei"
-      },
+      "properties": { "name": "Spratly Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -11326,10 +10706,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Spratly Is.",
-        "note": "Claimed by China, Taiwan, Malaysia, the Philippines, and Brunei"
-      },
+      "properties": { "name": "Spratly Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -11348,10 +10725,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Spratly Is.",
-        "note": "Claimed by China, Taiwan, Malaysia, the Philippines, and Brunei"
-      },
+      "properties": { "name": "Spratly Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -11371,10 +10745,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Spratly Is.",
-        "note": "Claimed by China, Taiwan, Malaysia, the Philippines, and Brunei"
-      },
+      "properties": { "name": "Spratly Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -11389,10 +10760,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Spratly Is.",
-        "note": "Claimed by China, Taiwan, Malaysia, the Philippines, and Brunei"
-      },
+      "properties": { "name": "Spratly Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -11407,10 +10775,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Spratly Is.",
-        "note": "Claimed by China, Taiwan, Malaysia, the Philippines, and Brunei"
-      },
+      "properties": { "name": "Spratly Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -11426,10 +10791,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Spratly Is.",
-        "note": "Claimed by China, Taiwan, Malaysia, the Philippines, and Brunei"
-      },
+      "properties": { "name": "Spratly Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -11445,10 +10807,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Spratly Is.",
-        "note": "Claimed by China, Taiwan, Malaysia, the Philippines, and Brunei"
-      },
+      "properties": { "name": "Spratly Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -11463,10 +10822,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Spratly Is.",
-        "note": "Claimed by China, Taiwan, Malaysia, the Philippines, and Brunei"
-      },
+      "properties": { "name": "Spratly Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -11481,10 +10837,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Spratly Is.",
-        "note": "Claimed by China, Taiwan, Malaysia, the Philippines, and Brunei"
-      },
+      "properties": { "name": "Spratly Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -11499,10 +10852,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Spratly Is.",
-        "note": "Claimed by China, Taiwan, Malaysia, the Philippines, and Brunei"
-      },
+      "properties": { "name": "Spratly Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -11517,10 +10867,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Spratly Is.",
-        "note": "Claimed by China, Taiwan, Malaysia, the Philippines, and Brunei"
-      },
+      "properties": { "name": "Spratly Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -11535,10 +10882,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Spratly Is.",
-        "note": "Claimed by China, Taiwan, Malaysia, the Philippines, and Brunei"
-      },
+      "properties": { "name": "Spratly Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -11553,10 +10897,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Swains Island",
-        "note": "Admin. by American Samoa for U.S.A.; Claimed by Tokelau"
-      },
+      "properties": { "name": "Swains Island" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -11573,10 +10914,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Tiran and Sanafir Is.",
-        "note": "Admin. by Egypt; Claimed by Saudi Arabia"
-      },
+      "properties": { "name": "Tiran and Sanafir Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -11622,10 +10960,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Tiran and Sanafir Is.",
-        "note": "Admin. by Egypt; Claimed by Saudi Arabia"
-      },
+      "properties": { "name": "Tiran and Sanafir Is." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -11643,7 +10978,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Tirpani Valleys", "note": "Admin. by India; Claimed by China" },
+      "properties": { "name": "Tirpani Valleys" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -11696,7 +11031,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Transnistria", "note": "Self admin.; Claimed by Moldova" },
+      "properties": { "name": "Transnistria" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -12087,10 +11422,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Tromelin I.",
-        "note": "Admin. by France; Claimed by Mauritius and the Seychelles"
-      },
+      "properties": { "name": "Tromelin I." },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -12099,121 +11431,6 @@
             [54.521, -15.885],
             [54.521, -15.894],
             [54.514, -15.89]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": { "name": "UNDOF Zone", "note": "UN Patrolled Zone in Syria" },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [35.758, 32.744],
-            [35.784, 32.778],
-            [35.834, 32.828],
-            [35.842, 32.854],
-            [35.838, 32.866],
-            [35.85, 32.896],
-            [35.867, 32.921],
-            [35.874, 32.922],
-            [35.888, 32.945],
-            [35.865, 32.978],
-            [35.859, 32.99],
-            [35.846, 33.085],
-            [35.849, 33.099],
-            [35.811, 33.112],
-            [35.811, 33.127],
-            [35.822, 33.142],
-            [35.833, 33.161],
-            [35.83, 33.19],
-            [35.808, 33.202],
-            [35.804, 33.248],
-            [35.776, 33.265],
-            [35.769, 33.273],
-            [35.802, 33.312],
-            [35.764, 33.334],
-            [35.786, 33.343],
-            [35.794, 33.35],
-            [35.81, 33.36],
-            [35.812, 33.373],
-            [35.815, 33.379],
-            [35.817, 33.395],
-            [35.822, 33.401],
-            [35.821, 33.407],
-            [35.845, 33.419],
-            [35.87, 33.431],
-            [35.873, 33.416],
-            [35.87, 33.407],
-            [35.862, 33.399],
-            [35.845, 33.389],
-            [35.835, 33.378],
-            [35.83, 33.365],
-            [35.83, 33.351],
-            [35.835, 33.339],
-            [35.843, 33.323],
-            [35.843, 33.322],
-            [35.846, 33.313],
-            [35.845, 33.304],
-            [35.84, 33.295],
-            [35.833, 33.291],
-            [35.826, 33.288],
-            [35.822, 33.286],
-            [35.819, 33.284],
-            [35.82, 33.281],
-            [35.826, 33.28],
-            [35.836, 33.279],
-            [35.846, 33.279],
-            [35.851, 33.276],
-            [35.854, 33.273],
-            [35.854, 33.269],
-            [35.862, 33.238],
-            [35.866, 33.226],
-            [35.875, 33.216],
-            [35.886, 33.204],
-            [35.889, 33.199],
-            [35.889, 33.195],
-            [35.882, 33.189],
-            [35.882, 33.185],
-            [35.885, 33.179],
-            [35.888, 33.177],
-            [35.89, 33.177],
-            [35.897, 33.181],
-            [35.9, 33.18],
-            [35.906, 33.177],
-            [35.908, 33.171],
-            [35.911, 33.166],
-            [35.911, 33.149],
-            [35.911, 33.139],
-            [35.911, 33.135],
-            [35.906, 33.133],
-            [35.9, 33.131],
-            [35.895, 33.128],
-            [35.892, 33.124],
-            [35.893, 33.121],
-            [35.897, 33.117],
-            [35.903, 33.117],
-            [35.903, 33.11],
-            [35.89, 33.11],
-            [35.868, 33.107],
-            [35.865, 33.082],
-            [35.877, 32.993],
-            [35.898, 32.986],
-            [35.924, 32.968],
-            [35.912, 32.947],
-            [35.89, 32.929],
-            [35.861, 32.88],
-            [35.847, 32.836],
-            [35.848, 32.83],
-            [35.843, 32.822],
-            [35.822, 32.796],
-            [35.815, 32.787],
-            [35.808, 32.783],
-            [35.791, 32.774],
-            [35.77, 32.748],
-            [35.764, 32.747],
-            [35.758, 32.744]
           ]
         ]
       }
@@ -12238,7 +11455,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "W. Sahara", "note": "Admin. by Morocco; Claimed by Western Sahara" },
+      "properties": { "name": "W. Sahara" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -12685,7 +11902,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "W. Sahara", "note": "Self admin.; Claimed by Morocco" },
+      "properties": { "name": "W. Sahara" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -12983,10 +12200,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Wake Atoll",
-        "note": "Admin. by U.S.A.; Claimed by Marshall Islands"
-      },
+      "properties": { "name": "Wake Atoll" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -13006,10 +12220,7 @@
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "West of Essequibo River",
-        "note": "Admin. by Guyana; Claimed by Venezuela"
-      },
+      "properties": { "name": "West of Essequibo River" },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -13898,6 +13109,2084 @@
             [-60.673, 5.213],
             [-60.695, 5.212],
             [-60.74, 5.202]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Abkhazia", "coast": ["Georgia"] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [39.94, 43.21],
+            [40.02, 43.21],
+            [39.94, 43.23],
+            [40.03, 43.23],
+            [39.95, 43.26],
+            [40.04, 43.25],
+            [39.96, 43.28],
+            [40.05, 43.28],
+            [39.97, 43.3],
+            [40.06, 43.3],
+            [39.98, 43.32],
+            [40.06, 43.33],
+            [39.99, 43.34],
+            [40.05, 43.35],
+            [40, 43.36],
+            [40.04, 43.38],
+            [39.99, 43.39],
+            [39.99, 43.41],
+            [40.07, 43.55],
+            [40.16, 43.58],
+            [40.23, 43.58],
+            [40.52, 43.51],
+            [40.65, 43.54],
+            [40.87, 43.46],
+            [41.01, 43.38],
+            [41.15, 43.38],
+            [41.28, 43.33],
+            [41.38, 43.33],
+            [41.41, 43.29],
+            [41.51, 43.26],
+            [41.58, 43.22],
+            [41.92, 43.21],
+            [42.04, 43.18],
+            [42.15, 43.22],
+            [42.13, 43.17],
+            [42.13, 43.11],
+            [42.06, 43.02],
+            [41.91, 42.99],
+            [41.88, 42.96],
+            [41.93, 42.86],
+            [41.89, 42.82],
+            [41.91, 42.71],
+            [41.94, 42.68],
+            [41.94, 42.62],
+            [41.8, 42.52],
+            [41.66, 42.47],
+            [41.63, 42.44],
+            [41.55, 42.41],
+            [41.55, 42.43],
+            [41.52, 42.4],
+            [41.51, 42.44],
+            [41.49, 42.4],
+            [41.48, 42.45],
+            [41.46, 42.4],
+            [41.45, 42.45],
+            [41.43, 42.39],
+            [41.42, 42.46],
+            [41.4, 42.39],
+            [41.38, 42.46],
+            [41.37, 42.38],
+            [41.35, 42.46],
+            [41.34, 42.38],
+            [41.32, 42.47],
+            [41.31, 42.38],
+            [41.26, 42.59],
+            [41.02, 42.64],
+            [40.86, 42.81],
+            [40.76, 42.85],
+            [40.7, 42.91],
+            [40.5, 42.92],
+            [40.4, 42.97],
+            [40.28, 42.97],
+            [40.19, 43],
+            [40.12, 43.05],
+            [40.03, 43.18],
+            [39.94, 43.21]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Crimea", "coast": ["Russia"] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [32.23, 45.4],
+            [32.25, 45.5],
+            [32.34, 45.58],
+            [32.79, 45.81],
+            [32.89, 45.85],
+            [32.95, 45.84],
+            [32.97, 45.86],
+            [33.09, 45.88],
+            [33.18, 45.92],
+            [33.22, 45.91],
+            [33.25, 45.94],
+            [33.35, 45.93],
+            [33.52, 45.96],
+            [33.53, 45.98],
+            [33.57, 45.99],
+            [33.58, 46.05],
+            [33.6, 46.05],
+            [33.6, 46.11],
+            [33.64, 46.11],
+            [33.63, 46.12],
+            [33.66, 46.15],
+            [33.67, 46.22],
+            [33.72, 46.2],
+            [33.85, 46.2],
+            [34.11, 46.1],
+            [34.24, 46.1],
+            [34.36, 46.06],
+            [34.41, 45.99],
+            [34.5, 45.95],
+            [34.53, 45.98],
+            [34.69, 45.97],
+            [34.76, 45.93],
+            [34.78, 45.9],
+            [34.79, 45.8],
+            [34.95, 45.72],
+            [35, 45.73],
+            [35.02, 45.71],
+            [35.03, 45.74],
+            [35.06, 45.7],
+            [35.06, 45.75],
+            [35.09, 45.7],
+            [35.09, 45.76],
+            [35.13, 45.71],
+            [35.12, 45.77],
+            [35.16, 45.71],
+            [35.15, 45.78],
+            [35.19, 45.72],
+            [35.17, 45.79],
+            [35.23, 45.72],
+            [35.2, 45.8],
+            [35.26, 45.73],
+            [35.23, 45.81],
+            [35.54, 45.49],
+            [35.64, 45.59],
+            [35.8, 45.65],
+            [36, 45.62],
+            [36.31, 45.66],
+            [36.69, 45.59],
+            [36.65, 45.58],
+            [36.69, 45.57],
+            [36.65, 45.55],
+            [36.69, 45.54],
+            [36.66, 45.53],
+            [36.69, 45.51],
+            [36.66, 45.5],
+            [36.69, 45.49],
+            [36.66, 45.48],
+            [36.68, 45.46],
+            [36.65, 45.45],
+            [36.67, 45.43],
+            [36.65, 45.41],
+            [36.66, 45.38],
+            [36.63, 45.34],
+            [36.64, 45.32],
+            [36.61, 45.31],
+            [36.63, 45.29],
+            [36.59, 45.29],
+            [36.61, 45.27],
+            [36.52, 45.25],
+            [36.48, 45.2],
+            [36.5, 45.14],
+            [36.55, 45.1],
+            [36.55, 45.07],
+            [36.58, 45.05],
+            [36.56, 45.03],
+            [36.59, 45.02],
+            [36.57, 45],
+            [36.6, 44.99],
+            [36.58, 44.97],
+            [36.61, 44.96],
+            [36.58, 44.95],
+            [36.61, 44.94],
+            [36.57, 44.91],
+            [36.29, 44.83],
+            [36.12, 44.84],
+            [35.84, 44.81],
+            [35.72, 44.84],
+            [35.63, 44.89],
+            [35.49, 44.79],
+            [35.34, 44.76],
+            [35.26, 44.67],
+            [35.18, 44.63],
+            [35.09, 44.61],
+            [34.92, 44.64],
+            [34.8, 44.63],
+            [34.63, 44.58],
+            [34.55, 44.46],
+            [34.49, 44.41],
+            [34.21, 44.26],
+            [34.03, 44.21],
+            [33.93, 44.2],
+            [33.68, 44.22],
+            [33.54, 44.26],
+            [33.23, 44.42],
+            [33.15, 44.49],
+            [33.12, 44.57],
+            [33.13, 44.63],
+            [33.17, 44.7],
+            [33.27, 44.75],
+            [33.27, 44.84],
+            [33.35, 44.95],
+            [33.34, 44.98],
+            [33.23, 44.98],
+            [33.13, 45],
+            [32.83, 45.18],
+            [32.71, 45.14],
+            [32.59, 45.14],
+            [32.37, 45.19],
+            [32.3, 45.25],
+            [32.24, 45.34],
+            [32.23, 45.4]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Cyprus U.N. Buffer Zone", "coast": ["Cyprus", "N. Cyprus"] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [32.58, 35.17],
+            [32.63, 35.17],
+            [32.64, 35.19],
+            [32.66, 35.19],
+            [32.63, 35.15],
+            [32.58, 35.17]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Cyprus U.N. Buffer Zone", "coast": ["Cyprus", "N. Cyprus"] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [32.69, 35.18],
+            [32.71, 35.18],
+            [32.73, 35.14],
+            [32.79, 35.13],
+            [32.85, 35.08],
+            [32.88, 35.1],
+            [32.95, 35.1],
+            [33.03, 35.15],
+            [33.1, 35.17],
+            [33.12, 35.16],
+            [33.16, 35.19],
+            [33.32, 35.16],
+            [33.41, 35.2],
+            [33.48, 35.09],
+            [33.48, 35],
+            [33.49, 35.06],
+            [33.55, 35.07],
+            [33.58, 35.04],
+            [33.61, 35.05],
+            [33.64, 35.03],
+            [33.68, 35.03],
+            [33.72, 35],
+            [33.71, 34.99],
+            [33.58, 35.02],
+            [33.55, 34.99],
+            [33.52, 35.04],
+            [33.5, 35.03],
+            [33.49, 34.98],
+            [33.46, 34.98],
+            [33.46, 35.09],
+            [33.42, 35.16],
+            [33.35, 35.15],
+            [33.3, 35.11],
+            [33.23, 35.15],
+            [33.17, 35.16],
+            [33.12, 35.13],
+            [33.04, 35.14],
+            [32.94, 35.07],
+            [32.89, 35.09],
+            [32.83, 35.06],
+            [32.8, 35.1],
+            [32.71, 35.13],
+            [32.69, 35.18]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Cyprus U.N. Buffer Zone", "coast": ["Cyprus", "N. Cyprus"] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [33.9, 35.06],
+            [34.02, 35.06],
+            [34, 35.05],
+            [33.9, 35.06]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Diego Garcia NSF", "coast": ["Br. Indian Ocean Ter."] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [72.18, -7.28],
+            [72.19, -7.21],
+            [72.25, -7.12],
+            [72.38, -7.06],
+            [72.48, -7.05],
+            [72.58, -7.1],
+            [72.65, -7.21],
+            [72.68, -7.28],
+            [72.66, -7.43],
+            [72.62, -7.51],
+            [72.53, -7.58],
+            [72.43, -7.61],
+            [72.36, -7.6],
+            [72.28, -7.53],
+            [72.25, -7.42],
+            [72.19, -7.35],
+            [72.18, -7.28]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Donetsk People's Republic", "coast": ["Ukraine"] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [37.49, 47.87],
+            [37.53, 47.98],
+            [37.71, 48.06],
+            [37.77, 48.2],
+            [37.96, 48.38],
+            [38.3, 48.45],
+            [38.37, 48.43],
+            [38.4, 48.44],
+            [38.48, 48.36],
+            [38.47, 48.34],
+            [38.41, 48.32],
+            [38.43, 48.28],
+            [38.57, 48.28],
+            [38.61, 48.21],
+            [38.61, 48.17],
+            [38.81, 48.11],
+            [38.82, 48.09],
+            [38.8, 48.06],
+            [38.85, 48.02],
+            [39.03, 48.01],
+            [39.03, 47.95],
+            [39.06, 47.92],
+            [39.04, 47.86],
+            [38.83, 47.85],
+            [38.77, 47.78],
+            [38.73, 47.68],
+            [38.66, 47.68],
+            [38.56, 47.63],
+            [38.35, 47.61],
+            [38.32, 47.59],
+            [38.26, 47.49],
+            [38.26, 47.39],
+            [38.19, 47.3],
+            [38.29, 47.29],
+            [38.3, 47.26],
+            [38.2, 47.19],
+            [38.2, 47.13],
+            [38.22, 47.1],
+            [38.19, 47.09],
+            [38.24, 47.09],
+            [38.21, 47.06],
+            [38.26, 47.07],
+            [38.22, 47.04],
+            [38.28, 47.05],
+            [38.24, 47.01],
+            [38.3, 47.03],
+            [38.26, 47],
+            [38.32, 47.01],
+            [38.28, 46.98],
+            [38.33, 46.99],
+            [38.28, 46.94],
+            [38.21, 46.91],
+            [38.19, 46.88],
+            [38.03, 46.85],
+            [37.9, 46.91],
+            [37.83, 46.9],
+            [37.92, 46.94],
+            [37.82, 46.93],
+            [37.91, 46.96],
+            [37.81, 46.95],
+            [37.9, 46.98],
+            [37.8, 46.97],
+            [37.88, 47.01],
+            [37.79, 46.99],
+            [37.87, 47.03],
+            [37.78, 47.01],
+            [37.84, 47.05],
+            [37.77, 47.03],
+            [37.82, 47.07],
+            [37.76, 47.05],
+            [37.79, 47.08],
+            [37.75, 47.08],
+            [37.77, 47.12],
+            [37.76, 47.26],
+            [37.79, 47.31],
+            [37.78, 47.36],
+            [37.66, 47.5],
+            [37.53, 47.7],
+            [37.49, 47.87]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Falkland Is.", "coast": ["Falkland Is."] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-61.61, -51.84],
+            [-61.6, -51.67],
+            [-61.51, -51.57],
+            [-61.33, -51.5],
+            [-61.19, -51.5],
+            [-61.09, -51.53],
+            [-61.04, -51.46],
+            [-60.92, -51.4],
+            [-61.13, -51.35],
+            [-61.2, -51.3],
+            [-61.22, -51.24],
+            [-61.43, -51.17],
+            [-61.52, -51.08],
+            [-61.53, -50.99],
+            [-61.49, -50.92],
+            [-61.4, -50.86],
+            [-61.24, -50.83],
+            [-61.03, -50.86],
+            [-60.79, -50.92],
+            [-60.64, -51],
+            [-60.58, -51.08],
+            [-60.43, -51.1],
+            [-60.25, -51.08],
+            [-60.07, -51.12],
+            [-59.73, -51.06],
+            [-59.38, -51.1],
+            [-59.29, -51.13],
+            [-59.22, -51.18],
+            [-59.12, -51.1],
+            [-58.96, -51.07],
+            [-58.83, -51.09],
+            [-58.68, -51.14],
+            [-58.51, -51.12],
+            [-58.4, -51.13],
+            [-58.26, -51.17],
+            [-58.18, -51.21],
+            [-57.96, -51.19],
+            [-57.83, -51.2],
+            [-57.68, -51.26],
+            [-57.61, -51.35],
+            [-57.51, -51.41],
+            [-57.48, -51.47],
+            [-57.49, -51.58],
+            [-57.46, -51.62],
+            [-57.44, -51.69],
+            [-57.46, -51.76],
+            [-57.56, -51.84],
+            [-57.97, -51.93],
+            [-58.11, -52],
+            [-58.16, -52.17],
+            [-58.27, -52.25],
+            [-58.43, -52.28],
+            [-58.78, -52.28],
+            [-58.81, -52.32],
+            [-58.75, -52.41],
+            [-58.76, -52.48],
+            [-58.79, -52.52],
+            [-58.91, -52.59],
+            [-59.08, -52.63],
+            [-59.28, -52.6],
+            [-59.45, -52.51],
+            [-59.56, -52.57],
+            [-59.66, -52.59],
+            [-59.77, -52.58],
+            [-59.96, -52.52],
+            [-60.08, -52.45],
+            [-60.11, -52.38],
+            [-60.1, -52.31],
+            [-60.06, -52.26],
+            [-60.07, -52.22],
+            [-60.18, -52.3],
+            [-60.5, -52.41],
+            [-60.63, -52.42],
+            [-60.79, -52.39],
+            [-61.24, -52.17],
+            [-61.32, -52.09],
+            [-61.33, -52.04],
+            [-61.51, -51.96],
+            [-61.58, -51.91],
+            [-61.61, -51.84]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Falkland Is.", "coast": ["Falkland Is."] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-59.51, -52.91],
+            [-59.49, -52.85],
+            [-59.42, -52.78],
+            [-59.33, -52.74],
+            [-59.22, -52.72],
+            [-59.11, -52.73],
+            [-59.01, -52.77],
+            [-58.93, -52.83],
+            [-58.9, -52.91],
+            [-58.92, -53],
+            [-59, -53.07],
+            [-59.21, -53.12],
+            [-59.32, -53.1],
+            [-59.42, -53.06],
+            [-59.49, -52.99],
+            [-59.51, -52.91]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Gibraltar", "coast": ["Spain"] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-5.39, 36.13],
+            [-5.35, 36.12],
+            [-5.36, 36.14],
+            [-5.34, 36.14],
+            [-5.34, 36.12],
+            [-5.31, 36.14],
+            [-5.32, 36.1],
+            [-5.28, 36.14],
+            [-5.3, 36.08],
+            [-5.26, 36.14],
+            [-5.28, 36.06],
+            [-5.23, 36.13],
+            [-5.24, 36.08],
+            [-5.27, 36.05],
+            [-5.23, 36.07],
+            [-5.2, 36.13],
+            [-5.2, 36.1],
+            [-5.22, 36.05],
+            [-5.26, 36.02],
+            [-5.34, 36.02],
+            [-5.33, 36.04],
+            [-5.36, 36.04],
+            [-5.35, 36.07],
+            [-5.37, 36.07],
+            [-5.38, 36.1],
+            [-5.36, 36.1],
+            [-5.39, 36.13]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Gibraltar", "coast": ["Spain"] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-5.23, 36.04],
+            [-5.19, 36.08],
+            [-5.17, 36.13],
+            [-5.2, 36.04],
+            [-5.23, 36.04]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Gibraltar", "coast": ["Spain"] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-5.18, 36.05],
+            [-5.14, 36.13],
+            [-5.16, 36.05],
+            [-5.18, 36.05]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Gibraltar", "coast": ["Spain"] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-5.15, 36.05],
+            [-5.12, 36.13],
+            [-5.13, 36.05],
+            [-5.15, 36.05]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Guantanamo Bay USNB", "coast": ["Cuba"] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-75.23, 19.88],
+            [-75.21, 19.91],
+            [-75.23, 19.9],
+            [-75.23, 19.94],
+            [-75.16, 19.97],
+            [-75.16, 19.95],
+            [-75.1, 19.94],
+            [-75.12, 19.96],
+            [-75.09, 19.97],
+            [-75.1, 19.9],
+            [-75.12, 19.9],
+            [-75.1, 19.87],
+            [-75.13, 19.87],
+            [-75.1, 19.85],
+            [-75.14, 19.85],
+            [-75.1, 19.83],
+            [-75.15, 19.82],
+            [-75.1, 19.81],
+            [-75.16, 19.8],
+            [-75.1, 19.78],
+            [-75.16, 19.78],
+            [-75.1, 19.76],
+            [-75.21, 19.77],
+            [-75.17, 19.78],
+            [-75.21, 19.79],
+            [-75.18, 19.8],
+            [-75.21, 19.81],
+            [-75.18, 19.83],
+            [-75.22, 19.83],
+            [-75.18, 19.85],
+            [-75.22, 19.86],
+            [-75.19, 19.88],
+            [-75.23, 19.88]
+          ],
+          [
+            [-75.21, 19.91],
+            [-75.2, 19.93],
+            [-75.22, 19.92],
+            [-75.21, 19.91]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Guantanamo Bay USNB", "coast": ["Cuba"] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-75.22, 19.72],
+            [-75.17, 19.73],
+            [-75.09, 19.72],
+            [-75.22, 19.72]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Guantanamo Bay USNB", "coast": ["Cuba"] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-75.22, 19.74],
+            [-75.17, 19.76],
+            [-75.09, 19.74],
+            [-75.22, 19.74]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Halayib Triangle", "coast": ["Egypt"] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [34.08, 22],
+            [34.15, 22.19],
+            [34.68, 22.3],
+            [34.94, 22.86],
+            [35.21, 22.79],
+            [35.62, 23.14],
+            [35.63, 23.12],
+            [35.64, 23.15],
+            [35.66, 23.11],
+            [35.66, 23.16],
+            [35.69, 23.11],
+            [35.69, 23.13],
+            [35.71, 23.13],
+            [35.72, 23.1],
+            [35.75, 23.11],
+            [35.75, 23.08],
+            [35.77, 23.09],
+            [35.78, 23.07],
+            [35.8, 23.08],
+            [35.81, 23.06],
+            [35.87, 23.07],
+            [35.93, 23.01],
+            [35.97, 22.92],
+            [36.21, 22.99],
+            [36.28, 22.98],
+            [36.37, 22.93],
+            [36.44, 22.85],
+            [36.42, 22.71],
+            [36.48, 22.62],
+            [36.55, 22.57],
+            [36.61, 22.48],
+            [36.75, 22.43],
+            [36.83, 22.34],
+            [36.91, 22.3],
+            [36.97, 22.23],
+            [37.02, 22.2],
+            [37.08, 22.12],
+            [37.09, 22.02],
+            [37.07, 21.93],
+            [37.07, 22.05],
+            [37.04, 21.94],
+            [37.04, 22.05],
+            [37.02, 21.94],
+            [37.02, 22.04],
+            [37, 21.95],
+            [37, 22.04],
+            [36.97, 21.96],
+            [36.97, 22.03],
+            [36.95, 21.97],
+            [36.95, 22.03],
+            [36.93, 21.98],
+            [36.92, 22.02],
+            [36.91, 21.99],
+            [36.9, 22.01],
+            [34.08, 22]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Junagadh and Manavadar", "coast": ["India"] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [69.84, 21.74],
+            [69.87, 21.79],
+            [69.95, 21.8],
+            [70.05, 21.73],
+            [70.11, 21.73],
+            [70.12, 21.69],
+            [70.21, 21.59],
+            [70.3, 21.55],
+            [70.34, 21.57],
+            [70.41, 21.69],
+            [70.46, 21.7],
+            [70.61, 21.65],
+            [70.68, 21.57],
+            [70.74, 21.57],
+            [70.76, 21.6],
+            [70.76, 21.69],
+            [70.71, 21.74],
+            [70.71, 21.77],
+            [70.78, 21.78],
+            [70.83, 21.76],
+            [70.87, 21.61],
+            [70.85, 21.56],
+            [70.75, 21.48],
+            [70.57, 21.43],
+            [70.55, 21.4],
+            [70.55, 21.34],
+            [70.59, 21.28],
+            [70.62, 21.26],
+            [70.66, 21.27],
+            [70.68, 21.3],
+            [70.66, 21.35],
+            [70.74, 21.39],
+            [70.82, 21.4],
+            [70.83, 21.36],
+            [70.79, 21.26],
+            [70.82, 21.15],
+            [71.15, 21.1],
+            [71.4, 21],
+            [71.48, 21.1],
+            [71.7, 21.02],
+            [71.67, 21.01],
+            [71.71, 21],
+            [71.67, 20.98],
+            [71.73, 20.98],
+            [71.67, 20.96],
+            [71.73, 20.96],
+            [71.67, 20.94],
+            [71.74, 20.94],
+            [71.68, 20.91],
+            [71.75, 20.92],
+            [71.68, 20.89],
+            [71.75, 20.89],
+            [71.69, 20.86],
+            [71.76, 20.87],
+            [71.7, 20.84],
+            [71.76, 20.85],
+            [71.62, 20.78],
+            [71.65, 20.81],
+            [71.61, 20.8],
+            [71.63, 20.83],
+            [71.6, 20.82],
+            [71.62, 20.85],
+            [71.58, 20.84],
+            [71.6, 20.87],
+            [71.57, 20.86],
+            [71.59, 20.89],
+            [71.55, 20.88],
+            [71.58, 20.91],
+            [71.54, 20.91],
+            [71.57, 20.93],
+            [71.54, 20.93],
+            [71.57, 20.98],
+            [71.55, 20.97],
+            [71.52, 21],
+            [71.3, 20.91],
+            [71.32, 20.85],
+            [71.3, 20.84],
+            [71.33, 20.83],
+            [71.29, 20.81],
+            [71.33, 20.81],
+            [71.29, 20.79],
+            [71.34, 20.78],
+            [71.29, 20.76],
+            [71.35, 20.76],
+            [71.3, 20.74],
+            [71.36, 20.74],
+            [71.3, 20.72],
+            [71.36, 20.72],
+            [71.31, 20.69],
+            [71.37, 20.7],
+            [71.31, 20.67],
+            [71.38, 20.68],
+            [71.03, 20.54],
+            [70.91, 20.53],
+            [71.01, 20.55],
+            [70.91, 20.55],
+            [71, 20.58],
+            [70.91, 20.57],
+            [70.99, 20.6],
+            [70.91, 20.59],
+            [70.98, 20.62],
+            [70.91, 20.62],
+            [70.97, 20.64],
+            [70.91, 20.64],
+            [70.96, 20.66],
+            [70.91, 20.66],
+            [70.95, 20.69],
+            [70.9, 20.68],
+            [70.93, 20.71],
+            [70.9, 20.71],
+            [70.83, 20.79],
+            [70.85, 20.86],
+            [70.81, 20.97],
+            [70.69, 21.01],
+            [70.59, 20.91],
+            [70.56, 20.8],
+            [70.54, 20.81],
+            [70.55, 20.78],
+            [70.51, 20.8],
+            [70.54, 20.76],
+            [70.49, 20.78],
+            [70.53, 20.74],
+            [70.47, 20.77],
+            [70.53, 20.72],
+            [70.45, 20.76],
+            [70.52, 20.7],
+            [70.43, 20.74],
+            [70.51, 20.68],
+            [70.42, 20.72],
+            [70.5, 20.65],
+            [70.4, 20.7],
+            [70.47, 20.64],
+            [70.23, 20.78],
+            [69.9, 21.04],
+            [70.05, 21.15],
+            [69.99, 21.23],
+            [69.93, 21.54],
+            [69.84, 21.74]
+          ],
+          [
+            [70.35, 21.32],
+            [70.43, 21.21],
+            [70.49, 21.21],
+            [70.5, 21.25],
+            [70.44, 21.35],
+            [70.37, 21.35],
+            [70.35, 21.32]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Kuril Is.", "coast": ["Japan", "Russia"] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [145.26, 43.81],
+            [145.28, 43.9],
+            [145.49, 44.07],
+            [145.62, 44.25],
+            [145.62, 44.29],
+            [145.77, 44.41],
+            [145.86, 44.56],
+            [145.95, 44.64],
+            [146.03, 44.67],
+            [146.19, 44.69],
+            [146.3, 44.67],
+            [146.42, 44.61],
+            [146.52, 44.63],
+            [146.68, 44.61],
+            [146.71, 44.71],
+            [146.84, 44.8],
+            [146.91, 44.94],
+            [147, 44.99],
+            [147.25, 45.07],
+            [147.28, 45.16],
+            [147.34, 45.22],
+            [147.44, 45.26],
+            [147.53, 45.27],
+            [147.61, 45.33],
+            [147.61, 45.4],
+            [147.65, 45.47],
+            [147.81, 45.58],
+            [147.9, 45.61],
+            [148.05, 45.6],
+            [148.13, 45.56],
+            [148.21, 45.46],
+            [148.38, 45.59],
+            [148.51, 45.66],
+            [148.8, 45.71],
+            [148.94, 45.67],
+            [149.09, 45.55],
+            [149.11, 45.46],
+            [149.09, 45.31],
+            [149.05, 45.25],
+            [148.94, 45.18],
+            [148.82, 45.14],
+            [148.66, 45.14],
+            [148.55, 45.09],
+            [148.38, 45.05],
+            [148.16, 44.87],
+            [148.05, 44.81],
+            [147.8, 44.77],
+            [147.73, 44.69],
+            [147.49, 44.55],
+            [147.42, 44.46],
+            [147.21, 44.38],
+            [147.15, 44.31],
+            [147.08, 44.26],
+            [146.93, 44.24],
+            [146.75, 44.28],
+            [146.62, 44.2],
+            [146.53, 44.18],
+            [146.4, 44.12],
+            [146.26, 44.09],
+            [146.13, 44.01],
+            [146.1, 43.93],
+            [145.96, 43.81],
+            [145.82, 43.74],
+            [145.8, 43.63],
+            [145.9, 43.64],
+            [146.05, 43.71],
+            [146.19, 43.8],
+            [146.29, 43.83],
+            [146.36, 43.83],
+            [146.39, 43.9],
+            [146.46, 43.96],
+            [146.76, 44.05],
+            [146.89, 44.06],
+            [147.05, 44.01],
+            [147.13, 43.96],
+            [147.19, 43.87],
+            [147.17, 43.76],
+            [147.08, 43.67],
+            [146.77, 43.54],
+            [146.58, 43.54],
+            [146.46, 43.46],
+            [146.39, 43.36],
+            [146.22, 43.27],
+            [146.09, 43.23],
+            [145.98, 43.23],
+            [146.01, 43.25],
+            [145.97, 43.25],
+            [145.99, 43.27],
+            [145.96, 43.28],
+            [145.98, 43.3],
+            [145.95, 43.31],
+            [145.97, 43.33],
+            [145.93, 43.33],
+            [145.95, 43.36],
+            [145.91, 43.35],
+            [145.92, 43.38],
+            [145.89, 43.37],
+            [145.87, 43.41],
+            [145.77, 43.46],
+            [145.78, 43.48],
+            [145.75, 43.48],
+            [145.76, 43.51],
+            [145.73, 43.51],
+            [145.75, 43.53],
+            [145.71, 43.52],
+            [145.73, 43.55],
+            [145.54, 43.52],
+            [145.55, 43.54],
+            [145.52, 43.54],
+            [145.52, 43.57],
+            [145.48, 43.58],
+            [145.45, 43.63],
+            [145.33, 43.68],
+            [145.32, 43.71],
+            [145.29, 43.72],
+            [145.26, 43.81]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Mayotte", "coast": ["France"] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [44.86, -12.7],
+            [44.89, -12.6],
+            [44.96, -12.53],
+            [45.02, -12.48],
+            [45.13, -12.47],
+            [45.2, -12.5],
+            [45.24, -12.55],
+            [45.35, -12.58],
+            [45.41, -12.62],
+            [45.46, -12.69],
+            [45.47, -12.82],
+            [45.44, -12.9],
+            [45.37, -12.96],
+            [45.35, -13.06],
+            [45.29, -13.12],
+            [45.19, -13.17],
+            [45.08, -13.16],
+            [44.98, -13.12],
+            [44.9, -13.03],
+            [44.88, -12.92],
+            [44.89, -12.83],
+            [44.86, -12.7]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "N. Cyprus", "coast": ["N. Cyprus"] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [32.6, 35.18],
+            [32.64, 35.19],
+            [32.63, 35.17],
+            [32.6, 35.18]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "N. Cyprus", "coast": ["N. Cyprus"] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [32.7, 35.36],
+            [32.71, 35.45],
+            [32.75, 35.52],
+            [32.87, 35.57],
+            [32.96, 35.58],
+            [33.09, 35.54],
+            [33.42, 35.51],
+            [33.59, 35.53],
+            [33.72, 35.59],
+            [33.82, 35.59],
+            [33.93, 35.63],
+            [34.09, 35.72],
+            [34.22, 35.75],
+            [34.54, 35.87],
+            [34.64, 35.87],
+            [34.71, 35.84],
+            [34.77, 35.79],
+            [34.81, 35.73],
+            [34.8, 35.63],
+            [34.73, 35.52],
+            [34.27, 35.27],
+            [34.19, 35.18],
+            [34.12, 35.2],
+            [34.1, 35.19],
+            [34.12, 35.17],
+            [34.05, 35.2],
+            [34.1, 35.15],
+            [34.02, 35.19],
+            [34.08, 35.13],
+            [34.01, 35.17],
+            [34.07, 35.11],
+            [33.99, 35.15],
+            [34.05, 35.1],
+            [33.98, 35.13],
+            [34.03, 35.08],
+            [33.99, 35.11],
+            [33.96, 35.11],
+            [34.01, 35.06],
+            [33.91, 35.07],
+            [33.92, 35.08],
+            [33.88, 35.12],
+            [33.87, 35.07],
+            [33.82, 35.07],
+            [33.77, 35.03],
+            [33.74, 35.05],
+            [33.71, 35.03],
+            [33.71, 35.07],
+            [33.68, 35.06],
+            [33.67, 35.03],
+            [33.61, 35.05],
+            [33.58, 35.04],
+            [33.54, 35.07],
+            [33.49, 35.06],
+            [33.48, 35],
+            [33.48, 35.09],
+            [33.41, 35.2],
+            [33.32, 35.16],
+            [33.16, 35.19],
+            [33.12, 35.16],
+            [33.1, 35.17],
+            [33.03, 35.15],
+            [32.95, 35.1],
+            [32.88, 35.1],
+            [32.84, 35.08],
+            [32.81, 35.12],
+            [32.73, 35.14],
+            [32.71, 35.16],
+            [32.71, 35.18],
+            [32.77, 35.17],
+            [32.75, 35.2],
+            [32.8, 35.19],
+            [32.75, 35.22],
+            [32.82, 35.2],
+            [32.8, 35.23],
+            [32.76, 35.24],
+            [32.84, 35.23],
+            [32.76, 35.27],
+            [32.82, 35.25],
+            [32.82, 35.27],
+            [32.76, 35.29],
+            [32.8, 35.28],
+            [32.8, 35.31],
+            [32.77, 35.31],
+            [32.77, 35.33],
+            [32.73, 35.36],
+            [32.7, 35.36]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "S. Georgia", "coast": ["S. Geo. and the Is."] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-42.42, -53.48],
+            [-42.4, -53.4],
+            [-42.31, -53.32],
+            [-42.21, -53.29],
+            [-42.08, -53.28],
+            [-41.91, -53.32],
+            [-41.82, -53.38],
+            [-41.68, -53.38],
+            [-41.58, -53.41],
+            [-41.46, -53.48],
+            [-41.42, -53.57],
+            [-41.44, -53.64],
+            [-41.51, -53.72],
+            [-41.67, -53.77],
+            [-41.78, -53.77],
+            [-41.91, -53.74],
+            [-42.03, -53.67],
+            [-42.19, -53.67],
+            [-42.3, -53.63],
+            [-42.39, -53.56],
+            [-42.42, -53.48]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "S. Georgia", "coast": ["S. Geo. and the Is."] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-38.39, -54],
+            [-38.37, -53.93],
+            [-38.33, -53.89],
+            [-38.2, -53.83],
+            [-37.74, -53.79],
+            [-37.54, -53.82],
+            [-37.31, -53.81],
+            [-37.17, -53.85],
+            [-36.54, -53.94],
+            [-36.05, -54.16],
+            [-35.87, -54.32],
+            [-35.63, -54.45],
+            [-35.58, -54.52],
+            [-35.59, -54.62],
+            [-35.49, -54.69],
+            [-35.47, -54.76],
+            [-35.48, -54.8],
+            [-35.56, -54.89],
+            [-35.77, -55.01],
+            [-36.01, -55.06],
+            [-36.22, -55.05],
+            [-36.36, -55],
+            [-36.55, -54.86],
+            [-36.6, -54.8],
+            [-36.61, -54.75],
+            [-36.72, -54.69],
+            [-36.84, -54.65],
+            [-37.04, -54.69],
+            [-37.25, -54.66],
+            [-37.34, -54.61],
+            [-37.38, -54.57],
+            [-37.42, -54.51],
+            [-37.42, -54.45],
+            [-37.57, -54.42],
+            [-37.67, -54.35],
+            [-37.84, -54.33],
+            [-37.93, -54.28],
+            [-37.98, -54.23],
+            [-38.1, -54.23],
+            [-38.21, -54.2],
+            [-38.35, -54.1],
+            [-38.39, -54]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "S. Georgia", "coast": ["S. Geo. and the Is."] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-35.06, -54.99],
+            [-35.04, -54.92],
+            [-34.92, -54.84],
+            [-34.78, -54.8],
+            [-34.65, -54.8],
+            [-34.5, -54.84],
+            [-34.38, -54.91],
+            [-34.28, -54.99],
+            [-34.24, -55.07],
+            [-34.26, -55.13],
+            [-34.38, -55.22],
+            [-34.49, -55.25],
+            [-34.62, -55.26],
+            [-34.91, -55.16],
+            [-35.04, -55.06],
+            [-35.06, -54.99]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "S. Sandwich Is.", "coast": ["S. Geo. and the Is."] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-28.54, -56.71],
+            [-28.51, -56.64],
+            [-28.41, -56.57],
+            [-28.3, -56.53],
+            [-28.17, -56.52],
+            [-28.03, -56.54],
+            [-27.93, -56.59],
+            [-27.86, -56.65],
+            [-27.84, -56.72],
+            [-27.87, -56.79],
+            [-27.95, -56.85],
+            [-28.1, -56.9],
+            [-28.22, -56.91],
+            [-28.36, -56.89],
+            [-28.46, -56.84],
+            [-28.52, -56.79],
+            [-28.54, -56.71]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "S. Sandwich Is.", "coast": ["S. Geo. and the Is."] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-27.93, -56.29],
+            [-27.91, -56.23],
+            [-27.83, -56.15],
+            [-27.72, -56.11],
+            [-27.56, -56.09],
+            [-27.41, -56.11],
+            [-27.29, -56.16],
+            [-27.23, -56.22],
+            [-27.2, -56.29],
+            [-27.23, -56.36],
+            [-27.34, -56.45],
+            [-27.45, -56.49],
+            [-27.57, -56.5],
+            [-27.69, -56.49],
+            [-27.81, -56.44],
+            [-27.91, -56.36],
+            [-27.93, -56.29]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "S. Sandwich Is.", "coast": ["S. Geo. and the Is."] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-27.76, -59.42],
+            [-27.72, -59.35],
+            [-27.63, -59.29],
+            [-27.49, -59.25],
+            [-27.32, -59.24],
+            [-27.08, -59.26],
+            [-26.95, -59.29],
+            [-26.81, -59.37],
+            [-26.78, -59.44],
+            [-26.84, -59.56],
+            [-26.94, -59.61],
+            [-27.07, -59.65],
+            [-27.32, -59.65],
+            [-27.5, -59.63],
+            [-27.67, -59.56],
+            [-27.74, -59.49],
+            [-27.76, -59.42]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "S. Sandwich Is.", "coast": ["S. Geo. and the Is."] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-27.54, -56.7],
+            [-27.5, -56.62],
+            [-27.41, -56.55],
+            [-27.3, -56.51],
+            [-27.16, -56.5],
+            [-27.03, -56.51],
+            [-26.88, -56.56],
+            [-26.8, -56.62],
+            [-26.77, -56.69],
+            [-26.78, -56.77],
+            [-26.86, -56.83],
+            [-26.96, -56.88],
+            [-27.13, -56.9],
+            [-27.28, -56.89],
+            [-27.43, -56.85],
+            [-27.51, -56.78],
+            [-27.54, -56.7]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "S. Sandwich Is.", "coast": ["S. Geo. and the Is."] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-27.06, -57.06],
+            [-27.04, -56.99],
+            [-26.95, -56.92],
+            [-26.84, -56.88],
+            [-26.66, -56.87],
+            [-26.51, -56.9],
+            [-26.44, -56.93],
+            [-26.34, -57.02],
+            [-26.32, -57.09],
+            [-26.36, -57.16],
+            [-26.45, -57.22],
+            [-26.57, -57.26],
+            [-26.69, -57.27],
+            [-26.82, -57.25],
+            [-26.96, -57.19],
+            [-27.03, -57.13],
+            [-27.06, -57.06]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "S. Sandwich Is.", "coast": ["S. Geo. and the Is."] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-27.01, -59.04],
+            [-26.99, -58.97],
+            [-26.9, -58.89],
+            [-26.78, -58.84],
+            [-26.61, -58.82],
+            [-26.4, -58.85],
+            [-26.24, -58.92],
+            [-26.17, -58.98],
+            [-26.15, -59.05],
+            [-26.19, -59.12],
+            [-26.31, -59.19],
+            [-26.49, -59.24],
+            [-26.6, -59.25],
+            [-26.78, -59.23],
+            [-26.88, -59.19],
+            [-26.97, -59.12],
+            [-27.01, -59.04]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "S. Sandwich Is.", "coast": ["S. Geo. and the Is."] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-26.85, -57.77],
+            [-26.82, -57.7],
+            [-26.71, -57.62],
+            [-26.57, -57.57],
+            [-26.43, -57.56],
+            [-26.28, -57.59],
+            [-26.11, -57.66],
+            [-26.04, -57.72],
+            [-26.02, -57.8],
+            [-26.05, -57.87],
+            [-26.17, -57.94],
+            [-26.33, -57.99],
+            [-26.45, -57.99],
+            [-26.59, -57.98],
+            [-26.71, -57.94],
+            [-26.81, -57.86],
+            [-26.85, -57.77]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "S. Sandwich Is.", "coast": ["S. Geo. and the Is."] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-26.8, -58.44],
+            [-26.8, -58.41],
+            [-26.76, -58.34],
+            [-26.66, -58.25],
+            [-26.47, -58.2],
+            [-26.31, -58.2],
+            [-26.14, -58.22],
+            [-25.96, -58.3],
+            [-25.91, -58.37],
+            [-25.9, -58.46],
+            [-25.93, -58.57],
+            [-26.01, -58.63],
+            [-26.12, -58.67],
+            [-26.25, -58.68],
+            [-26.65, -58.59],
+            [-26.76, -58.51],
+            [-26.8, -58.44]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "W. Sahara", "coast": ["Morocco"] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-17.2, 21.49],
+            [-17.16, 21.62],
+            [-17.16, 21.8],
+            [-17.1, 22.01],
+            [-16.98, 22.23],
+            [-16.84, 22.41],
+            [-16.72, 22.47],
+            [-16.64, 22.47],
+            [-16.6, 22.59],
+            [-16.54, 22.67],
+            [-16.52, 22.81],
+            [-16.46, 22.99],
+            [-16.41, 23.04],
+            [-16.4, 23.15],
+            [-16.17, 23.51],
+            [-16.16, 23.54],
+            [-16.2, 23.6],
+            [-16.2, 23.68],
+            [-16.11, 23.86],
+            [-15.99, 24.02],
+            [-15.87, 24.11],
+            [-15.74, 24.18],
+            [-15.59, 24.34],
+            [-15.45, 24.46],
+            [-15.35, 24.59],
+            [-15.27, 24.65],
+            [-15.18, 24.69],
+            [-15.08, 24.8],
+            [-15.04, 24.94],
+            [-15.03, 25.04],
+            [-15.05, 25.21],
+            [-15.01, 25.37],
+            [-14.96, 25.52],
+            [-14.88, 25.64],
+            [-14.81, 25.85],
+            [-14.71, 25.99],
+            [-14.68, 26.08],
+            [-14.69, 26.18],
+            [-14.65, 26.27],
+            [-14.53, 26.4],
+            [-14.42, 26.45],
+            [-14.29, 26.57],
+            [-14.21, 26.61],
+            [-14.1, 26.62],
+            [-14.03, 26.65],
+            [-13.73, 26.85],
+            [-13.68, 26.96],
+            [-13.59, 27.25],
+            [-13.46, 27.46],
+            [-13.38, 27.7],
+            [-13.38, 27.61],
+            [-13.35, 27.69],
+            [-13.35, 27.61],
+            [-13.33, 27.68],
+            [-13.33, 27.61],
+            [-13.3, 27.68],
+            [-13.3, 27.61],
+            [-13.28, 27.67],
+            [-13.28, 27.62],
+            [-13.25, 27.66],
+            [-13.25, 27.62],
+            [-13.23, 27.66],
+            [-13.22, 27.62],
+            [-13.21, 27.65],
+            [-13.19, 27.62],
+            [-13.18, 27.66],
+            [-8.82, 27.66],
+            [-8.77, 27.46],
+            [-8.8, 27.31],
+            [-8.75, 27.19],
+            [-8.75, 27.15],
+            [-8.79, 27.12],
+            [-9, 27.09],
+            [-9.21, 27.1],
+            [-9.41, 27.09],
+            [-9.49, 27.05],
+            [-9.73, 26.86],
+            [-9.82, 26.85],
+            [-9.9, 26.85],
+            [-10.03, 26.91],
+            [-10.19, 26.86],
+            [-10.25, 26.86],
+            [-10.55, 26.99],
+            [-10.76, 27.02],
+            [-10.92, 27.01],
+            [-11.39, 26.88],
+            [-11.36, 26.79],
+            [-11.32, 26.74],
+            [-11.32, 26.68],
+            [-11.34, 26.63],
+            [-11.51, 26.47],
+            [-11.68, 26.21],
+            [-11.72, 26.1],
+            [-12.03, 26.03],
+            [-12.06, 25.99],
+            [-12.08, 25.87],
+            [-12.17, 25.64],
+            [-12.31, 25.11],
+            [-12.43, 24.83],
+            [-12.63, 24.68],
+            [-12.99, 24.47],
+            [-13.06, 24.4],
+            [-13.23, 24.09],
+            [-13.31, 23.98],
+            [-13.77, 23.79],
+            [-13.84, 23.75],
+            [-13.89, 23.69],
+            [-14.02, 23.41],
+            [-14.1, 23.1],
+            [-14.17, 22.76],
+            [-14.19, 22.45],
+            [-14.22, 22.31],
+            [-14.31, 22.19],
+            [-14.44, 22.08],
+            [-14.46, 22.04],
+            [-14.63, 21.86],
+            [-14.61, 21.75],
+            [-14.67, 21.6],
+            [-14.75, 21.5],
+            [-14.84, 21.45],
+            [-14.97, 21.44],
+            [-15.46, 21.45],
+            [-15.75, 21.49],
+            [-16.04, 21.5],
+            [-16.19, 21.48],
+            [-16.73, 21.47],
+            [-17.01, 21.42],
+            [-17.01, 21.47],
+            [-17.04, 21.45],
+            [-17.03, 21.49],
+            [-17.06, 21.46],
+            [-17.05, 21.5],
+            [-17.08, 21.46],
+            [-17.07, 21.52],
+            [-17.11, 21.47],
+            [-17.09, 21.53],
+            [-17.13, 21.47],
+            [-17.11, 21.55],
+            [-17.15, 21.48],
+            [-17.13, 21.56],
+            [-17.18, 21.48],
+            [-17.15, 21.57],
+            [-17.2, 21.49]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "W. Sahara", "coast": ["W. Sahara"] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-17.3, 20.87],
+            [-17.21, 21.41],
+            [-17.2, 21.32],
+            [-17.18, 21.41],
+            [-17.17, 21.32],
+            [-17.16, 21.41],
+            [-17.15, 21.33],
+            [-17.14, 21.4],
+            [-17.12, 21.33],
+            [-17.11, 21.4],
+            [-17.1, 21.34],
+            [-17.09, 21.39],
+            [-17.07, 21.34],
+            [-17.06, 21.39],
+            [-17.05, 21.35],
+            [-17.04, 21.38],
+            [-17.02, 21.36],
+            [-17.01, 21.42],
+            [-16.73, 21.47],
+            [-15.92, 21.5],
+            [-15.46, 21.45],
+            [-14.97, 21.44],
+            [-14.84, 21.45],
+            [-14.75, 21.5],
+            [-14.67, 21.6],
+            [-14.61, 21.75],
+            [-14.63, 21.86],
+            [-14.46, 22.04],
+            [-14.44, 22.08],
+            [-14.31, 22.19],
+            [-14.22, 22.31],
+            [-14.19, 22.45],
+            [-14.17, 22.76],
+            [-14.1, 23.1],
+            [-14.02, 23.41],
+            [-13.89, 23.69],
+            [-13.84, 23.75],
+            [-13.77, 23.79],
+            [-13.31, 23.98],
+            [-13.23, 24.09],
+            [-13.06, 24.4],
+            [-12.99, 24.47],
+            [-12.63, 24.68],
+            [-12.43, 24.83],
+            [-12.31, 25.11],
+            [-12.17, 25.64],
+            [-12.08, 25.87],
+            [-12.06, 25.99],
+            [-12.03, 26.03],
+            [-11.72, 26.1],
+            [-11.68, 26.21],
+            [-11.51, 26.47],
+            [-11.34, 26.63],
+            [-11.32, 26.68],
+            [-11.32, 26.74],
+            [-11.36, 26.79],
+            [-11.39, 26.88],
+            [-10.92, 27.01],
+            [-10.76, 27.02],
+            [-10.55, 26.99],
+            [-10.25, 26.86],
+            [-10.19, 26.86],
+            [-10.03, 26.91],
+            [-9.9, 26.85],
+            [-9.82, 26.85],
+            [-9.73, 26.86],
+            [-9.49, 27.05],
+            [-9.41, 27.09],
+            [-9.21, 27.1],
+            [-9, 27.09],
+            [-8.79, 27.12],
+            [-8.75, 27.15],
+            [-8.75, 27.19],
+            [-8.8, 27.31],
+            [-8.77, 27.46],
+            [-8.82, 27.66],
+            [-8.68, 27.66],
+            [-8.69, 26],
+            [-12.02, 25.99],
+            [-12.02, 23.46],
+            [-12.35, 23.32],
+            [-12.62, 23.27],
+            [-13.02, 23.02],
+            [-13.15, 22.82],
+            [-13.17, 22.75],
+            [-13.09, 22.5],
+            [-13.02, 21.33],
+            [-16.96, 21.33],
+            [-17.08, 20.9],
+            [-17.06, 20.77],
+            [-17.1, 20.83],
+            [-17.08, 20.76],
+            [-17.12, 20.82],
+            [-17.1, 20.75],
+            [-17.14, 20.81],
+            [-17.12, 20.74],
+            [-17.16, 20.81],
+            [-17.15, 20.73],
+            [-17.19, 20.8],
+            [-17.17, 20.72],
+            [-17.21, 20.79],
+            [-17.19, 20.71],
+            [-17.23, 20.79],
+            [-17.21, 20.7],
+            [-17.26, 20.78],
+            [-17.23, 20.7],
+            [-17.28, 20.77],
+            [-17.3, 20.87]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "West of Essequibo River", "coast": ["Guyana"] },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-61.4, 5.95],
+            [-61.34, 5.99],
+            [-61.27, 6.11],
+            [-61.19, 6.13],
+            [-61.16, 6.18],
+            [-61.12, 6.19],
+            [-61.11, 6.26],
+            [-61.15, 6.29],
+            [-61.16, 6.34],
+            [-61.14, 6.44],
+            [-61.21, 6.56],
+            [-61.19, 6.63],
+            [-61.13, 6.72],
+            [-60.93, 6.73],
+            [-60.9, 6.77],
+            [-60.91, 6.82],
+            [-60.72, 6.76],
+            [-60.64, 6.84],
+            [-60.55, 6.86],
+            [-60.42, 6.94],
+            [-60.38, 6.94],
+            [-60.36, 7],
+            [-60.3, 7.05],
+            [-60.3, 7.12],
+            [-60.37, 7.17],
+            [-60.48, 7.19],
+            [-60.55, 7.13],
+            [-60.63, 7.19],
+            [-60.64, 7.25],
+            [-60.6, 7.33],
+            [-60.65, 7.4],
+            [-60.66, 7.44],
+            [-60.7, 7.45],
+            [-60.73, 7.53],
+            [-60.72, 7.55],
+            [-60.67, 7.57],
+            [-60.63, 7.62],
+            [-60.6, 7.63],
+            [-60.59, 7.73],
+            [-60.53, 7.81],
+            [-60.37, 7.82],
+            [-60.23, 7.96],
+            [-60.18, 7.98],
+            [-60.13, 8.03],
+            [-60.03, 8.04],
+            [-60, 8.15],
+            [-59.96, 8.2],
+            [-59.85, 8.23],
+            [-59.83, 8.25],
+            [-59.82, 8.29],
+            [-60.02, 8.56],
+            [-59.98, 8.53],
+            [-60.01, 8.58],
+            [-59.96, 8.55],
+            [-60, 8.6],
+            [-59.94, 8.57],
+            [-59.99, 8.62],
+            [-59.93, 8.58],
+            [-59.99, 8.64],
+            [-59.91, 8.6],
+            [-59.98, 8.66],
+            [-59.89, 8.61],
+            [-59.97, 8.68],
+            [-59.88, 8.63],
+            [-59.96, 8.7],
+            [-59.86, 8.64],
+            [-59.89, 8.69],
+            [-59.87, 8.68],
+            [-59.78, 8.59],
+            [-59.72, 8.59],
+            [-59.58, 8.53],
+            [-59, 8.16],
+            [-58.7, 7.86],
+            [-58.65, 7.79],
+            [-58.54, 7.71],
+            [-58.32, 7.44],
+            [-58.28, 7.32],
+            [-58.29, 7.14],
+            [-58.31, 7.16],
+            [-58.31, 7.13],
+            [-58.33, 7.15],
+            [-58.33, 7.12],
+            [-58.38, 7.12],
+            [-58.38, 7.1],
+            [-58.4, 7.11],
+            [-58.4, 7.08],
+            [-58.43, 7.09],
+            [-58.43, 7.07],
+            [-58.45, 7.07],
+            [-58.5, 6.96],
+            [-58.54, 6.92],
+            [-58.6, 6.74],
+            [-58.58, 6.7],
+            [-58.6, 6.47],
+            [-58.62, 6.42],
+            [-58.6, 6.42],
+            [-58.6, 6.34],
+            [-58.57, 6.28],
+            [-58.57, 5.94],
+            [-58.62, 5.82],
+            [-58.62, 5.58],
+            [-58.69, 5.44],
+            [-58.86, 5.41],
+            [-58.89, 5.33],
+            [-58.82, 5.23],
+            [-58.84, 4.97],
+            [-58.79, 4.77],
+            [-58.78, 4.75],
+            [-58.74, 4.76],
+            [-58.67, 4.66],
+            [-58.48, 4.47],
+            [-58.46, 4.34],
+            [-58.49, 4.29],
+            [-58.47, 4.17],
+            [-58.49, 4.13],
+            [-58.59, 4.05],
+            [-58.57, 4.03],
+            [-58.44, 4.03],
+            [-58.41, 3.93],
+            [-58.36, 3.84],
+            [-58.38, 3.77],
+            [-58.4, 3.75],
+            [-58.33, 3.67],
+            [-58.33, 3.61],
+            [-58.29, 3.57],
+            [-58.27, 3.42],
+            [-58.23, 3.36],
+            [-58.28, 3.19],
+            [-58.31, 3.14],
+            [-58.16, 3.03],
+            [-58.15, 2.99],
+            [-58.19, 2.94],
+            [-58.17, 2.87],
+            [-58.21, 2.85],
+            [-58.17, 2.77],
+            [-58.22, 2.7],
+            [-58.26, 2.69],
+            [-58.29, 2.49],
+            [-58.31, 2.47],
+            [-58.36, 2.46],
+            [-58.34, 2.41],
+            [-58.34, 2.34],
+            [-58.31, 2.34],
+            [-58.31, 2.37],
+            [-58.28, 2.33],
+            [-58.34, 2.24],
+            [-58.34, 2.26],
+            [-58.35, 2.2],
+            [-58.37, 2.19],
+            [-58.37, 2.22],
+            [-58.4, 2.19],
+            [-58.41, 2.09],
+            [-58.53, 1.96],
+            [-58.54, 1.76],
+            [-58.61, 1.68],
+            [-58.61, 1.62],
+            [-58.64, 1.56],
+            [-58.68, 1.56],
+            [-58.71, 1.52],
+            [-58.73, 1.53],
+            [-58.74, 1.48],
+            [-58.8, 1.46],
+            [-58.77, 1.34],
+            [-58.81, 1.27],
+            [-58.82, 1.19],
+            [-58.85, 1.19],
+            [-58.9, 1.22],
+            [-58.93, 1.28],
+            [-58.97, 1.31],
+            [-59.26, 1.39],
+            [-59.34, 1.52],
+            [-59.38, 1.52],
+            [-59.39, 1.55],
+            [-59.42, 1.56],
+            [-59.53, 1.7],
+            [-59.57, 1.73],
+            [-59.64, 1.72],
+            [-59.68, 1.76],
+            [-59.65, 1.84],
+            [-59.71, 1.86],
+            [-59.75, 1.85],
+            [-59.76, 1.88],
+            [-59.74, 2.03],
+            [-59.74, 2.26],
+            [-59.76, 2.29],
+            [-59.8, 2.29],
+            [-59.91, 2.38],
+            [-59.91, 2.46],
+            [-60, 2.69],
+            [-59.97, 3.04],
+            [-59.91, 3.13],
+            [-59.92, 3.15],
+            [-59.9, 3.16],
+            [-59.92, 3.19],
+            [-59.84, 3.35],
+            [-59.82, 3.36],
+            [-59.82, 3.43],
+            [-59.84, 3.43],
+            [-59.82, 3.48],
+            [-59.86, 3.55],
+            [-59.86, 3.58],
+            [-59.84, 3.61],
+            [-59.76, 3.64],
+            [-59.69, 3.69],
+            [-59.67, 3.76],
+            [-59.6, 3.8],
+            [-59.6, 3.86],
+            [-59.58, 3.9],
+            [-59.53, 3.94],
+            [-59.54, 3.96],
+            [-59.6, 3.97],
+            [-59.6, 4],
+            [-59.66, 4.08],
+            [-59.65, 4.13],
+            [-59.74, 4.2],
+            [-59.72, 4.26],
+            [-59.74, 4.29],
+            [-59.69, 4.34],
+            [-59.69, 4.38],
+            [-59.81, 4.47],
+            [-59.86, 4.46],
+            [-59.87, 4.48],
+            [-59.91, 4.47],
+            [-59.95, 4.51],
+            [-59.98, 4.49],
+            [-60.06, 4.49],
+            [-60.09, 4.53],
+            [-60.12, 4.5],
+            [-60.16, 4.53],
+            [-60.16, 4.57],
+            [-60.09, 4.61],
+            [-60.03, 4.73],
+            [-59.98, 5.09],
+            [-60.08, 5.14],
+            [-60.13, 5.24],
+            [-60.18, 5.23],
+            [-60.21, 5.27],
+            [-60.27, 5.25],
+            [-60.33, 5.19],
+            [-60.42, 5.21],
+            [-60.45, 5.17],
+            [-60.48, 5.19],
+            [-60.57, 5.19],
+            [-60.61, 5.21],
+            [-60.74, 5.2],
+            [-61.38, 5.91],
+            [-61.4, 5.95]
           ]
         ]
       }

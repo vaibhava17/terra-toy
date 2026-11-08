@@ -4,6 +4,7 @@ import { loadCountrySet } from '../../src/engine/globe/countries';
 import type { BorderLevel } from '../../src/engine/globe/borderMath';
 import {
   DISPUTED_AREAS,
+  DISPUTED_COASTS,
   DISPUTED_LABEL,
   DISPUTED_REF,
   disputedAreaAt,
@@ -57,6 +58,52 @@ const WHOLE_TERRITORY: ReadonlyArray<
   ['Kota Kinabalu (inland)', 5.95, 116.2, 'Malaysia', 'Malaysia'],
 ];
 
+/**
+ * world-atlas land just off a disputed area's 10m coast: outside the core, but world-atlas
+ * tags it with the area's claimant, so before the coast fringe the chip showed that name.
+ * [label, lat, lng, world-atlas name at 110m, at 50m]; null = sea at that level, where the
+ * point must stay sea.
+ */
+const COASTAL: ReadonlyArray<readonly [string, number, number, string | null, string | null]> = [
+  ['Crimea south coast', 44.37, 33.86, 'Russia', null],
+  ['Crimea south coast (Yalta)', 44.4, 33.85, 'Russia', 'Russia'],
+  ['Crimea south coast (Alushta)', 44.75, 34.55, 'Russia', 'Russia'],
+  ['Crimea west coast', 45.35, 32.9, 'Russia', 'Russia'],
+  ['Falklands, West Falkland south coast', -52.0, -60.8, 'Falkland Is.', 'Falkland Is.'],
+  ['Falklands, East Falkland south coast', -52.05, -58.8, 'Falkland Is.', 'Falkland Is.'],
+  ['Kunashir south-west coast', 43.7, 145.4, 'Japan', null],
+  ['Habomai islets', 43.45, 145.9, null, 'Russia'],
+  ['Shikotan north-west coast', 44.5, 147.05, null, 'Russia'],
+];
+
+/**
+ * Near a disputed coast but not part of it: the fringe must leave these alone.
+ * [label, lat, lng, name at 110m, at 50m] (null = sea).
+ */
+const NEAR_COAST: ReadonlyArray<readonly [string, number, number, string | null, string | null]> = [
+  ['Black Sea south of Crimea', 43.5, 33.5, null, null],
+  ['Taman peninsula (east of the Kerch Strait)', 45.2, 37.0, 'Russia', 'Russia'],
+  ['Taman peninsula, west end', 45.25, 36.9, 'Russia', 'Russia'],
+  ['Odesa (inland)', 46.45, 30.6, 'Ukraine', 'Ukraine'],
+  ['Nemuro, Hokkaido', 43.3, 145.4, 'Japan', null],
+  ['Shiretoko, Hokkaido', 44.05, 145.1, 'Japan', 'Japan'],
+];
+
+/**
+ * Natural Earth lists these too, but they are leases, buffer zones or undisputed
+ * subunits, not disputes: [label, lat, lng, name at 110m, at 50m] (null = sea), each
+ * inside the Natural Earth polygon named in the label.
+ */
+const NOT_DISPUTES: ReadonlyArray<readonly [string, number, number, string | null, string | null]> =
+  [
+    ['Baikonur (Baykonur)', 45.965, 63.305, 'Kazakhstan', 'Kazakhstan'],
+    ['Ceuta', 35.885, -5.33, null, 'Morocco'],
+    ['Melilla', 35.29, -2.95, null, 'Morocco'],
+    ['Panmunjom (Korean Demilitarized Zone)', 37.956, 126.677, 'North Korea', 'North Korea'],
+    ['UNDOF Zone near Quneitra', 33.12, 35.82, 'Israel', 'Israel'],
+    ['UNDOF Zone, south', 33.0, 35.86, 'Syria', 'Israel'],
+  ];
+
 /** Undisputed places nearby that must keep their country name. */
 const UNDISPUTED: ReadonlyArray<readonly [string, number, number, string]> = [
   ['Delhi', 28.6139, 77.209, 'India'],
@@ -76,9 +123,9 @@ const UNDISPUTED: ReadonlyArray<readonly [string, number, number, string]> = [
 describe('disputedAreaAt', () => {
   it('carries the Natural Earth border disputes, not just Kashmir', () => {
     const names = new Set(DISPUTED_AREAS.map((a) => a.name));
-    // 99 Natural Earth features, 8 whole territories left out; the two W. Sahara pieces
-    // share a name.
-    expect(names.size).toBe(90);
+    // 99 Natural Earth features, 8 whole territories and 7 non-disputes left out; the two
+    // W. Sahara pieces share a name.
+    expect(names.size).toBe(83);
     expect([...names]).toEqual(
       expect.arrayContaining([
         'Siachen Glacier',
@@ -123,9 +170,47 @@ describe('disputedAreaAt', () => {
     expect(disputedAreaAt(lat, lng)).toBeNull();
   });
 
+  it('leaves out leases, buffer zones and undisputed subunits', () => {
+    const names = new Set(DISPUTED_AREAS.map((a) => a.name));
+    for (const n of [
+      'Baykonur',
+      'Ceuta',
+      'Melilla',
+      'Korean Demilitarized Zone (north)',
+      'Korean Demilitarized Zone (south)',
+      'Korean islands under UN jurisdiction',
+      'UNDOF Zone',
+    ]) {
+      expect(names.has(n), n).toBe(false);
+    }
+    // A lease that is also claimed stays.
+    expect(names.has('Guantanamo Bay USNB')).toBe(true);
+  });
+
+  it.each(NOT_DISPUTES)('%s is not (not a dispute)', (_label, lat, lng) => {
+    expect(disputedAreaAt(lat, lng)).toBeNull();
+  });
+
+  it.each(COASTAL)('%s is outside the 10m core (the fringe handles it)', (_label, lat, lng) => {
+    expect(disputedAreaAt(lat, lng)).toBeNull();
+  });
+
   it('is null over the sea and for non-finite input', () => {
     expect(disputedAreaAt(30, -40)).toBeNull();
     expect(disputedAreaAt(NaN, 77)).toBeNull();
+  });
+});
+
+describe('DISPUTED_COASTS', () => {
+  it('belongs to kept areas and lists the world-atlas names of their core', () => {
+    const names = new Set(DISPUTED_AREAS.map((a) => a.name));
+    const coastOf = new Map(DISPUTED_COASTS.map((c) => [c.name, c.coast]));
+    for (const c of DISPUTED_COASTS) {
+      expect(names.has(c.name), c.name).toBe(true);
+      expect(c.coast?.size, c.name).toBeGreaterThan(0);
+    }
+    expect([...(coastOf.get('Crimea') ?? [])]).toEqual(['Russia']);
+    expect([...(coastOf.get('Falkland Is.') ?? [])]).toEqual(['Falkland Is.']);
   });
 });
 
@@ -152,6 +237,30 @@ describe.each<BorderLevel>(['110m', '50m'])('pickCountryRef (%s)', (level) => {
 
   it.each(WHOLE_TERRITORY)(
     '%s shows its normal country name, not "Disputed area"',
+    (_label, lat, lng, at110m, at50m) => {
+      const ref = pickCountryRef(index, lat, lng);
+      expect(ref?.name).not.toBe(DISPUTED_LABEL);
+      expect(ref?.name ?? null).toBe(level === '110m' ? at110m : at50m);
+    },
+  );
+
+  it.each(COASTAL)(
+    '%s, on the coarse world-atlas coast, shows the neutral label',
+    (_label, lat, lng, at110m, at50m) => {
+      const raw = level === '110m' ? at110m : at50m;
+      // The point exercises the fringe: world-atlas says the claimant (or sea)…
+      expect(index.pick(lat, lng)?.name ?? null).toBe(raw);
+      // …and the chip is neutral on land, and sea stays sea.
+      expect(pickCountryRef(index, lat, lng)).toEqual(raw === null ? null : DISPUTED_REF);
+    },
+  );
+
+  it.each(NEAR_COAST)('%s keeps its name (or stays sea)', (_label, lat, lng, at110m, at50m) => {
+    expect(pickCountryRef(index, lat, lng)?.name ?? null).toBe(level === '110m' ? at110m : at50m);
+  });
+
+  it.each(NOT_DISPUTES)(
+    '%s keeps the world-atlas name, not "Disputed area"',
     (_label, lat, lng, at110m, at50m) => {
       const ref = pickCountryRef(index, lat, lng);
       expect(ref?.name).not.toBe(DISPUTED_LABEL);
