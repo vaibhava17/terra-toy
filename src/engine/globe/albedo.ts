@@ -11,7 +11,7 @@ import {
   type GeoPermissibleObjects,
   type GeoProjection,
 } from 'd3-geo';
-import { feature } from 'topojson-client';
+import { feature, mesh } from 'topojson-client';
 
 /** Flat toy palette for the globe. Every colour used to paint the Earth lives here. */
 export const EARTH_PALETTE = {
@@ -76,13 +76,26 @@ export function makeProjection(w: number, h: number): GeoProjection {
 
 type Topology = Parameters<typeof feature>[0];
 
-/** Lazily loads Natural Earth 1:50m land as GeoJSON (own chunk; cached after first call). */
-export async function loadLand(): Promise<GeoPermissibleObjects> {
+/** Land geometry for painting: polygons to fill, and coastline arcs to stroke. */
+export interface LandShapes {
+  /** Land polygons (for fills). d3 closes polygons that cross ±180° along the clip edge. */
+  land: GeoPermissibleObjects;
+  /**
+   * Coastline only, as a topojson mesh: the real arcs without the closure d3 adds when
+   * clipping polygons at the antimeridian. Stroking `land` would draw those clip edges as
+   * a straight line at ±180° (through Chukotka and Antarctica); stroking this doesn't.
+   */
+  coast: GeoPermissibleObjects;
+}
+
+/** Lazily loads Natural Earth 1:50m land (own chunk; cached after first call). */
+export async function loadLand(): Promise<LandShapes> {
   const mod = (await import('world-atlas/land-50m.json')) as unknown as { default: Topology };
   const topo = mod.default;
   const land = topo.objects['land'];
   if (!land) throw new Error('world-atlas land-50m: missing "land" object');
-  return feature(topo, land);
+  // @types/topojson-client types mesh()'s object with `{}` properties; the land object has none.
+  return { land: feature(topo, land), coast: mesh(topo, land as Parameters<typeof mesh>[1]) };
 }
 
 function createCanvas(
@@ -101,7 +114,7 @@ function createCanvas(
 }
 
 /** Paints the toy albedo: ocean, shallow-water halo, land, tundra, coastline, ice caps. */
-export function paintAlbedo(land: GeoPermissibleObjects, w: number, h: number): HTMLCanvasElement {
+export function paintAlbedo({ land, coast }: LandShapes, w: number, h: number): HTMLCanvasElement {
   const { canvas, ctx } = createCanvas(w, h);
   const path = geoPath(makeProjection(w, h), ctx);
   const px = w / 4096; // line widths are authored for a 4096-wide texture
@@ -111,9 +124,9 @@ export function paintAlbedo(land: GeoPermissibleObjects, w: number, h: number): 
   ctx.fillStyle = EARTH_PALETTE.ocean;
   ctx.fillRect(0, 0, w, h);
 
-  // Shallow-water halo: wide, soft strokes under the land.
+  // Shallow-water halo: wide, soft strokes under the land (coast arcs only, no clip edges).
   ctx.beginPath();
-  path(land);
+  path(coast);
   ctx.strokeStyle = EARTH_PALETTE.shallowOuter;
   ctx.lineWidth = 22 * px;
   ctx.stroke();
@@ -121,6 +134,8 @@ export function paintAlbedo(land: GeoPermissibleObjects, w: number, h: number): 
   ctx.lineWidth = 9 * px;
   ctx.stroke();
 
+  ctx.beginPath();
+  path(land);
   ctx.fillStyle = EARTH_PALETTE.land;
   ctx.fill();
 
@@ -132,9 +147,9 @@ export function paintAlbedo(land: GeoPermissibleObjects, w: number, h: number): 
   ctx.fillStyle = polar;
   ctx.fill(); // reuses the land path from above
 
-  // Thin coastline on top.
+  // Thin coastline on top (mesh arcs: no straight line along the ±180° texture edges).
   ctx.beginPath();
-  path(land);
+  path(coast);
   ctx.strokeStyle = EARTH_PALETTE.coast;
   ctx.lineWidth = 1.6 * px;
   ctx.stroke();

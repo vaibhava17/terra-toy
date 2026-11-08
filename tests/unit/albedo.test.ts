@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { geoPath } from 'd3-geo';
 import { SphereGeometry, Vector3 } from 'three';
 import { llToVec3, vec3ToLl } from '../../src/engine/geo';
 import {
@@ -7,6 +8,7 @@ import {
   POLAR_TINT_STOPS,
   TEXTURE_FLIP_Y,
   llToTexel,
+  loadLand,
   makeProjection,
 } from '../../src/engine/globe/albedo';
 import { mulberry32 } from '../../src/game/rng';
@@ -100,5 +102,56 @@ describe('palette and roughness', () => {
     expect(EARTH_ROUGHNESS.water).toBeLessThan(EARTH_ROUGHNESS.land);
     expect(EARTH_ROUGHNESS.water).toBeGreaterThan(0);
     expect(EARTH_ROUGHNESS.land).toBeLessThanOrEqual(1);
+  });
+});
+
+describe('coastline vs. the antimeridian seam', () => {
+  /** Records the line segments geoPath draws, per stroke target. */
+  function recordSegments(shape: Parameters<ReturnType<typeof geoPath>>[0], w: number, h: number) {
+    const segs: [number, number, number, number][] = [];
+    let x0 = 0;
+    let y0 = 0;
+    let sx = 0;
+    let sy = 0;
+    const ctx = {
+      beginPath() {},
+      moveTo(x: number, y: number) {
+        x0 = sx = x;
+        y0 = sy = y;
+      },
+      lineTo(x: number, y: number) {
+        segs.push([x0, y0, x, y]);
+        x0 = x;
+        y0 = y;
+      },
+      closePath() {
+        segs.push([x0, y0, sx, sy]);
+        x0 = sx;
+        y0 = sy;
+      },
+      arc() {},
+    };
+    geoPath(makeProjection(w, h), ctx)(shape);
+    return segs;
+  }
+
+  /** Total stroke length lying on the left/right texture edge (lng ±180). */
+  function edgeLength(segs: [number, number, number, number][], w: number): number {
+    let total = 0;
+    for (const [ax, ay, bx, by] of segs) {
+      for (const edge of [0, w]) {
+        if (Math.abs(ax - edge) < 0.5 && Math.abs(bx - edge) < 0.5) total += Math.abs(by - ay);
+      }
+    }
+    return total;
+  }
+
+  it('the stroked coast has no straight clip edges along ±180° (Chukotka, Antarctica)', async () => {
+    const { land, coast } = await loadLand();
+    const [w, h] = [4096, 2048];
+    // Sanity: the filled polygons do close along the clip edge (that's why we don't stroke them).
+    expect(edgeLength(recordSegments(land, w, h), w)).toBeGreaterThan(100);
+    // The mesh only carries real coastline: at most a few px of genuine coast near ±180°.
+    expect(edgeLength(recordSegments(coast, w, h), w)).toBeLessThan(10);
   });
 });

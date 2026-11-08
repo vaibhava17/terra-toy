@@ -1,12 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { Vector3 } from 'three';
-import {
-  centralAngle,
-  greatCircleInterpolate,
-  llToVec3,
-  normalizeLng,
-  vec3ToLl,
-} from '../../src/engine/geo';
+import { PerspectiveCamera, Vector3 } from 'three';
+import { centralAngle, llToVec3, normalizeLng, vec3ToLl } from '../../src/engine/geo';
 import {
   CAMERA_FOV,
   MAX_CAMERA_LAT,
@@ -227,15 +221,70 @@ describe('planFlight / sampleFlight', () => {
     ).toBeLessThan(1e-9);
   });
 
-  it('follows the same great circle as geo.greatCircleInterpolate (with easing)', () => {
+  it('eases latitude and short-way longitude together; angle is the central angle', () => {
     const a = { lat: 51.5, lng: -0.12 };
     const b = { lat: -33.86, lng: 151.21 };
     const plan = fly({ ...a, distance: 3 }, { ...b, distance: 3 });
     expect(plan.angle).toBeCloseTo(centralAngle(a, b), 9);
     for (const t of range(0, 1, 20)) {
       const got = vec3ToLl(sampleFlight(plan, t, out));
-      const want = greatCircleInterpolate(a, b, easeInOutCubic(t));
-      expect(centralAngle(got, want)).toBeLessThan(1e-9);
+      const e = easeInOutCubic(t);
+      expect(got.lat).toBeCloseTo(a.lat + (b.lat - a.lat) * e, 9);
+      expect(lngDiff(got.lng, a.lng + (b.lng - a.lng) * e)).toBeLessThan(1e-9);
+    }
+  });
+
+  it('never gets closer to a pole than its endpoints (no pass over the pole)', () => {
+    const cases: [number, number, number, number][] = [
+      [MAX_CAMERA_LAT, -170, DEFAULT_VIEW.lat, DEFAULT_VIEW.lng],
+      [MAX_CAMERA_LAT, 0, MAX_CAMERA_LAT, 180],
+      [-MAX_CAMERA_LAT, 30, -MAX_CAMERA_LAT, -150],
+      [70, -170, 60, 20],
+    ];
+    for (const [aLat, aLng, bLat, bLng] of cases) {
+      const plan = fly(
+        { lat: aLat, lng: aLng, distance: 3 },
+        { lat: bLat, lng: bLng, distance: 3 },
+      );
+      const hi = Math.max(Math.abs(aLat), Math.abs(bLat));
+      for (const t of range(0, 1, 100)) {
+        expect(Math.abs(vec3ToLl(sampleFlight(plan, t, out)).lat)).toBeLessThanOrEqual(hi + 1e-9);
+      }
+    }
+  });
+
+  it('keeps the screen-up direction steady frame to frame (no flip near the poles)', () => {
+    // Replays GlobeRig.update's flight frame at 60 fps: position, lookAt(origin), tilt.
+    const camera = new PerspectiveCamera(CAMERA_FOV, 1, 0.01, 100);
+    const up = new Vector3();
+    const prevUp = new Vector3();
+    const origin = new Vector3();
+    const cases: [number, number, number, number, number, number][] = [
+      // from lat, lng, distance → to lat, lng, distance
+      [MAX_CAMERA_LAT, -170, 3, DEFAULT_VIEW.lat, DEFAULT_VIEW.lng, DEFAULT_VIEW.distance],
+      [70, -170, 3, DEFAULT_VIEW.lat, DEFAULT_VIEW.lng, DEFAULT_VIEW.distance],
+      [MAX_CAMERA_LAT, -170, 1.5, DEFAULT_VIEW.lat, DEFAULT_VIEW.lng, DEFAULT_VIEW.distance],
+      [-MAX_CAMERA_LAT, 170, 3, DEFAULT_VIEW.lat, DEFAULT_VIEW.lng, DEFAULT_VIEW.distance],
+      [MAX_CAMERA_LAT, 0, 3, MAX_CAMERA_LAT, 180, 3],
+      [20, 10, 3, -33.86, 151.21, 1.8],
+    ];
+    for (const [aLat, aLng, aD, bLat, bLng, bD] of cases) {
+      const plan = fly(
+        { lat: aLat, lng: aLng, distance: aD },
+        { lat: bLat, lng: bLng, distance: bD },
+      );
+      const frames = Math.ceil(plan.durationMs / (1000 / 60));
+      let worst = 0;
+      for (let i = 0; i <= frames; i++) {
+        sampleFlight(plan, i / frames, camera.position);
+        camera.lookAt(origin);
+        const tilt = tiltForDistance(camera.position.length());
+        if (tilt > 0) camera.rotateX(tilt);
+        up.set(0, 1, 0).applyQuaternion(camera.quaternion);
+        if (i > 0) worst = Math.max(worst, up.angleTo(prevUp));
+        prevUp.copy(up);
+      }
+      expect(worst / DEG).toBeLessThan(10);
     }
   });
 
@@ -300,9 +349,9 @@ describe('planFlight / sampleFlight', () => {
         { lat: aLat, lng: aLng, distance: 2.5 },
         { lat: bLat, lng: bLng, distance: 2 },
       );
-      expect(Number.isFinite(plan.angle)).toBe(true);
-      expect(isFiniteVec(plan.axis)).toBe(true);
-      expect(plan.axis.length()).toBeCloseTo(1, 9);
+      for (const v of [plan.angle, plan.fromLat, plan.fromLng, plan.toLat, plan.deltaLng]) {
+        expect(Number.isFinite(v)).toBe(true);
+      }
       for (const t of range(0, 1, 40)) {
         const p = sampleFlight(plan, t, out);
         expect(isFiniteVec(p)).toBe(true);
@@ -333,9 +382,11 @@ describe('planFlight / sampleFlight', () => {
 
   it('reuses the plan object (no allocation per flight)', () => {
     const plan = createFlightPlan();
-    const { from, axis } = plan;
-    planFlight(cameraPosition(0, 0, 3), 40, 40, 2, undefined, plan);
-    expect(plan.from).toBe(from);
-    expect(plan.axis).toBe(axis);
+    expect(planFlight(cameraPosition(0, 0, 3), 40, 40, 2, undefined, plan)).toBe(plan);
+    // Planning a flight must not mutate the caller's camera position.
+    const from = cameraPosition(10, 20, 3);
+    const copy = from.clone();
+    planFlight(from, 40, 40, 2, undefined, plan);
+    expect(from.equals(copy)).toBe(true);
   });
 });

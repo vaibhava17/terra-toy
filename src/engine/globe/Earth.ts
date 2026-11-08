@@ -83,7 +83,7 @@ export async function createEarth({ textureSize, anisotropy }: EarthOptions): Pr
   configureTexture(albedo, anisotropy);
 
   // Roughness only needs half the resolution.
-  const roughness = new CanvasTexture(paintRoughness(land, width / 2, height / 2));
+  const roughness = new CanvasTexture(paintRoughness(land.land, width / 2, height / 2));
   roughness.colorSpace = NoColorSpace;
   configureTexture(roughness, Math.min(anisotropy, 4));
 

@@ -4,8 +4,8 @@
  *
  * Globe radius is 1. "Distance" is the camera's distance from the globe centre.
  */
-import { Quaternion, Vector3 } from 'three';
-import { llToVec3, vec3ToLl } from './geo';
+import { Vector3 } from 'three';
+import { llToVec3, normalizeLng, vec3ToLl } from './geo';
 import type { GlobeViewState } from './view';
 
 export const MIN_DISTANCE = 1.25;
@@ -89,13 +89,23 @@ export function viewFromPosition(position: Vector3): GlobeViewState {
   return { lat, lng, distance: position.length() };
 }
 
-/** A precomputed flight; sampling it allocates nothing. */
+/**
+ * A precomputed flight; sampling it allocates nothing.
+ *
+ * The camera moves by interpolating latitude and (short-way) longitude, not along
+ * the great circle. A great circle between two high-latitude points can pass right
+ * over a pole, where `camera.lookAt` (up = +Y) has no stable roll and the picture
+ * flips ~180° in one frame. Lat/lng interpolation keeps the latitude between the
+ * two endpoint latitudes (both within ±MAX_CAMERA_LAT), so the flight never gets
+ * closer to a pole than its endpoints, exactly like OrbitControls' own phi clamp.
+ */
 export interface FlightPlan {
-  /** Unit start direction. */
-  readonly from: Vector3;
-  /** Unit rotation axis of the great circle (from → to). */
-  readonly axis: Vector3;
-  /** Total central angle, radians (0 … π). */
+  fromLat: number;
+  fromLng: number;
+  toLat: number;
+  /** Signed longitude change, degrees, in [−180, 180]: the short way round. */
+  deltaLng: number;
+  /** Central angle between start and target, radians (0 … π); drives hop and duration. */
   angle: number;
   fromDistance: number;
   toDistance: number;
@@ -106,8 +116,10 @@ export interface FlightPlan {
 
 export function createFlightPlan(): FlightPlan {
   return {
-    from: new Vector3(1, 0, 0),
-    axis: new Vector3(0, 1, 0),
+    fromLat: 0,
+    fromLng: 0,
+    toLat: 0,
+    deltaLng: 0,
     angle: 0,
     fromDistance: MIN_DISTANCE,
     toDistance: MIN_DISTANCE,
@@ -125,17 +137,15 @@ export function flightDuration(angle: number, fromDistance: number, toDistance: 
   return clamp(700 + (angle / Math.PI) * 1800 + zoomChange * 500, 350, 3000);
 }
 
+const _from = new Vector3();
 const _to = new Vector3();
-const _axisFallback = new Vector3();
-const AXIS_Y = new Vector3(0, 1, 0);
-const AXIS_X = new Vector3(1, 0, 0);
+const _cross = new Vector3();
 
 /**
  * Plans a flight from the current camera position to (lat, lng, distance).
  * The target latitude is clamped to ±MAX_CAMERA_LAT and the distance to the zoom range.
- * The path follows the shorter great circle (so 170° → −170° crosses the antimeridian).
- * Antipodal targets use the same deterministic fallback axis as geo.greatCircleInterpolate.
- * Writes into `plan` (no allocation).
+ * Longitude goes the short way (so 170° → −170° crosses the antimeridian); an exactly
+ * opposite longitude goes east (+180°), deterministically. Writes into `plan` (reused per flight).
  */
 export function planFlight(
   fromPosition: Vector3,
@@ -147,27 +157,19 @@ export function planFlight(
 ): FlightPlan {
   const fromDistance = clampDistance(fromPosition.length() || MIN_DISTANCE);
   const toDistance = clampDistance(distance);
-  if (fromPosition.lengthSq() > 0) plan.from.copy(fromPosition).normalize();
-  else plan.from.set(1, 0, 0);
-  llToVec3(clamp(lat, -MAX_CAMERA_LAT, MAX_CAMERA_LAT), lng, 1, _to);
+  if (fromPosition.lengthSq() > 0) _from.copy(fromPosition).normalize();
+  else _from.set(1, 0, 0);
+  const from = vec3ToLl(_from);
+  const toLat = clamp(lat, -MAX_CAMERA_LAT, MAX_CAMERA_LAT);
 
-  const dot = clamp(plan.from.dot(_to), -1, 1);
-  plan.axis.crossVectors(plan.from, _to);
-  const sin = plan.axis.length();
-  plan.angle = Math.atan2(sin, dot);
-  if (sin > 1e-9) {
-    plan.axis.divideScalar(sin);
-  } else if (dot > 0) {
-    // Same point: no rotation needed; any axis works.
-    plan.axis.copy(AXIS_Y);
-    plan.angle = 0;
-  } else {
-    // Antipodal: rotate about normalize(from × Y), or from × X at a pole.
-    _axisFallback.crossVectors(plan.from, AXIS_Y);
-    if (_axisFallback.lengthSq() < 1e-12) _axisFallback.crossVectors(plan.from, AXIS_X);
-    plan.axis.copy(_axisFallback.normalize());
-    plan.angle = Math.PI;
-  }
+  plan.fromLat = from.lat;
+  plan.fromLng = from.lng;
+  plan.toLat = toLat;
+  const d = normalizeLng(lng - from.lng); // [−180, 180)
+  plan.deltaLng = d === -180 ? 180 : d;
+
+  llToVec3(toLat, lng, 1, _to);
+  plan.angle = Math.atan2(_cross.crossVectors(_from, _to).length(), clamp(_from.dot(_to), -1, 1));
 
   plan.fromDistance = fromDistance;
   plan.toDistance = toDistance;
@@ -186,14 +188,13 @@ export function flightDistance(plan: FlightPlan, t: number): number {
   return clampDistance(d + plan.hop * Math.sin(Math.PI * e));
 }
 
-const _q = new Quaternion();
-
 /**
  * Camera position at flight progress t ∈ [0, 1] (time fraction; easing applied here).
  * Writes into `out`; allocates nothing. t = 0 → start position, t = 1 → exact target.
  */
 export function sampleFlight(plan: FlightPlan, t: number, out: Vector3): Vector3 {
   const e = easeInOutCubic(t);
-  _q.setFromAxisAngle(plan.axis, plan.angle * e);
-  return out.copy(plan.from).applyQuaternion(_q).multiplyScalar(flightDistance(plan, t));
+  const lat = plan.fromLat + (plan.toLat - plan.fromLat) * e;
+  const lng = plan.fromLng + plan.deltaLng * e;
+  return llToVec3(lat, lng, flightDistance(plan, t), out);
 }
