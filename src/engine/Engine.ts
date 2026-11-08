@@ -18,10 +18,13 @@ import {
   WebGLRenderer,
 } from 'three';
 import type { ToyStore } from '../state/store';
+import { LANDMARKS } from '../content/landmarks';
 import { mulberry32 } from '../game/rng';
 import { GlobeRig } from './GlobeRig';
 import { PointerPicker, type Ndc } from './PointerPicker';
 import { vec3ToLl } from './geo';
+import { LandmarkPins } from './entities/Landmarks';
+import { landmarkFlyDistance } from './entities/landmarkMath';
 import { CountryLines } from './globe/Lines';
 import { borderWidthForDistance, nextBorderLevel, type BorderLevel } from './globe/borderMath';
 import { buildCountryIndex, type CountryIndex } from './globe/countryPick';
@@ -31,7 +34,13 @@ import { createEarth, type Earth } from './globe/Earth';
 import { intersectGlobe } from './picking';
 import { pickPixelRatio, pickTextureSize } from './quality';
 import { CAMERA_FOV, viewFromPosition } from './rigMath';
-import { sameCountry, type CountryRef, type EngineHandle, type GlobeController } from './view';
+import {
+  sameCountry,
+  type CountryRef,
+  type EngineHandle,
+  type GlobeController,
+  type ScreenPoint,
+} from './view';
 
 export interface EngineOptions {
   /** Element the canvas is appended to; its size drives the canvas size. */
@@ -105,6 +114,7 @@ export class Engine implements EngineHandle {
   private readonly debugEl: HTMLDivElement | null = null;
   private earth: Earth | null = null;
   private readonly lines = new CountryLines();
+  private readonly pins = new LandmarkPins(LANDMARKS);
   private readonly picker: PointerPicker;
   private readonly raycaster = new Raycaster();
   private unsubscribeStore: (() => void) | null = null;
@@ -173,11 +183,11 @@ export class Engine implements EngineHandle {
       zoomOut: () => this.rig.zoomOut(),
       resetView: () => this.rig.resetView(),
       flyTo: (lat, lng, distance, durationMs) => this.rig.flyTo(lat, lng, distance, durationMs),
+      flyToLandmark: (id) => this.flyToLandmark(id),
+      landmarkScreenPos: (id) => this.landmarkScreenPos(id),
     };
 
-    this.picker = new PointerPicker(renderer.domElement, (at) => {
-      this.store.getState().setSelectedCountry(this.pickCountry(at));
-    });
+    this.picker = new PointerPicker(renderer.domElement, (at) => this.onTap(at));
 
     this.resizeObserver = new ResizeObserver(() => {
       this.needsResize = true;
@@ -224,6 +234,7 @@ export class Engine implements EngineHandle {
     this.earth = earth;
     this.scene.add(earth.group);
     this.scene.add(this.lines.group);
+    this.scene.add(this.pins.group);
     this.useCountrySet(countries);
     this.updateBorderLod();
     this.unsubscribeStore = this.store.subscribe((s, prev) => {
@@ -233,8 +244,13 @@ export class Engine implements EngineHandle {
       ) {
         this.syncHighlights();
       }
+      if (s.globe.selectedLandmark !== prev.globe.selectedLandmark) {
+        this.onLandmarkSelected(s.globe.selectedLandmark);
+      }
     });
     this.syncHighlights();
+    this.pins.setSelected(this.store.getState().globe.selectedLandmark);
+    this.pins.update(this.camera.position);
     this.applyResize();
     // Upload textures and compile shaders now, so the first visible frame doesn't hitch.
     this.renderer.compile(this.scene, this.camera);
@@ -257,10 +273,12 @@ export class Engine implements EngineHandle {
     this.unsubscribeStore?.();
     this.unsubscribeStore = null;
     // The highlights go away with the globe; so does what they pointed at.
-    const { setHoveredCountry, setSelectedCountry } = this.store.getState();
+    const { setHoveredCountry, setSelectedCountry, setSelectedLandmark } = this.store.getState();
     setHoveredCountry(null);
     setSelectedCountry(null);
+    setSelectedLandmark(null);
     this.lines.dispose();
+    this.pins.dispose();
     this.earth?.dispose();
     this.earth = null;
     this.backdrop.dispose();
@@ -296,6 +314,7 @@ export class Engine implements EngineHandle {
     if (this.rig.update(dt)) {
       this.needsRender = true;
       this.updateBorderLod();
+      this.pins.update(this.camera.position);
       this.picker.invalidateHover(); // the globe moved under a resting cursor
     }
     if (this.picker.consumeHoverChange()) this.updateHover();
@@ -384,9 +403,64 @@ export class Engine implements EngineHandle {
 
   private updateHover(): void {
     const at = this.picker.hover;
-    const country = at ? this.pickCountry(at) : null;
-    this.renderer.domElement.style.cursor = country ? 'pointer' : '';
+    // A pin in front of a country wins: hovering it shows no country outline.
+    const onPin = at ? this.pickLandmark(at) !== null : false;
+    const country = at && !onPin ? this.pickCountry(at) : null;
+    this.renderer.domElement.style.cursor = onPin || country ? 'pointer' : '';
     this.store.getState().setHoveredCountry(country);
+  }
+
+  /**
+   * A tap tries the landmark pins first; a pin hit selects that landmark and leaves the
+   * country selection to the store's rules. Otherwise country picking runs as before,
+   * and a tap on the sea also closes the landmark card.
+   */
+  private onTap(at: Ndc): void {
+    const state = this.store.getState();
+    const landmark = this.pickLandmark(at);
+    if (landmark !== null) {
+      // Tapping the open landmark again flies back to it (the store sees no change).
+      if (landmark === state.globe.selectedLandmark) this.flyToLandmark(landmark);
+      else state.setSelectedLandmark(landmark);
+      return;
+    }
+    const country = this.pickCountry(at);
+    state.setSelectedCountry(country);
+    if (country === null) state.setSelectedLandmark(null);
+  }
+
+  // ---- Landmarks ---------------------------------------------------------------------
+
+  private onLandmarkSelected(id: string | null): void {
+    if (this.pins.setSelected(id)) {
+      this.pins.update(this.camera.position); // the selected pin is drawn bigger
+      this.needsRender = true;
+    }
+    if (id !== null) this.flyToLandmark(id);
+  }
+
+  private flyToLandmark(id: string): void {
+    const landmark = this.pins.find(id);
+    if (!landmark) return;
+    const { lat, lng } = landmark.pos;
+    this.rig.flyTo(lat, lng, landmarkFlyDistance(this.camera.position.length()));
+  }
+
+  /** The landmark pin under a canvas position (NDC), or null. */
+  private pickLandmark(at: Ndc): string | null {
+    this.camera.updateMatrixWorld(); // the rig moved the camera since the last render
+    this.raycaster.setFromCamera(_ndc.set(at.x, at.y), this.camera);
+    return this.pins.pick(this.raycaster.ray);
+  }
+
+  private landmarkScreenPos(id: string): ScreenPoint | null {
+    const p = this.pins.anchor(id, _anchor);
+    if (!p) return null;
+    this.camera.updateMatrixWorld();
+    p.project(this.camera);
+    if (Math.abs(p.x) > 1 || Math.abs(p.y) > 1 || p.z > 1) return null;
+    const r = this.renderer.domElement.getBoundingClientRect();
+    return { x: r.left + ((p.x + 1) / 2) * r.width, y: r.top + ((1 - p.y) / 2) * r.height };
   }
 
   /** The country under a canvas position (NDC), or null over the sea / off the globe. */
@@ -423,6 +497,7 @@ export class Engine implements EngineHandle {
 
 const _ndc = new Vector2();
 const _hit = new Vector3();
+const _anchor = new Vector3();
 
 /** Entry point used by the UI via dynamic `import()`. */
 export function createEngine(options: EngineOptions): Promise<EngineHandle> {

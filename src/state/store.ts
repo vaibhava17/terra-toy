@@ -28,6 +28,11 @@ export interface GlobeSlice {
   hoveredCountry: CountryRef | null;
   /** Country the player tapped; tapping the sea or the chip's × clears it. */
   selectedCountry: CountryRef | null;
+  /**
+   * Id of the landmark whose info card is open (content/landmarks/<id>.json). At most one
+   * of `selectedCountry` / `selectedLandmark` is set: selecting either clears the other.
+   */
+  selectedLandmark: string | null;
 }
 
 export interface ToyState {
@@ -41,8 +46,10 @@ export interface ToyState {
   setGlobeView: (view: GlobeViewState) => void;
   /** No-op (no notification) when the country is unchanged. */
   setHoveredCountry: (country: CountryRef | null) => void;
-  /** No-op (no notification) when the country is unchanged. */
+  /** No-op (no notification) when the country is unchanged. A country clears the landmark. */
   setSelectedCountry: (country: CountryRef | null) => void;
+  /** No-op (no notification) when the id is unchanged. A landmark clears the country. */
+  setSelectedLandmark: (id: string | null) => void;
 }
 
 export type ToyStore = StoreApi<ToyState>;
@@ -60,13 +67,20 @@ export function createToyStore(): ToyStore {
       view: { ...DEFAULT_VIEW },
       hoveredCountry: null,
       selectedCountry: null,
+      selectedLandmark: null,
     },
     setBoot: (boot) => set({ boot }),
     setWebGL: (webgl) => set({ webgl: { ...webgl } }),
     setGlobeStatus: (status, error) =>
       set((s) => {
-        const { view, hoveredCountry, selectedCountry } = s.globe;
-        const globe: GlobeSlice = { status, view, hoveredCountry, selectedCountry };
+        const { view, hoveredCountry, selectedCountry, selectedLandmark } = s.globe;
+        const globe: GlobeSlice = {
+          status,
+          view,
+          hoveredCountry,
+          selectedCountry,
+          selectedLandmark,
+        };
         if (status === 'error' && error !== undefined) globe.error = error;
         return { globe };
       }),
@@ -83,7 +97,25 @@ export function createToyStore(): ToyStore {
       set((s) =>
         sameCountry(s.globe.selectedCountry, country)
           ? s
-          : { globe: { ...s.globe, selectedCountry: copyCountry(country) } },
+          : {
+              globe: {
+                ...s.globe,
+                selectedCountry: copyCountry(country),
+                selectedLandmark: country ? null : s.globe.selectedLandmark,
+              },
+            },
+      ),
+    setSelectedLandmark: (id) =>
+      set((s) =>
+        s.globe.selectedLandmark === id
+          ? s
+          : {
+              globe: {
+                ...s.globe,
+                selectedLandmark: id,
+                selectedCountry: id === null ? s.globe.selectedCountry : null,
+              },
+            },
       ),
   }));
 }

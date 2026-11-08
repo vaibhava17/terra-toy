@@ -1,0 +1,33 @@
+{
+  "id": "colosseum",
+  "kind": "landmark",
+  "category": "ancient",
+  "pos": {
+    "lat": 41.8902,
+    "lng": 12.4922
+  },
+  "heading": 0,
+  "country": "IT",
+  "continent": "europe",
+  "name": {
+    "en": "Colosseum"
+  },
+  "blurb": {
+    "en": "A giant oval arena in Rome where crowds of Romans once came to watch shows. Even with parts missing, it is still enormous."
+  },
+  "facts": [
+    {
+      "key": "opened",
+      "value": "AD 80",
+      "source": "https://en.wikipedia.org/wiki/Colosseum"
+    }
+  ],
+  "tags": ["arena", "rome", "romans"],
+  "quiz": {
+    "difficulty": 1
+  },
+  "verified": {
+    "by": "agent",
+    "date": "2026-11-08"
+  }
+}

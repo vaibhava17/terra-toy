@@ -1,0 +1,38 @@
+{
+  "id": "taj-mahal",
+  "kind": "landmark",
+  "category": "monument",
+  "pos": {
+    "lat": 27.1751,
+    "lng": 78.0421
+  },
+  "heading": 0,
+  "country": "IN",
+  "continent": "asia",
+  "name": {
+    "en": "Taj Mahal"
+  },
+  "blurb": {
+    "en": "A shining white tomb by a river in Agra, which an emperor built in memory of his wife. Its big round dome is famous all over the world."
+  },
+  "facts": [
+    {
+      "key": "material",
+      "value": "White marble",
+      "source": "https://en.wikipedia.org/wiki/Taj_Mahal"
+    },
+    {
+      "key": "height_m",
+      "value": 73,
+      "source": "https://en.wikipedia.org/wiki/Taj_Mahal"
+    }
+  ],
+  "tags": ["marble", "dome", "agra", "tomb"],
+  "quiz": {
+    "difficulty": 1
+  },
+  "verified": {
+    "by": "agent",
+    "date": "2026-11-08"
+  }
+}

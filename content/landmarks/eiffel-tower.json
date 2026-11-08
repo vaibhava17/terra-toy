@@ -1,0 +1,38 @@
+{
+  "id": "eiffel-tower",
+  "kind": "landmark",
+  "category": "tower",
+  "pos": {
+    "lat": 48.8584,
+    "lng": 2.2945
+  },
+  "heading": 0,
+  "country": "FR",
+  "continent": "europe",
+  "name": {
+    "en": "Eiffel Tower"
+  },
+  "blurb": {
+    "en": "A giant iron tower in Paris, built for a big world fair. You can ride lifts almost all the way to the top!"
+  },
+  "facts": [
+    {
+      "key": "built",
+      "value": "1887–1889",
+      "source": "https://en.wikipedia.org/wiki/Eiffel_Tower"
+    },
+    {
+      "key": "height_m",
+      "value": 330,
+      "source": "https://en.wikipedia.org/wiki/Eiffel_Tower"
+    }
+  ],
+  "tags": ["iron", "paris", "tower"],
+  "quiz": {
+    "difficulty": 1
+  },
+  "verified": {
+    "by": "agent",
+    "date": "2026-11-08"
+  }
+}

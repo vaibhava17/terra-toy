@@ -1,0 +1,38 @@
+{
+  "id": "kilimanjaro",
+  "kind": "landmark",
+  "category": "mountain",
+  "pos": {
+    "lat": -3.0674,
+    "lng": 37.3556
+  },
+  "heading": 0,
+  "country": "TZ",
+  "continent": "africa",
+  "name": {
+    "en": "Mount Kilimanjaro"
+  },
+  "blurb": {
+    "en": "The tallest mountain in Africa, a sleeping volcano that can have snow on top even though it is close to the equator."
+  },
+  "facts": [
+    {
+      "key": "elevation_m",
+      "value": 5895,
+      "source": "https://en.wikipedia.org/wiki/Mount_Kilimanjaro"
+    },
+    {
+      "key": "record",
+      "value": "Tallest mountain in Africa",
+      "source": "https://en.wikipedia.org/wiki/Mount_Kilimanjaro"
+    }
+  ],
+  "tags": ["volcano", "snow", "mountain"],
+  "quiz": {
+    "difficulty": 2
+  },
+  "verified": {
+    "by": "agent",
+    "date": "2026-11-08"
+  }
+}

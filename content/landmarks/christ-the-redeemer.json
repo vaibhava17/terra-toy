@@ -1,0 +1,38 @@
+{
+  "id": "christ-the-redeemer",
+  "kind": "landmark",
+  "category": "statue",
+  "pos": {
+    "lat": -22.9519,
+    "lng": -43.2105
+  },
+  "heading": 0,
+  "country": "BR",
+  "continent": "south-america",
+  "name": {
+    "en": "Christ the Redeemer"
+  },
+  "blurb": {
+    "en": "A tall statue with open arms on top of a steep mountain, looking out over the city of Rio de Janeiro."
+  },
+  "facts": [
+    {
+      "key": "completed",
+      "value": 1931,
+      "source": "https://en.wikipedia.org/wiki/Christ_the_Redeemer_(statue)"
+    },
+    {
+      "key": "height_m",
+      "value": 30,
+      "source": "https://en.wikipedia.org/wiki/Christ_the_Redeemer_(statue)"
+    }
+  ],
+  "tags": ["statue", "rio", "mountain"],
+  "quiz": {
+    "difficulty": 2
+  },
+  "verified": {
+    "by": "agent",
+    "date": "2026-11-08"
+  }
+}

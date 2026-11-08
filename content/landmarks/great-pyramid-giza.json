@@ -1,0 +1,38 @@
+{
+  "id": "great-pyramid-giza",
+  "kind": "landmark",
+  "category": "ancient",
+  "pos": {
+    "lat": 29.9792,
+    "lng": 31.1342
+  },
+  "heading": 0,
+  "country": "EG",
+  "continent": "africa",
+  "name": {
+    "en": "Great Pyramid of Giza"
+  },
+  "blurb": {
+    "en": "The biggest of the pyramids in Egypt, built from millions of stone blocks as a tomb for a pharaoh. It is more than 4,000 years old!"
+  },
+  "facts": [
+    {
+      "key": "built",
+      "value": "About 2600–2560 BC",
+      "source": "https://en.wikipedia.org/wiki/Great_Pyramid_of_Giza"
+    },
+    {
+      "key": "original_height_m",
+      "value": 146.6,
+      "source": "https://en.wikipedia.org/wiki/Great_Pyramid_of_Giza"
+    }
+  ],
+  "tags": ["pyramid", "pharaoh", "stone", "desert"],
+  "quiz": {
+    "difficulty": 1
+  },
+  "verified": {
+    "by": "agent",
+    "date": "2026-11-08"
+  }
+}

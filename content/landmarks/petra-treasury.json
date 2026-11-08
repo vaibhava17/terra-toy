@@ -1,0 +1,38 @@
+{
+  "id": "petra-treasury",
+  "kind": "landmark",
+  "category": "ancient",
+  "pos": {
+    "lat": 30.3222,
+    "lng": 35.4519
+  },
+  "heading": 0,
+  "country": "JO",
+  "continent": "asia",
+  "name": {
+    "en": "Treasury at Petra"
+  },
+  "blurb": {
+    "en": "A grand front with tall columns, carved straight into a pink sandstone cliff. You reach it through a narrow canyon."
+  },
+  "facts": [
+    {
+      "key": "built",
+      "value": "1st century AD",
+      "source": "https://en.wikipedia.org/wiki/Al-Khazneh"
+    },
+    {
+      "key": "material",
+      "value": "Sandstone",
+      "source": "https://en.wikipedia.org/wiki/Al-Khazneh"
+    }
+  ],
+  "tags": ["carved", "sandstone", "canyon"],
+  "quiz": {
+    "difficulty": 2
+  },
+  "verified": {
+    "by": "agent",
+    "date": "2026-11-08"
+  }
+}

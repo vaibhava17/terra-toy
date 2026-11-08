@@ -1,7 +1,11 @@
-import type { ComponentChildren } from 'preact';
-import { useEffect, useState } from 'preact/hooks';
+import type { ComponentChildren, Ref } from 'preact';
+import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
+import type { LandmarkData } from '../content/schema';
 import type { GlobeController } from '../engine/view';
+import { store } from '../state/store';
 import { CountryChip } from './CountryChip';
+import { InfoCard } from './InfoCard';
+import { LandmarkList } from './LandmarkList';
 
 const fullscreenSupported = (): boolean =>
   typeof document !== 'undefined' && document.fullscreenEnabled === true;
@@ -38,18 +42,39 @@ interface HudButtonProps {
   label: string;
   onClick: () => void;
   children: ComponentChildren;
+  /** For toggles: whether the thing it opens is open (sets aria-expanded). */
+  expanded?: boolean;
+  controls?: string;
+  buttonRef?: Ref<HTMLButtonElement>;
 }
 
-function HudButton({ label, onClick, children }: HudButtonProps) {
+function HudButton({ label, onClick, children, expanded, controls, buttonRef }: HudButtonProps) {
   return (
-    <button type="button" class="hud-button" aria-label={label} title={label} onClick={onClick}>
+    <button
+      type="button"
+      class="hud-button"
+      aria-label={label}
+      title={label}
+      aria-expanded={expanded}
+      aria-controls={controls}
+      ref={buttonRef}
+      onClick={onClick}
+    >
       <span aria-hidden="true">{children}</span>
     </button>
   );
 }
 
-/** Round on-screen controls (bottom-right), the title badge and the country name chip. */
-export function Hud({ controller }: { controller: GlobeController }) {
+interface HudProps {
+  controller: GlobeController;
+  landmarks: readonly LandmarkData[];
+}
+
+/**
+ * Round on-screen controls (bottom-right) with the landmark menu, the title badge, the
+ * country name chip and the landmark info card.
+ */
+export function Hud({ controller, landmarks }: HudProps) {
   const [canFullscreen] = useState(fullscreenSupported);
   const [isFullscreen, setFullscreen] = useState(() => !!document.fullscreenElement);
 
@@ -60,12 +85,36 @@ export function Hud({ controller }: { controller: GlobeController }) {
     return () => document.removeEventListener('fullscreenchange', onChange);
   }, [canFullscreen]);
 
+  const [listOpen, setListOpen] = useState(false);
+  const [cardFocusRequest, setCardFocusRequest] = useState(0);
+  const listButtonRef = useRef<HTMLButtonElement>(null);
+  const closeList = useCallback(() => {
+    setListOpen(false);
+    listButtonRef.current?.focus();
+  }, []);
+  const pickLandmark = (id: string) => {
+    setListOpen(false);
+    // Re-picking the open landmark doesn't change the store, so fly there directly.
+    if (store.getState().globe.selectedLandmark === id) controller.flyToLandmark(id);
+    else store.getState().setSelectedLandmark(id);
+    setCardFocusRequest((n) => n + 1);
+  };
+
   return (
     <>
       <div class="title-badge">
         <span aria-hidden="true">🌍</span> Terra Toy
       </div>
       <nav class="hud" aria-label="Globe controls">
+        <HudButton
+          label="Landmarks"
+          expanded={listOpen}
+          controls="landmark-list"
+          buttonRef={listButtonRef}
+          onClick={() => setListOpen((open) => !open)}
+        >
+          🏛️
+        </HudButton>
         <HudButton label="Zoom in" onClick={() => controller.zoomIn()}>
           +
         </HudButton>
@@ -84,7 +133,14 @@ export function Hud({ controller }: { controller: GlobeController }) {
           </HudButton>
         )}
       </nav>
+      {listOpen && <LandmarkList landmarks={landmarks} onPick={pickLandmark} onClose={closeList} />}
       <CountryChip />
+      <InfoCard
+        landmarks={landmarks}
+        controller={controller}
+        focusRequest={cardFocusRequest}
+        returnFocusRef={listButtonRef}
+      />
     </>
   );
 }

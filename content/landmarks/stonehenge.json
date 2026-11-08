@@ -1,0 +1,33 @@
+{
+  "id": "stonehenge",
+  "kind": "landmark",
+  "category": "ancient",
+  "pos": {
+    "lat": 51.1789,
+    "lng": -1.8262
+  },
+  "heading": 0,
+  "country": "GB",
+  "continent": "europe",
+  "name": {
+    "en": "Stonehenge"
+  },
+  "blurb": {
+    "en": "A ring of giant standing stones in England, set up thousands of years ago. Nobody knows for sure what it was used for."
+  },
+  "facts": [
+    {
+      "key": "built",
+      "value": "About 3000–2000 BC",
+      "source": "https://en.wikipedia.org/wiki/Stonehenge"
+    }
+  ],
+  "tags": ["stones", "circle", "mystery"],
+  "quiz": {
+    "difficulty": 2
+  },
+  "verified": {
+    "by": "agent",
+    "date": "2026-11-08"
+  }
+}
