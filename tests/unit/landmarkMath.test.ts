@@ -4,14 +4,21 @@ import { llToVec3 } from '../../src/engine/geo';
 import { MAX_DISTANCE, MIN_DISTANCE } from '../../src/engine/rigMath';
 import {
   LANDMARK_VIEW_DISTANCE,
+  MAX_MODEL_SCALE,
   MAX_PIN_SCALE,
+  MIN_MODEL_SCALE,
+  MODEL_HIDE_DISTANCE,
+  MODEL_SHOW_DISTANCE,
   MIN_PIN_SCALE,
   PIN_PROXY_RADIUS,
   horizonDot,
   isAboveHorizon,
   isZoomVisible,
   landmarkFlyDistance,
+  layoutModelProxy,
   layoutPinProxy,
+  modelScaleForDistance,
+  nextModelsShown,
   pickPin,
   pinScaleForDistance,
   raySphereDistance,
@@ -183,5 +190,63 @@ describe('landmarkFlyDistance', () => {
     expect(landmarkFlyDistance(1.5)).toBe(1.5);
     expect(landmarkFlyDistance(1)).toBe(MIN_DISTANCE);
     expect(landmarkFlyDistance(Number.NaN)).toBe(LANDMARK_VIEW_DISTANCE);
+  });
+});
+
+describe('model LOD (icon ↔ live)', () => {
+  it('shows models inside the show distance and hides them past the hide distance', () => {
+    expect(MODEL_SHOW_DISTANCE).toBeLessThan(MODEL_HIDE_DISTANCE);
+    expect(nextModelsShown(3, false)).toBe(false);
+    expect(nextModelsShown(MODEL_SHOW_DISTANCE - 0.01, false)).toBe(true);
+    expect(nextModelsShown(MODEL_HIDE_DISTANCE + 0.01, true)).toBe(false);
+    expect(nextModelsShown(MIN_DISTANCE, false)).toBe(true);
+    expect(nextModelsShown(MAX_DISTANCE, true)).toBe(false);
+    expect(nextModelsShown(Number.NaN, true)).toBe(false);
+  });
+
+  it('keeps its last state between the two thresholds (hysteresis)', () => {
+    const between = (MODEL_SHOW_DISTANCE + MODEL_HIDE_DISTANCE) / 2;
+    expect(nextModelsShown(between, false)).toBe(false);
+    expect(nextModelsShown(between, true)).toBe(true);
+    // Walking in and out across the band switches once each way.
+    let shown = false;
+    const flips: boolean[] = [];
+    for (const d of [3, 2.35, 2.3, 2.2, 2.3, 2.35, 2.39, 2.45, 2.3]) {
+      const next = nextModelsShown(d, shown);
+      if (next !== shown) flips.push(next);
+      shown = next;
+    }
+    expect(flips).toEqual([true, false]);
+  });
+
+  it('ends a landmark fly-to with models shown', () => {
+    expect(nextModelsShown(landmarkFlyDistance(MAX_DISTANCE), false)).toBe(true);
+  });
+
+  it('scales models with altitude, within clamps, times the content multiplier', () => {
+    let prev = 0;
+    for (let d = MIN_DISTANCE; d <= MAX_DISTANCE; d += 0.05) {
+      const k = modelScaleForDistance(d);
+      expect(k).toBeGreaterThanOrEqual(prev);
+      expect(k).toBeGreaterThanOrEqual(MIN_MODEL_SCALE);
+      expect(k).toBeLessThanOrEqual(MAX_MODEL_SCALE);
+      prev = k;
+    }
+    expect(modelScaleForDistance(2, 1.5)).toBeCloseTo(modelScaleForDistance(2) * 1.5, 12);
+    expect(modelScaleForDistance(2, 0)).toBe(modelScaleForDistance(2));
+    expect(modelScaleForDistance(2, Number.NaN)).toBe(modelScaleForDistance(2));
+  });
+
+  it('sizes the picking proxy to the model and picks it', () => {
+    const p = proxy();
+    const n = llToVec3(48.8584, 2.2945);
+    const k = modelScaleForDistance(2);
+    layoutModelProxy(n, { x: -0.5, y: 0, z: -0.5 }, { x: 0.5, y: 1, z: 0.5 }, k, true, p);
+    expect(p.radius).toBeCloseTo(0.5 * k, 12);
+    expect(p.centre.length()).toBeCloseTo(1 + 0.5 * k, 12);
+    const cam = llToVec3(48.86, 2.29, 2);
+    expect(pickPin(rayTo(cam, p.centre), [p])).toBe(0);
+    layoutModelProxy(n, { x: -0.5, y: 0, z: -0.5 }, { x: 0.5, y: 1, z: 0.5 }, k, false, p);
+    expect(pickPin(rayTo(cam, p.centre), [p])).toBe(-1);
   });
 });

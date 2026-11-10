@@ -31,6 +31,10 @@ async function expectViewNear(
     .toBe(true);
 }
 
+/** Landmarks the engine draws as 3D models right now (a test hook, not pixels). */
+const visibleModels = (page: Page) =>
+  page.evaluate(() => window.__toy!.engine!.debugState().visibleModels);
+
 const EIFFEL = { lat: 48.8584, lng: 2.2945 };
 /** Far from every other landmark, so its pin is the only one around. */
 const SYDNEY = { id: 'sydney-opera-house', lat: -33.8568, lng: 151.2153 };
@@ -52,6 +56,8 @@ test('?focus=<id> opens the landmark card and flies there; × closes it', async 
   await expect(card.getByRole('link').first()).toHaveAttribute('rel', 'noopener noreferrer');
 
   await expectViewNear(page, { ...EIFFEL, distance: LANDMARK_VIEW_DISTANCE });
+  // Up close the pin gives way to the landmark's procedural 3D model (loaded lazily).
+  await expect.poll(async () => visibleModels(page), { timeout: 20_000 }).toContain('eiffel-tower');
 
   await card.getByRole('button', { name: 'Close Eiffel Tower' }).click();
   await expect.poll(async () => (await globeState(page)).selectedLandmark).toBeNull();
@@ -63,6 +69,8 @@ test('an unknown ?focus id is ignored', async ({ page }) => {
   test.skip((await bootPhase(page)) !== 'ready', 'WebGL is not available in this browser');
   expect((await globeState(page)).selectedLandmark).toBeNull();
   await expect(page.getByTestId('info-card')).toHaveCount(0);
+  // At the far start view every landmark is a pin.
+  expect(await visibleModels(page)).toEqual([]);
 });
 
 test('tapping a pin selects its landmark (not the country under it)', async ({ page }) => {

@@ -1,7 +1,8 @@
 /**
  * Landmark pins: one small stylised map pin (cone stem + ball head) per landmark, standing
- * on the globe and oriented with `surfaceFrame`. Until the procedural landmark models land,
- * these pins are how landmarks appear on the globe.
+ * on the globe and oriented with `surfaceFrame`. Pins are the far-zoom ("icon") tier: when
+ * a landmark shows its 3D model up close (`LandmarkModels.ts`), its pin hides, except that
+ * a selected landmark keeps a small pin head floating above its model.
  *
  * Draw calls stay flat however many landmarks there are: all stems are one InstancedMesh
  * and all heads another, sharing one material. Culled pins get a zero-scale matrix.
@@ -43,6 +44,14 @@ const STEM_RADIUS = 0.16;
 const HEAD_RADIUS = 0.34;
 const HEAD_Y = 1.2;
 const RADIAL_SEGMENTS = 10;
+/** A selected landmark's floating head, above its model, is drawn this much smaller. */
+const FLOATING_HEAD_SCALE = 0.75;
+
+/**
+ * For a landmark drawn as a 3D model right now: the model's world height above the
+ * ground. Null: no model shown, draw the pin.
+ */
+export type ModelLift = (id: string) => number | null;
 
 interface Pin {
   readonly landmark: LandmarkData;
@@ -107,12 +116,29 @@ export class LandmarkPins {
     return true;
   }
 
-  /** Re-places every pin for a camera position: scale-by-zoom, horizon and minZoom cull. */
-  update(cameraPos: Vector3): void {
+  /**
+   * Re-places every pin for a camera position: scale-by-zoom, horizon and minZoom cull.
+   * Landmarks that `modelLift` says are drawn as models hide their pin (and are not
+   * pickable as pins); a selected one keeps just its head, floating above the model.
+   */
+  update(cameraPos: Vector3, modelLift?: ModelLift): void {
     const k = pinScaleForDistance(cameraPos.length());
     for (let i = 0; i < this.pins.length; i++) {
       const pin = this.pins[i]!;
-      const s = i === this.selected ? k * SELECTED_PIN_GROWTH : k;
+      const selected = i === this.selected;
+      const s = selected ? k * SELECTED_PIN_GROWTH : k;
+      const lift = modelLift?.(pin.landmark.id) ?? null;
+      if (lift !== null) {
+        pin.proxy.visible = false;
+        _scale.setScalar(0);
+        _m.compose(pin.normal, pin.frame, _scale);
+        this.stems.setMatrixAt(i, _m);
+        _scale.setScalar(selected ? s * FLOATING_HEAD_SCALE : 0);
+        _pos.copy(pin.normal).multiplyScalar(1 + lift);
+        _m.compose(_pos, pin.frame, _scale);
+        this.heads.setMatrixAt(i, _m);
+        continue;
+      }
       const visible = layoutPinProxy(pin.normal, pin.landmark.minZoom, cameraPos, s, pin.proxy);
       _scale.setScalar(visible ? s : 0);
       _m.compose(pin.normal, pin.frame, _scale);
@@ -168,3 +194,4 @@ const COLOURS = {
 
 const _m = new Matrix4();
 const _scale = new Vector3();
+const _pos = new Vector3();

@@ -23,6 +23,7 @@ import { mulberry32 } from '../game/rng';
 import { GlobeRig } from './GlobeRig';
 import { PointerPicker, type Ndc } from './PointerPicker';
 import { vec3ToLl } from './geo';
+import { LandmarkModels } from './entities/LandmarkModels';
 import { LandmarkPins } from './entities/Landmarks';
 import { landmarkFlyDistance } from './entities/landmarkMath';
 import { CountryLines } from './globe/Lines';
@@ -115,6 +116,9 @@ export class Engine implements EngineHandle {
   private earth: Earth | null = null;
   private readonly lines = new CountryLines();
   private readonly pins = new LandmarkPins(LANDMARKS);
+  private readonly models = new LandmarkModels(LANDMARKS, () => this.onModelLoaded());
+  /** Pins ask this whether their landmark is drawn as a model (bound once, no per-frame closure). */
+  private readonly modelLift = (id: string): number | null => this.models.liftFor(id);
   private readonly picker: PointerPicker;
   private readonly raycaster = new Raycaster();
   private unsubscribeStore: (() => void) | null = null;
@@ -185,6 +189,7 @@ export class Engine implements EngineHandle {
       flyTo: (lat, lng, distance, durationMs) => this.rig.flyTo(lat, lng, distance, durationMs),
       flyToLandmark: (id) => this.flyToLandmark(id),
       landmarkScreenPos: (id) => this.landmarkScreenPos(id),
+      debugState: () => ({ visibleModels: this.models.shownIds() }),
     };
 
     this.picker = new PointerPicker(renderer.domElement, (at) => this.onTap(at));
@@ -235,6 +240,7 @@ export class Engine implements EngineHandle {
     this.scene.add(earth.group);
     this.scene.add(this.lines.group);
     this.scene.add(this.pins.group);
+    this.scene.add(this.models.group);
     this.useCountrySet(countries);
     this.updateBorderLod();
     this.unsubscribeStore = this.store.subscribe((s, prev) => {
@@ -250,7 +256,7 @@ export class Engine implements EngineHandle {
     });
     this.syncHighlights();
     this.pins.setSelected(this.store.getState().globe.selectedLandmark);
-    this.pins.update(this.camera.position);
+    this.updateLandmarks();
     this.applyResize();
     // Upload textures and compile shaders now, so the first visible frame doesn't hitch.
     this.renderer.compile(this.scene, this.camera);
@@ -279,6 +285,7 @@ export class Engine implements EngineHandle {
     setSelectedLandmark(null);
     this.lines.dispose();
     this.pins.dispose();
+    this.models.dispose();
     this.earth?.dispose();
     this.earth = null;
     this.backdrop.dispose();
@@ -314,7 +321,7 @@ export class Engine implements EngineHandle {
     if (this.rig.update(dt)) {
       this.needsRender = true;
       this.updateBorderLod();
-      this.pins.update(this.camera.position);
+      this.updateLandmarks();
       this.picker.invalidateHover(); // the globe moved under a resting cursor
     }
     if (this.picker.consumeHoverChange()) this.updateHover();
@@ -326,7 +333,9 @@ export class Engine implements EngineHandle {
     }
     if (this.debugEl && now - this.statSince >= 500) {
       const fps = (this.statFrames * 1000) / (now - this.statSince);
-      this.debugEl.textContent = `${fps.toFixed(0)} fps · ${this.renderer.info.render.calls} calls`;
+      const { calls } = this.renderer.info.render;
+      const models = this.models.shownIds().length;
+      this.debugEl.textContent = `${fps.toFixed(0)} fps · ${calls} calls · ${models} models`;
       this.statFrames = 0;
       this.statSince = now;
     }
@@ -431,9 +440,21 @@ export class Engine implements EngineHandle {
 
   // ---- Landmarks ---------------------------------------------------------------------
 
+  /** Lays out models first (they decide which pins step aside), then the pins. */
+  private updateLandmarks(): void {
+    this.models.update(this.camera.position);
+    this.pins.update(this.camera.position, this.modelLift);
+  }
+
+  private onModelLoaded(): void {
+    if (this.disposed) return;
+    this.updateLandmarks();
+    this.needsRender = true;
+  }
+
   private onLandmarkSelected(id: string | null): void {
     if (this.pins.setSelected(id)) {
-      this.pins.update(this.camera.position); // the selected pin is drawn bigger
+      this.updateLandmarks(); // the selected pin is drawn bigger
       this.needsRender = true;
     }
     if (id !== null) this.flyToLandmark(id);
@@ -446,15 +467,16 @@ export class Engine implements EngineHandle {
     this.rig.flyTo(lat, lng, landmarkFlyDistance(this.camera.position.length()));
   }
 
-  /** The landmark pin under a canvas position (NDC), or null. */
+  /** The landmark model or pin under a canvas position (NDC), or null. */
   private pickLandmark(at: Ndc): string | null {
     this.camera.updateMatrixWorld(); // the rig moved the camera since the last render
     this.raycaster.setFromCamera(_ndc.set(at.x, at.y), this.camera);
-    return this.pins.pick(this.raycaster.ray);
+    const ray = this.raycaster.ray;
+    return this.models.pick(ray) ?? this.pins.pick(ray);
   }
 
   private landmarkScreenPos(id: string): ScreenPoint | null {
-    const p = this.pins.anchor(id, _anchor);
+    const p = this.models.anchor(id, _anchor) ?? this.pins.anchor(id, _anchor);
     if (!p) return null;
     this.camera.updateMatrixWorld();
     p.project(this.camera);

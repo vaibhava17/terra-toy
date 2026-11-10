@@ -146,3 +146,56 @@ export function landmarkFlyDistance(currentDistance: number): number {
   const d = Number.isFinite(currentDistance) ? currentDistance : LANDMARK_VIEW_DISTANCE;
   return clamp(Math.min(d, LANDMARK_VIEW_DISTANCE), MIN_DISTANCE, LANDMARK_VIEW_DISTANCE);
 }
+
+// ---- 3D models: icon ↔ live LOD (PLAN §3.3) ------------------------------------------
+
+/**
+ * Landmarks with a procedural model swap their pin for the model once the camera comes
+ * closer than MODEL_SHOW_DISTANCE, and back once it moves out past MODEL_HIDE_DISTANCE.
+ * The gap is hysteresis, so a camera resting on the threshold doesn't flicker. Show sits
+ * outside LANDMARK_VIEW_DISTANCE, so flying to a landmark always ends on its model.
+ */
+export const MODEL_SHOW_DISTANCE = 2.25;
+export const MODEL_HIDE_DISTANCE = 2.4;
+
+/** Whether models are shown at `distance`, given whether they were shown last frame. */
+export function nextModelsShown(distance: number, wasShown: boolean): boolean {
+  if (!Number.isFinite(distance)) return false;
+  return wasShown ? distance <= MODEL_HIDE_DISTANCE : distance < MODEL_SHOW_DISTANCE;
+}
+
+/** Model scale per unit of camera altitude (models are authored ≈1 unit tall). */
+export const MODEL_SCALE_PER_ALTITUDE = 0.05;
+export const MIN_MODEL_SCALE = 0.01;
+export const MAX_MODEL_SCALE = 0.08;
+
+/**
+ * World scale for a model authored in landmark units: like `pinScaleForDistance`, it is
+ * proportional to the camera's altitude, so a model keeps a readable on-screen size at
+ * every zoom (the toy look, not real scale). `multiplier` is the content's `scale`.
+ */
+export function modelScaleForDistance(distance: number, multiplier = 1): number {
+  const altitude = Math.max(0, distance - 1);
+  const k = clamp(altitude * MODEL_SCALE_PER_ALTITUDE, MIN_MODEL_SCALE, MAX_MODEL_SCALE);
+  return k * (Number.isFinite(multiplier) && multiplier > 0 ? multiplier : 1);
+}
+
+/**
+ * Updates a picking proxy for a model standing at unit `normal`, drawn at scale `k`.
+ * The model's bounds (in model units, origin on the ground) size the sphere: centred
+ * half-way up, radius half the model's largest extent.
+ */
+export function layoutModelProxy(
+  normal: Vector3,
+  min: Readonly<{ x: number; y: number; z: number }>,
+  max: Readonly<{ x: number; y: number; z: number }>,
+  k: number,
+  visible: boolean,
+  proxy: PinProxy,
+): boolean {
+  const extent = Math.max(max.x - min.x, max.y - min.y, max.z - min.z);
+  proxy.visible = visible;
+  proxy.centre.copy(normal).multiplyScalar(1 + ((min.y + max.y) / 2) * k);
+  proxy.radius = (extent / 2) * k;
+  return visible;
+}
