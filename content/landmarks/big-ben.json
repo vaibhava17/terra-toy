@@ -9,6 +9,7 @@
   "heading": 0,
   "country": "GB",
   "continent": "europe",
+  "model": "landmarks/big-ben",
   "name": {
     "en": "Big Ben"
   },

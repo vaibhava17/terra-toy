@@ -9,6 +9,7 @@
   "heading": 0,
   "country": "AU",
   "continent": "oceania",
+  "model": "landmarks/sydney-opera-house",
   "name": {
     "en": "Sydney Opera House"
   },

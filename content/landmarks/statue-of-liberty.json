@@ -9,6 +9,7 @@
   "heading": 0,
   "country": "US",
   "continent": "north-america",
+  "model": "landmarks/statue-of-liberty",
   "name": {
     "en": "Statue of Liberty"
   },

@@ -9,6 +9,7 @@
   "heading": 0,
   "country": "FR",
   "continent": "europe",
+  "model": "landmarks/eiffel-tower",
   "name": {
     "en": "Eiffel Tower"
   },

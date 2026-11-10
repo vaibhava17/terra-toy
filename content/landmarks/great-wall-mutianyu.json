@@ -9,6 +9,7 @@
   "heading": 0,
   "country": "CN",
   "continent": "asia",
+  "model": "landmarks/great-wall-mutianyu",
   "name": {
     "en": "Great Wall at Mutianyu"
   },
