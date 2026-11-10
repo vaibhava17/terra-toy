@@ -1,14 +1,14 @@
 /**
- * Display helpers for landmarks in the UI: category emoji, country and continent names,
- * and a short label for a fact's source link. Type-only imports from the content
- * schema, so zod never lands in the first-paint bundle.
+ * Display helpers for landmarks in the UI: category emoji (with per-landmark overrides),
+ * country and continent names, and a short label for a fact's source link. Type-only
+ * imports from the content schema, so zod never lands in the first-paint bundle.
  */
 import { CONTINENT_NAMES } from '../content/facts';
 import type { LandmarkCategoryId, LandmarkData } from '../content/schema';
 
 export const CATEGORY_EMOJI: Readonly<Record<LandmarkCategoryId, string>> = {
   tower: '🗼',
-  statue: '🗽',
+  statue: '🗿',
   monument: '🏛️',
   ancient: '🏺',
   temple: '🛕',
@@ -18,6 +18,22 @@ export const CATEGORY_EMOJI: Readonly<Record<LandmarkCategoryId, string>> = {
   bridge: '🌉',
   building: '🎭',
 };
+
+/**
+ * Landmarks whose category emoji would picture a different landmark (🗼 is a lattice
+ * tower, 🗽 is one particular statue) get their own icon.
+ */
+const LANDMARK_EMOJI: Readonly<Record<string, string>> = {
+  'big-ben': '🕰️',
+  'burj-khalifa': '🏙️',
+  'christ-the-redeemer': '⛪',
+  'statue-of-liberty': '🗽',
+};
+
+/** The icon shown for a landmark on its card and in the list. */
+export function landmarkEmoji(lm: Pick<LandmarkData, 'id' | 'category'>): string {
+  return LANDMARK_EMOJI[lm.id] ?? CATEGORY_EMOJI[lm.category];
+}
 
 let regionNames: Intl.DisplayNames | null | undefined;
 
