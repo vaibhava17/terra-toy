@@ -29,13 +29,13 @@ function braces(
 
 export default function build(g: Group): void {
   const y0 = BASE_HEIGHT;
-  g.add(base(0.48));
+  g.add(base(0.38));
   // Gravel paths crossing the lawn.
-  g.add(box(0.9, 0.004, 0.1, 'sand', { at: [0, y0, 0] }));
-  g.add(box(0.1, 0.004, 0.9, 'sand', { at: [0, y0, 0] }));
+  g.add(box(0.76, 0.004, 0.09, 'sand', { at: [0, y0, 0] }));
+  g.add(box(0.09, 0.004, 0.76, 'sand', { at: [0, y0, 0] }));
 
   // Lower legs: from the four stone piers up to the first platform.
-  const foot = 0.25;
+  const foot = 0.21;
   const h1 = 0.32;
   const top1 = 0.1;
   const lower: [Vec3Like, Vec3Like][] = [];

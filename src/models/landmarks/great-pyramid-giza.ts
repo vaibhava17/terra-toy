@@ -35,19 +35,19 @@ function palm(g: Group, x: number, z: number): void {
 
 export default function build(g: Group): void {
   const y0 = BASE_HEIGHT;
-  g.add(base(0.95, 'sand'));
+  g.add(base(0.84, 'sand'));
   pyramid(g, -0.2, -0.12, 0.5, 0.95, true);
-  pyramid(g, 0.4, 0.34, 0.34, 0.66, false);
-  pyramid(g, 0.6, -0.42, 0.2, 0.38, false);
+  pyramid(g, 0.36, 0.3, 0.32, 0.64, false);
+  pyramid(g, 0.48, -0.4, 0.18, 0.36, false);
 
   // The sphinx, lying down and facing −Z.
   const sx = -0.42;
-  const sz = 0.6;
+  const sz = 0.52;
   g.add(box(0.07, 0.05, 0.2, 'sandstone', { at: [sx, y0, sz] }));
   g.add(box(0.06, 0.03, 0.06, 'sandstone', { at: [sx, y0, sz - 0.12] })); // paws
   g.add(box(0.05, 0.07, 0.05, 'sandstone', { at: [sx, y0 + 0.04, sz - 0.08] })); // head
   g.add(box(0.07, 0.04, 0.03, 'gold', { at: [sx, y0 + 0.07, sz - 0.06] })); // headdress
 
-  palm(g, 0.05, 0.72);
-  palm(g, -0.72, 0.15);
+  palm(g, 0.02, 0.62);
+  palm(g, -0.64, 0.2);
 }

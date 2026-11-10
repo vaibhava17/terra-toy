@@ -14,7 +14,7 @@ const TIER_H = 0.1;
 
 export default function build(g: Group): void {
   const y0 = BASE_HEIGHT;
-  g.add(base(0.64));
+  g.add(base(0.56));
   // Arena floor and the hypogeum walls.
   g.add(cyl(0.22, 0.22, 0.008, 'sand', { segments: 12, at: [0, y0, 0], scale: [1, 1, 0.66] }));
   for (const z of [-0.06, 0, 0.06]) g.add(box(0.26, 0.016, 0.01, 'stoneDark', { at: [0, y0, z] }));

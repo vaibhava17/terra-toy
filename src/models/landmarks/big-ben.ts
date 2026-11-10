@@ -1,9 +1,9 @@
 /**
  * Big Ben (the Elizabeth Tower): a tall sandstone shaft, the clock stage with four gold-
- * rimmed faces, the belfry and a slate spire with a gold tip, beside a wing of Parliament.
+ * rimmed faces, the belfry and a slate spire with a gold tip, on a small stone terrace.
  */
 import type { Group } from 'three';
-import { BASE_HEIGHT, base, box, cone, cyl, extrude } from '../kit';
+import { BASE_HEIGHT, base, box, cone, cyl } from '../kit';
 
 /**
  * A clock face on the side facing `yaw` (0 = −Z) of a tower whose axis is at (cx, cz),
@@ -25,47 +25,30 @@ function clock(g: Group, cx: number, cz: number, yaw: number, d: number, y: numb
 
 export default function build(g: Group): void {
   const y0 = BASE_HEIGHT;
-  g.add(base(0.42));
-  // A wing of the Palace of Westminster, with a pitched slate roof.
-  g.add(box(0.2, 0.16, 0.5, 'sandstone', { at: [0.2, y0, 0.08] }));
-  g.add(
-    extrude(
-      [
-        [-0.11, 0],
-        [0.11, 0],
-        [0, 0.07],
-      ],
-      0.5,
-      'slate',
-      { at: [0.2, y0 + 0.16, 0.08] },
-    ),
-  );
-  for (const z of [-0.12, 0, 0.12, 0.24]) {
-    g.add(box(0.004, 0.06, 0.03, 'glass', { at: [0.098, y0 + 0.05, z] }));
-    g.add(cone(0.012, 0.05, 'gold', { segments: 4, at: [0.2, y0 + 0.2, z + 0.06] }));
-  }
-
+  g.add(base(0.22));
+  // A low terrace of Westminster stone around the tower's foot.
+  g.add(box(0.24, 0.02, 0.24, 'stone', { at: [0, y0, 0] }));
   // Tower shaft with stone bands.
   const w = 0.15;
   const shaftH = 0.55;
-  g.add(box(w, shaftH, w, 'sandstone', { at: [-0.1, y0, -0.06] }));
+  g.add(box(w, shaftH, w, 'sandstone', { at: [0, y0, 0] }));
   for (const h of [0.18, 0.36, 0.52])
-    g.add(box(w + 0.012, 0.012, w + 0.012, 'cream', { at: [-0.1, y0 + h, -0.06] }));
+    g.add(box(w + 0.012, 0.012, w + 0.012, 'cream', { at: [0, y0 + h, 0] }));
   // Clock stage.
   const c0 = y0 + shaftH;
   const cw = 0.19;
-  g.add(box(cw, 0.15, cw, 'sandstone', { at: [-0.1, c0, -0.06] }));
-  g.add(box(cw + 0.014, 0.014, cw + 0.014, 'gold', { at: [-0.1, c0 + 0.15, -0.06] }));
-  for (let i = 0; i < 4; i++) clock(g, -0.1, -0.06, (i * Math.PI) / 2, cw / 2, c0 + 0.075);
+  g.add(box(cw, 0.15, cw, 'sandstone', { at: [0, c0, 0] }));
+  g.add(box(cw + 0.014, 0.014, cw + 0.014, 'gold', { at: [0, c0 + 0.15, 0] }));
+  for (let i = 0; i < 4; i++) clock(g, 0, 0, (i * Math.PI) / 2, cw / 2, c0 + 0.075);
   // Belfry, spire and gold tip.
   const b0 = c0 + 0.164;
-  g.add(box(0.15, 0.08, 0.15, 'cream', { at: [-0.1, b0, -0.06] }));
+  g.add(box(0.15, 0.08, 0.15, 'cream', { at: [0, b0, 0] }));
   for (const sx of [-1, 1]) {
     for (const sz of [-1, 1]) {
       g.add(
         cone(0.014, 0.07, 'gold', {
           segments: 4,
-          at: [-0.1 + sx * 0.085, c0 + 0.164, -0.06 + sz * 0.085],
+          at: [sx * 0.085, c0 + 0.164, sz * 0.085],
         }),
       );
     }
@@ -74,9 +57,9 @@ export default function build(g: Group): void {
     cone(0.11, 0.17, 'slate', {
       segments: 4,
       rot: [0, Math.PI / 4, 0],
-      at: [-0.1, b0 + 0.08, -0.06],
+      at: [0, b0 + 0.08, 0],
     }),
   );
-  g.add(cyl(0.006, 0.01, 0.04, 'gold', { segments: 4, at: [-0.1, b0 + 0.235, -0.06] }));
-  g.add(cone(0.01, 0.04, 'gold', { segments: 4, at: [-0.1, b0 + 0.27, -0.06] }));
+  g.add(cyl(0.006, 0.01, 0.04, 'gold', { segments: 4, at: [0, b0 + 0.235, 0] }));
+  g.add(cone(0.01, 0.04, 'gold', { segments: 4, at: [0, b0 + 0.27, 0] }));
 }

@@ -7,6 +7,7 @@
     "lng": 12.4922
   },
   "heading": 0,
+  "scale": 1.1,
   "country": "IT",
   "continent": "europe",
   "model": "landmarks/colosseum",

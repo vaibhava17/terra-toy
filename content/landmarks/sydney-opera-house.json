@@ -7,6 +7,7 @@
     "lng": 151.2153
   },
   "heading": 60,
+  "scale": 1.1,
   "country": "AU",
   "continent": "oceania",
   "model": "landmarks/sydney-opera-house",

@@ -77,6 +77,8 @@ export const PALETTE = {
   clockFace: '#fff4d6',
   flame: '#ff9f1c',
   tile: '#f7f3e3',
+  /** Blue-grey with a hint of purple: Mount Fuji's volcanic slopes. */
+  volcano: '#8a8fb4',
 } as const;
 
 export type Swatch = keyof typeof PALETTE;
