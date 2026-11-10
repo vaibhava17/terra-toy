@@ -33,4 +33,4 @@ Radial segments are clamped to ≤ 12 (`clampSegments`). `bake(group)` returns `
 
 Only `kit.ts` holds colour values; anywhere else under `src/models/` a hex string is a lint error. Swatches:
 
-`white`, `cream`, `ink`, `stone`, `stoneDark`, `sandstone`, `marble`, `brick`, `terracotta`, `roofRed`, `roofGreen`, `roofBlue`, `slate`, `gold`, `iron`, `copper` (verdigris), `copperDark`, `snow`, `ice`, `rock`, `rockDark`, `leaf`, `leafDark`, `grass`, `sand`, `water`, `waterDeep`, `wood`, `glass`, `clockFace`, `flame`, `tile`.
+`white`, `cream`, `ink`, `stone`, `stoneDark`, `sandstone`, `marble`, `brick`, `terracotta`, `roofRed`, `roofGreen`, `roofBlue`, `slate`, `gold`, `iron`, `copper` (verdigris), `copperDark`, `snow`, `ice`, `rock`, `rockDark`, `leaf`, `leafDark`, `grass`, `sand`, `water`, `waterDeep`, `wood`, `glass`, `clockFace`, `flame`, `tile`, `volcano` (blue-grey, Mount Fuji).
