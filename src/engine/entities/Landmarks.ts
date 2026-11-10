@@ -47,11 +47,16 @@ const RADIAL_SEGMENTS = 10;
 /** A selected landmark's floating head, above its model, is drawn this much smaller. */
 const FLOATING_HEAD_SCALE = 0.75;
 
-/**
- * For a landmark drawn as a 3D model right now: the model's world height above the
- * ground. Null: no model shown, draw the pin.
- */
-export type ModelLift = (id: string) => number | null;
+/** What the pins need to know about the 3D models shown right now (`LandmarkModels`). */
+export interface ShownModels {
+  /**
+   * For a landmark drawn as a 3D model: the world height above the ground for its
+   * floating head (over the model's top). Null: no model shown, draw the pin.
+   */
+  liftFor(id: string): number | null;
+  /** True if the surface point (unit normal) lies on or just behind a shown model. */
+  covers(normal: Vector3): boolean;
+}
 
 interface Pin {
   readonly landmark: LandmarkData;
@@ -117,17 +122,21 @@ export class LandmarkPins {
   }
 
   /**
-   * Re-places every pin for a camera position: scale-by-zoom, horizon and minZoom cull.
-   * Landmarks that `modelLift` says are drawn as models hide their pin (and are not
+   * Re-places every pin for a camera position and zoom distance (the rig's orbit
+   * distance): scale-by-zoom, horizon and minZoom cull.
+   * Landmarks that `models` says are drawn as models hide their pin (and are not
    * pickable as pins); a selected one keeps just its head, floating above the model.
+   * A pin standing on another landmark's shown model (India Gate on the Taj Mahal's
+   * base: the toy models are far bigger than real life) hides too, so it doesn't read
+   * as a stray pin of that model; it comes back once you zoom out to pins.
    */
-  update(cameraPos: Vector3, modelLift?: ModelLift): void {
-    const k = pinScaleForDistance(cameraPos.length());
+  update(cameraPos: Vector3, distance = cameraPos.length(), models?: ShownModels): void {
+    const k = pinScaleForDistance(distance);
     for (let i = 0; i < this.pins.length; i++) {
       const pin = this.pins[i]!;
       const selected = i === this.selected;
       const s = selected ? k * SELECTED_PIN_GROWTH : k;
-      const lift = modelLift?.(pin.landmark.id) ?? null;
+      const lift = models?.liftFor(pin.landmark.id) ?? null;
       if (lift !== null) {
         pin.proxy.visible = false;
         _scale.setScalar(0);
@@ -139,7 +148,10 @@ export class LandmarkPins {
         this.heads.setMatrixAt(i, _m);
         continue;
       }
-      const visible = layoutPinProxy(pin.normal, pin.landmark.minZoom, cameraPos, s, pin.proxy);
+      layoutPinProxy(pin.normal, pin.landmark.minZoom, cameraPos, s, pin.proxy, distance);
+      // Hidden pins are not pickable and have no anchor either.
+      if (!selected && models?.covers(pin.normal)) pin.proxy.visible = false;
+      const visible = pin.proxy.visible;
       _scale.setScalar(visible ? s : 0);
       _m.compose(pin.normal, pin.frame, _scale);
       this.stems.setMatrixAt(i, _m);

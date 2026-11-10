@@ -83,7 +83,8 @@ export interface PinProxy {
 
 /**
  * Updates `proxy` for a pin standing at unit `normal`, seen from `cameraPos`, drawn at
- * scale `k`. Returns `proxy.visible`.
+ * scale `k`. `distance` is the zoom distance for `minZoom` (the rig's orbit distance;
+ * the tilted camera itself sits a little lower). Returns `proxy.visible`.
  */
 export function layoutPinProxy(
   normal: Vector3,
@@ -91,8 +92,9 @@ export function layoutPinProxy(
   cameraPos: Vector3,
   k: number,
   proxy: PinProxy,
+  distance = cameraPos.length(),
 ): boolean {
-  proxy.visible = isAboveHorizon(normal, cameraPos) && isZoomVisible(minZoom, cameraPos.length());
+  proxy.visible = isAboveHorizon(normal, cameraPos) && isZoomVisible(minZoom, distance);
   proxy.centre.copy(normal).multiplyScalar(1 + PIN_PROXY_CENTRE * k);
   proxy.radius = PIN_PROXY_RADIUS * k;
   return proxy.visible;
@@ -136,10 +138,12 @@ export function pickPin(ray: Ray, proxies: ReadonlyArray<PinProxy>): number {
 // ---- Fly-to --------------------------------------------------------------------------
 
 /**
- * Camera distance for looking at a landmark: close enough to see the area around it,
- * yet outside most of the zoom tilt, so the landmark stays near the middle of the view.
+ * Camera distance for looking at a landmark: close enough that the zoom tilt shows its
+ * model from a 3/4 side angle (~35° from straight down, `tiltForDistance`), yet far
+ * enough to see the area around it. The tilt orbits around the landmark, so it stays
+ * at the screen centre.
  */
-export const LANDMARK_VIEW_DISTANCE = 2;
+export const LANDMARK_VIEW_DISTANCE = 1.6;
 
 /** Where to fly for a landmark: in to LANDMARK_VIEW_DISTANCE, but never zooming out. */
 export function landmarkFlyDistance(currentDistance: number): number {
@@ -155,8 +159,8 @@ export function landmarkFlyDistance(currentDistance: number): number {
  * The gap is hysteresis, so a camera resting on the threshold doesn't flicker. Show sits
  * outside LANDMARK_VIEW_DISTANCE, so flying to a landmark always ends on its model.
  */
-export const MODEL_SHOW_DISTANCE = 2.25;
-export const MODEL_HIDE_DISTANCE = 2.4;
+export const MODEL_SHOW_DISTANCE = 1.95;
+export const MODEL_HIDE_DISTANCE = 2.1;
 
 /** Whether models are shown at `distance`, given whether they were shown last frame. */
 export function nextModelsShown(distance: number, wasShown: boolean): boolean {
@@ -164,20 +168,42 @@ export function nextModelsShown(distance: number, wasShown: boolean): boolean {
   return wasShown ? distance <= MODEL_HIDE_DISTANCE : distance < MODEL_SHOW_DISTANCE;
 }
 
-/** Model scale per unit of camera altitude (models are authored ≈1 unit tall). */
-export const MODEL_SCALE_PER_ALTITUDE = 0.05;
-export const MIN_MODEL_SCALE = 0.01;
-export const MAX_MODEL_SCALE = 0.08;
+/**
+ * Model scale per unit of camera altitude (models are authored ≈1 unit tall, ≤1 unit
+ * from their origin). The tilted camera sits `altitude` away from the landmark, where
+ * one world unit spans (viewport height / 2) / tan(fov / 2) / altitude pixels, so a
+ * model's on-screen size is the same at every zoom: about 1.4·k/altitude of that, for a
+ * 1-unit box seen at 35–45°. 0.13 makes a ≈1-unit model ~120–220 px tall on a 760 px
+ * viewport (tests/unit/landmarkMath.test.ts measures it with the real camera).
+ */
+export const MODEL_SCALE_PER_ALTITUDE = 0.13;
+export const MIN_MODEL_SCALE = 0.03;
+export const MAX_MODEL_SCALE = 0.15;
 
 /**
  * World scale for a model authored in landmark units: like `pinScaleForDistance`, it is
- * proportional to the camera's altitude, so a model keeps a readable on-screen size at
- * every zoom (the toy look, not real scale). `multiplier` is the content's `scale`.
+ * proportional to the camera's altitude (the zoom distance − 1), so a model keeps a
+ * readable on-screen size at every zoom (the toy look, not real scale). The clamps only
+ * bite outside the zoom range. `multiplier` is the content's `scale`.
  */
 export function modelScaleForDistance(distance: number, multiplier = 1): number {
   const altitude = Math.max(0, distance - 1);
   const k = clamp(altitude * MODEL_SCALE_PER_ALTITUDE, MIN_MODEL_SCALE, MAX_MODEL_SCALE);
   return k * (Number.isFinite(multiplier) && multiplier > 0 ? multiplier : 1);
+}
+
+/**
+ * The selected landmark's floating pin head hovers FLOATING_HEAD_GAP over its model's top,
+ * and never lower than FLOATING_HEAD_MIN_LIFT + gap (model units; models are ≈1 unit
+ * tall). On the tilted view a head right at the top of a low or open model (the
+ * Colosseum's bowl, Mount Fuji's crater) would sit *inside* it.
+ */
+export const FLOATING_HEAD_MIN_LIFT = 0.9;
+export const FLOATING_HEAD_GAP = 0.15;
+
+/** World height of a selected landmark's floating head over its model (top `maxY`, scale `k`). */
+export function floatingHeadLift(maxY: number, k: number): number {
+  return (Math.max(maxY, FLOATING_HEAD_MIN_LIFT) + FLOATING_HEAD_GAP) * k;
 }
 
 /**
@@ -198,4 +224,22 @@ export function layoutModelProxy(
   proxy.centre.copy(normal).multiplyScalar(1 + ((min.y + max.y) / 2) * k);
   proxy.radius = (extent / 2) * k;
   return visible;
+}
+
+/**
+ * True if the surface point with unit normal `point` lies on (or just behind) a model
+ * standing at unit `modelNormal`, drawn at scale `k`: within a disc of the model's largest
+ * horizontal half-extent (the builders' base plates are round-ish polygons) or its
+ * height, whichever is bigger, since from the tilted view a tall model hides the ground
+ * about its own height behind it.
+ */
+export function isOnModelBase(
+  point: Vector3,
+  modelNormal: Vector3,
+  min: Readonly<{ x: number; z: number }>,
+  max: Readonly<{ x: number; y: number; z: number }>,
+  k: number,
+): boolean {
+  const radius = Math.max(-min.x, max.x, -min.z, max.z, max.y) * k;
+  return point.distanceToSquared(modelNormal) < radius * radius;
 }

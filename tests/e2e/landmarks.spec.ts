@@ -41,7 +41,7 @@ const SYDNEY = { id: 'sydney-opera-house', lat: -33.8568, lng: 151.2153 };
 /** No zoom tilt from 2.4 outward, so the landmark sits mid-screen (see borders.spec.ts). */
 const NO_TILT_DISTANCE = 2.4;
 /** Where the engine flies for a landmark from the start view (LANDMARK_VIEW_DISTANCE). */
-const LANDMARK_VIEW_DISTANCE = 2;
+const LANDMARK_VIEW_DISTANCE = 1.6;
 
 test('?focus=<id> opens the landmark card and flies there; × closes it', async ({ page }) => {
   test.setTimeout(120_000); // software GL: the flight takes a while

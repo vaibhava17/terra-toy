@@ -14,7 +14,9 @@ import { loadModel } from '../../models/index';
 import { getBakedMaterial, type BakedModel } from '../../models/kit';
 import { llToVec3, surfaceFrame } from '../geo';
 import {
+  floatingHeadLift,
   isAboveHorizon,
+  isOnModelBase,
   isZoomVisible,
   layoutModelProxy,
   modelScaleForDistance,
@@ -80,12 +82,12 @@ export class LandmarkModels {
   }
 
   /**
-   * Picks which models show for a camera position, places and scales them, and starts
-   * loading any that are wanted but not loaded yet. Returns true if any model appeared
-   * or disappeared.
+   * Picks which models show for a camera position and zoom distance (the rig's orbit
+   * distance; LOD and scale follow it, the horizon cull uses the real camera), places
+   * and scales them, and starts loading any that are wanted but not loaded yet.
+   * Returns true if any model appeared or disappeared.
    */
-  update(cameraPos: Vector3): boolean {
-    const d = cameraPos.length();
+  update(cameraPos: Vector3, d = cameraPos.length()): boolean {
     this.near = nextModelsShown(d, this.near);
     let changed = false;
     for (const e of this.entries) {
@@ -106,10 +108,23 @@ export class LandmarkModels {
     return changed;
   }
 
-  /** World height of a landmark's model top above the ground, or null if not shown. */
+  /**
+   * World height above the ground where a selected landmark's floating pin head goes
+   * (`floatingHeadLift`: over the model's top), or null if its model is not shown.
+   */
   liftFor(id: string): number | null {
     const e = this.entries[this.index.get(id) ?? -1];
-    return e?.shown && e.baked ? e.baked.max.y * e.k : null;
+    return e?.shown && e.baked ? floatingHeadLift(e.baked.max.y, e.k) : null;
+  }
+
+  /** True if the surface point (unit normal) lies on or just behind a shown model (`isOnModelBase`). */
+  covers(normal: Vector3): boolean {
+    for (const e of this.entries) {
+      if (e.shown && e.baked && isOnModelBase(normal, e.normal, e.baked.min, e.baked.max, e.k)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /** Id of the nearest shown model hit by a world-space ray, or null. */

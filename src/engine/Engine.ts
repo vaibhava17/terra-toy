@@ -34,7 +34,7 @@ import { loadCountrySet, type CountrySet } from './globe/countries';
 import { createEarth, type Earth } from './globe/Earth';
 import { intersectGlobe } from './picking';
 import { pickPixelRatio, pickTextureSize } from './quality';
-import { CAMERA_FOV, viewFromPosition } from './rigMath';
+import { CAMERA_FOV } from './rigMath';
 import {
   sameCountry,
   type CountryRef,
@@ -118,7 +118,6 @@ export class Engine implements EngineHandle {
   private readonly pins = new LandmarkPins(LANDMARKS);
   private readonly models = new LandmarkModels(LANDMARKS, () => this.onModelLoaded());
   /** Pins ask this whether their landmark is drawn as a model (bound once, no per-frame closure). */
-  private readonly modelLift = (id: string): number | null => this.models.liftFor(id);
   private readonly picker: PointerPicker;
   private readonly raycaster = new Raycaster();
   private unsubscribeStore: (() => void) | null = null;
@@ -261,7 +260,7 @@ export class Engine implements EngineHandle {
     // Upload textures and compile shaders now, so the first visible frame doesn't hitch.
     this.renderer.compile(this.scene, this.camera);
     this.renderer.render(this.scene, this.camera);
-    this.store.getState().setGlobeView(viewFromPosition(this.camera.position));
+    this.store.getState().setGlobeView(this.rig.view());
     this.start();
   }
 
@@ -355,9 +354,9 @@ export class Engine implements EngineHandle {
 
   // ---- Borders and country picking ---------------------------------------------------
 
-  /** Picks the LOD level and width for the current camera distance; loads 50m on demand. */
+  /** Picks the LOD level and width for the current zoom distance; loads 50m on demand. */
   private updateBorderLod(): void {
-    const distance = this.camera.position.length();
+    const distance = this.rig.distance;
     if (this.lines.setBorderWidth(borderWidthForDistance(distance))) this.needsRender = true;
     const level = nextBorderLevel(distance, this.borderLevel);
     if (this.borderLoads.get(level) === 'failed') return;
@@ -442,8 +441,9 @@ export class Engine implements EngineHandle {
 
   /** Lays out models first (they decide which pins step aside), then the pins. */
   private updateLandmarks(): void {
-    this.models.update(this.camera.position);
-    this.pins.update(this.camera.position, this.modelLift);
+    const distance = this.rig.distance;
+    this.models.update(this.camera.position, distance);
+    this.pins.update(this.camera.position, distance, this.models);
   }
 
   private onModelLoaded(): void {
@@ -464,7 +464,7 @@ export class Engine implements EngineHandle {
     const landmark = this.pins.find(id);
     if (!landmark) return;
     const { lat, lng } = landmark.pos;
-    this.rig.flyTo(lat, lng, landmarkFlyDistance(this.camera.position.length()));
+    this.rig.flyTo(lat, lng, landmarkFlyDistance(this.rig.distance));
   }
 
   /** The landmark model or pin under a canvas position (NDC), or null. */

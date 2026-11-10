@@ -14,7 +14,7 @@ Source: `src/models/kit.ts`. Full helper table and palette: `src/models/README.m
 
 - Triangles after `bake()`: ≤ 3,000 per landmark, ≤ 1,200 per animal, ≤ 1,500 per vehicle.
 - One mesh (one draw call) per shown model, plus one per `anim:*` part. World view < 150 calls, close-up < 400.
-- LOD (`src/engine/entities/landmarkMath.ts`): models show when the camera distance drops below `MODEL_SHOW_DISTANCE` (2.25) and go back to pins past `MODEL_HIDE_DISTANCE` (2.4). Scale is `clamp(altitude × 0.05, 0.01, 0.08) × content scale`.
+- LOD (`src/engine/entities/landmarkMath.ts`): models show when the zoom distance drops below `MODEL_SHOW_DISTANCE` (1.95) and go back to pins past `MODEL_HIDE_DISTANCE` (2.1). Scale is `clamp(altitude × 0.13, 0.03, 0.15) × content scale`, so a ≈1-unit model is ~120–220 px tall on a 760 px viewport at every zoom; the rig's tilt (`tiltedCameraPose`) shows it from ~35° at the focus distance (`LANDMARK_VIEW_DISTANCE` 1.6) to 45° fully zoomed in.
 
 ## Adding a builder
 
