@@ -4,7 +4,7 @@
  *
  * Globe radius is 1. "Distance" is the camera's distance from the globe centre.
  */
-import { Vector3 } from 'three';
+import { Matrix4, type Quaternion, Vector3 } from 'three';
 import { llToVec3, normalizeLng, vec3ToLl } from './geo';
 import type { GlobeViewState } from './view';
 
@@ -17,8 +17,12 @@ export const CAMERA_FOV = 45;
 
 /** Below this distance the view starts tilting toward the horizon. */
 export const TILT_START_DISTANCE = 2.4;
-/** Tilt at MIN_DISTANCE, degrees. */
-export const MAX_TILT_DEG = 32;
+/**
+ * Tilt at MIN_DISTANCE, degrees: the angle between the line of sight and the target's
+ * straight-down direction. ~35° at the landmark view distance and 45° fully zoomed in,
+ * so landmark models are seen from a 3/4 side angle, like a diorama.
+ */
+export const MAX_TILT_DEG = 45;
 
 export const ZOOM_IN_FACTOR = 0.7;
 export const ZOOM_OUT_FACTOR = 1.4;
@@ -45,7 +49,8 @@ export function clampDistance(d: number): number {
 }
 
 /**
- * Extra camera pitch (radians, positive = look up toward the horizon) for a distance.
+ * Camera pitch (radians) for a distance: how far the line of sight leans from straight
+ * down at the target (0 = top-down; the camera orbits south of the target and looks north).
  * 0 from TILT_START_DISTANCE outward, easing up to MAX_TILT_DEG at MIN_DISTANCE.
  * Monotonically non-increasing in distance.
  */
@@ -197,4 +202,60 @@ export function sampleFlight(plan: FlightPlan, t: number, out: Vector3): Vector3
   const lat = plan.fromLat + (plan.toLat - plan.fromLat) * e;
   const lng = plan.fromLng + plan.deltaLng * e;
   return llToVec3(lat, lng, flightDistance(plan, t), out);
+}
+
+// ---- Tilted pose ---------------------------------------------------------------------
+
+const _n = new Vector3();
+const _north = new Vector3();
+const _fwd = new Vector3();
+const _camUp = new Vector3();
+const _right = new Vector3();
+const _back = new Vector3();
+const _basis = new Matrix4();
+
+/**
+ * The rendered camera's pose for an orbit position (the "zoom" camera OrbitControls
+ * drives: straight above the target at `distance`).
+ *
+ * The target is the surface point under the orbit position. The camera pitches *around
+ * that point* by `tiltForDistance(distance)`, keeping its slant distance to it at the
+ * orbit altitude (distance − 1): it moves south of the target and looks north at it.
+ * So the target stays exactly at the screen centre at every zoom, and at tilt 0 the
+ * pose is the orbit pose itself (same position, looking at the globe centre, north up).
+ *
+ * The orientation is built from the target's own north/up frame, not `lookAt` with a
+ * world up, so it has no roll singularity: even when the line of sight is parallel to
+ * the world Y axis (e.g. lat −45° at a 45° tilt) screen-up is still "north".
+ * Writes into `outPosition` / `outQuaternion`; allocates nothing.
+ */
+export function tiltedCameraPose(
+  orbitPosition: Vector3,
+  outPosition: Vector3,
+  outQuaternion: Quaternion,
+): void {
+  const distance = orbitPosition.length();
+  if (!(distance > 0) || !Number.isFinite(distance)) {
+    outPosition.copy(orbitPosition);
+    return;
+  }
+  const n = _n.copy(orbitPosition).divideScalar(distance);
+  // Local north at the target: world +Y projected onto the tangent plane (fallback +Z
+  // at the poles, which the orbit's latitude clamp keeps us away from anyway).
+  _north.set(0, 1, 0).addScaledVector(n, -n.y);
+  if (_north.lengthSq() < 1e-12) _north.set(0, 0, -1).addScaledVector(n, n.z);
+  _north.normalize();
+
+  const tilt = tiltForDistance(distance);
+  const c = Math.cos(tilt);
+  const s = Math.sin(tilt);
+  const altitude = Math.max(0, distance - 1);
+  // Line of sight (camera → target) and screen-up.
+  _fwd.copy(n).multiplyScalar(-c).addScaledVector(_north, s);
+  _camUp.copy(_north).multiplyScalar(c).addScaledVector(n, s);
+  _right.crossVectors(_fwd, _camUp);
+  _back.copy(_fwd).negate();
+
+  outPosition.copy(n).addScaledVector(_fwd, -altitude);
+  outQuaternion.setFromRotationMatrix(_basis.makeBasis(_right, _camUp, _back));
 }
