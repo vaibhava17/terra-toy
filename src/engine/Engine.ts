@@ -61,8 +61,14 @@ const SCENE_PALETTE = {
   sun: 0xfff6e8,
 } as const;
 
-/** Above-left of the camera, in camera space; the sun follows the camera. */
-const SUN_OFFSET: readonly [number, number, number] = [-1.6, 1.4, 0.4];
+/**
+ * Where the sun shines from, in camera space (it follows the camera): from the viewer's
+ * left, a little above eye level. On the tilted close-up view this lights the walls that
+ * face the camera as well as the roofs; a sun from high above left them in the dark.
+ */
+const SUN_DIRECTION: readonly [number, number, number] = [-0.5, 0.15, 0.85];
+/** The hemisphere light's "sky" is toward the viewer (camera space, far along +Z). */
+const SKY_OFFSET: readonly [number, number, number] = [0, 0, 1000];
 
 const deviceMemory = (): number | undefined =>
   (navigator as Navigator & { deviceMemory?: number }).deviceMemory;
@@ -162,16 +168,20 @@ export class Engine implements EngineHandle {
     host.appendChild(renderer.domElement);
 
     this.camera = new PerspectiveCamera(CAMERA_FOV, 1, 0.01, 100);
-    this.scene.add(this.camera); // the sun is a child of the camera
+    this.scene.add(this.camera); // the lights are children of the camera
 
     this.backdrop = makeBackdrop();
     this.scene.background = this.backdrop;
 
-    this.scene.add(new HemisphereLight(SCENE_PALETTE.skyLight, SCENE_PALETTE.groundLight, 1.1));
+    // Both lights ride on the camera. A hemisphere light's direction is its world
+    // position, so far along the camera's +Z its sky faces the viewer (a world-+Y sky lit
+    // models on the sides of the globe from the wrong side). The sun aims at its target,
+    // also a child of the camera, so its direction is fixed in camera space.
+    const sky = new HemisphereLight(SCENE_PALETTE.skyLight, SCENE_PALETTE.groundLight, 1.1);
+    sky.position.set(...SKY_OFFSET);
     const sun = new DirectionalLight(SCENE_PALETTE.sun, 2.2);
-    sun.position.set(...SUN_OFFSET);
-    // The target stays at the world origin (not in the graph → identity matrixWorld).
-    this.camera.add(sun);
+    sun.position.set(...SUN_DIRECTION);
+    this.camera.add(sky, sun, sun.target);
 
     this.rig = new GlobeRig({
       camera: this.camera,
