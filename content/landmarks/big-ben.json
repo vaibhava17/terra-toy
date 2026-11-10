@@ -7,8 +7,10 @@
     "lng": -0.1246
   },
   "heading": 0,
+  "scale": 1.2,
   "country": "GB",
   "continent": "europe",
+  "model": "landmarks/big-ben",
   "name": {
     "en": "Big Ben"
   },

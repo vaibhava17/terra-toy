@@ -1,7 +1,8 @@
 /**
  * Landmark pins: one small stylised map pin (cone stem + ball head) per landmark, standing
- * on the globe and oriented with `surfaceFrame`. Until the procedural landmark models land,
- * these pins are how landmarks appear on the globe.
+ * on the globe and oriented with `surfaceFrame`. Pins are the far-zoom ("icon") tier: when
+ * a landmark shows its 3D model up close (`LandmarkModels.ts`), its pin hides, except that
+ * a selected landmark keeps a small pin head floating above its model.
  *
  * Draw calls stay flat however many landmarks there are: all stems are one InstancedMesh
  * and all heads another, sharing one material. Culled pins get a zero-scale matrix.
@@ -43,6 +44,19 @@ const STEM_RADIUS = 0.16;
 const HEAD_RADIUS = 0.34;
 const HEAD_Y = 1.2;
 const RADIAL_SEGMENTS = 10;
+/** A selected landmark's floating head, above its model, is drawn this much smaller. */
+const FLOATING_HEAD_SCALE = 0.75;
+
+/** What the pins need to know about the 3D models shown right now (`LandmarkModels`). */
+export interface ShownModels {
+  /**
+   * For a landmark drawn as a 3D model: the world height above the ground for its
+   * floating head (over the model's top). Null: no model shown, draw the pin.
+   */
+  liftFor(id: string): number | null;
+  /** True if the surface point (unit normal) lies on or just behind a shown model. */
+  covers(normal: Vector3): boolean;
+}
 
 interface Pin {
   readonly landmark: LandmarkData;
@@ -107,13 +121,37 @@ export class LandmarkPins {
     return true;
   }
 
-  /** Re-places every pin for a camera position: scale-by-zoom, horizon and minZoom cull. */
-  update(cameraPos: Vector3): void {
-    const k = pinScaleForDistance(cameraPos.length());
+  /**
+   * Re-places every pin for a camera position and zoom distance (the rig's orbit
+   * distance): scale-by-zoom, horizon and minZoom cull.
+   * Landmarks that `models` says are drawn as models hide their pin (and are not
+   * pickable as pins); a selected one keeps just its head, floating above the model.
+   * A pin standing on another landmark's shown model (India Gate on the Taj Mahal's
+   * base: the toy models are far bigger than real life) hides too, so it doesn't read
+   * as a stray pin of that model; it comes back once you zoom out to pins.
+   */
+  update(cameraPos: Vector3, distance = cameraPos.length(), models?: ShownModels): void {
+    const k = pinScaleForDistance(distance);
     for (let i = 0; i < this.pins.length; i++) {
       const pin = this.pins[i]!;
-      const s = i === this.selected ? k * SELECTED_PIN_GROWTH : k;
-      const visible = layoutPinProxy(pin.normal, pin.landmark.minZoom, cameraPos, s, pin.proxy);
+      const selected = i === this.selected;
+      const s = selected ? k * SELECTED_PIN_GROWTH : k;
+      const lift = models?.liftFor(pin.landmark.id) ?? null;
+      if (lift !== null) {
+        pin.proxy.visible = false;
+        _scale.setScalar(0);
+        _m.compose(pin.normal, pin.frame, _scale);
+        this.stems.setMatrixAt(i, _m);
+        _scale.setScalar(selected ? s * FLOATING_HEAD_SCALE : 0);
+        _pos.copy(pin.normal).multiplyScalar(1 + lift);
+        _m.compose(_pos, pin.frame, _scale);
+        this.heads.setMatrixAt(i, _m);
+        continue;
+      }
+      layoutPinProxy(pin.normal, pin.landmark.minZoom, cameraPos, s, pin.proxy, distance);
+      // Hidden pins are not pickable and have no anchor either.
+      if (!selected && models?.covers(pin.normal)) pin.proxy.visible = false;
+      const visible = pin.proxy.visible;
       _scale.setScalar(visible ? s : 0);
       _m.compose(pin.normal, pin.frame, _scale);
       this.stems.setMatrixAt(i, _m);
@@ -168,3 +206,4 @@ const COLOURS = {
 
 const _m = new Matrix4();
 const _scale = new Vector3();
+const _pos = new Vector3();

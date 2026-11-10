@@ -6,9 +6,11 @@
     "lat": -33.8568,
     "lng": 151.2153
   },
-  "heading": 0,
+  "heading": 60,
+  "scale": 1.1,
   "country": "AU",
   "continent": "oceania",
+  "model": "landmarks/sydney-opera-house",
   "name": {
     "en": "Sydney Opera House"
   },

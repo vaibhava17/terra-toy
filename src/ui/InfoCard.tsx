@@ -4,7 +4,7 @@ import { formatFact } from '../content/facts';
 import type { LandmarkData } from '../content/schema';
 import type { GlobeController } from '../engine/view';
 import { store } from '../state/store';
-import { CATEGORY_EMOJI, placeLine, sourceLabel } from './landmarkText';
+import { landmarkEmoji, placeLine, sourceLabel } from './landmarkText';
 import { useStore } from './useStore';
 
 interface InfoCardProps {
@@ -70,7 +70,7 @@ export function InfoCard({ landmarks, controller, focusRequest, returnFocusRef }
         >
           <header class="info-card-header">
             <span class="info-card-emoji" aria-hidden="true">
-              {CATEGORY_EMOJI[landmark.category]}
+              {landmarkEmoji(landmark)}
             </span>
             <div class="info-card-heading">
               <h2 id="info-card-title" ref={titleRef} tabIndex={-1}>

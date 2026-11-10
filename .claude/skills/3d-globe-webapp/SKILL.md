@@ -42,8 +42,10 @@ Full plan: [`docs/PLAN.md`](../../../docs/PLAN.md). Reference analysis: [`docs/A
 
 One content batch (≈20 items) or one feature per PR, per `docs/PLAN.md` §4 (Build phases). Every PR must pass CI (`typecheck`, `lint`, `validate-content`, `vitest`, `playwright smoke`) and include a short screen recording or screenshot in the PR description.
 
-## References to add as this grows
+## References
+- [`references/model-kit.md`](references/model-kit.md) — helper API, palette swatches, budgets, adding a builder.
+
+To add as this grows:
 - `references/geo-math.md` — coordinate/great-circle formulas.
-- `references/model-kit.md` — helper API and palette swatches.
 - `references/perf-budget.md` — draw-call and triangle budgets, LOD thresholds.
 - `templates/landmark.json`, `templates/builder.ts` — copy-paste starting points for new content.

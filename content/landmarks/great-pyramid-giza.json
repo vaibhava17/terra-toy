@@ -9,6 +9,7 @@
   "heading": 0,
   "country": "EG",
   "continent": "africa",
+  "model": "landmarks/great-pyramid-giza",
   "name": {
     "en": "Great Pyramid of Giza"
   },

@@ -1,6 +1,6 @@
 import { useEffect } from 'preact/hooks';
 import type { LandmarkData } from '../content/schema';
-import { CATEGORY_EMOJI } from './landmarkText';
+import { landmarkEmoji } from './landmarkText';
 
 interface LandmarkListProps {
   landmarks: readonly LandmarkData[];
@@ -30,7 +30,7 @@ export function LandmarkList({ landmarks, onPick, onClose }: LandmarkListProps) 
         {sorted.map((lm) => (
           <li key={lm.id}>
             <button type="button" class="landmark-list-item" onClick={() => onPick(lm.id)}>
-              <span aria-hidden="true">{CATEGORY_EMOJI[lm.category]}</span>
+              <span aria-hidden="true">{landmarkEmoji(lm)}</span>
               <span>{lm.name.en}</span>
             </button>
           </li>

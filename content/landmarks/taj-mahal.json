@@ -9,6 +9,7 @@
   "heading": 0,
   "country": "IN",
   "continent": "asia",
+  "model": "landmarks/taj-mahal",
   "name": {
     "en": "Taj Mahal"
   },

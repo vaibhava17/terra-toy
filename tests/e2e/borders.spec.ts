@@ -13,7 +13,7 @@ const globeState = (page: Page) => page.evaluate(() => window.__toy!.store.getSt
 
 /**
  * Close enough to fill the view with France, and no closer: from 2.4 inward the rig
- * tilts toward the horizon, which would move the point under the canvas centre north.
+ * tilts (orbiting around the centre point), which changes what lies off-centre.
  */
 const FRANCE = { lat: 46.6, lng: 2.4, distance: 2.4 };
 /** A short flight: SwiftShader renders only a few frames a second. */

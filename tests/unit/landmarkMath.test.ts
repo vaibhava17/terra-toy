@@ -1,17 +1,38 @@
 import { describe, expect, it } from 'vitest';
-import { Ray, Vector3 } from 'three';
-import { llToVec3 } from '../../src/engine/geo';
-import { MAX_DISTANCE, MIN_DISTANCE } from '../../src/engine/rigMath';
+import { type BufferGeometry, Matrix4, Mesh, PerspectiveCamera, Ray, Vector3 } from 'three';
+import { LANDMARKS } from '../../src/content/landmarks';
+import { centralAngle, llToVec3, surfaceFrame } from '../../src/engine/geo';
+import { loadModel } from '../../src/models/index';
+import type { BakedModel } from '../../src/models/kit';
 import {
+  CAMERA_FOV,
+  MAX_DISTANCE,
+  MIN_DISTANCE,
+  cameraPosition,
+  tiltForDistance,
+  tiltedCameraPose,
+} from '../../src/engine/rigMath';
+import {
+  FLOATING_HEAD_GAP,
+  FLOATING_HEAD_MIN_LIFT,
   LANDMARK_VIEW_DISTANCE,
+  MAX_MODEL_SCALE,
   MAX_PIN_SCALE,
+  MIN_MODEL_SCALE,
+  MODEL_HIDE_DISTANCE,
+  MODEL_SHOW_DISTANCE,
   MIN_PIN_SCALE,
   PIN_PROXY_RADIUS,
+  floatingHeadLift,
   horizonDot,
   isAboveHorizon,
+  isOnModelBase,
   isZoomVisible,
   landmarkFlyDistance,
+  layoutModelProxy,
   layoutPinProxy,
+  modelScaleForDistance,
+  nextModelsShown,
   pickPin,
   pinScaleForDistance,
   raySphereDistance,
@@ -183,5 +204,198 @@ describe('landmarkFlyDistance', () => {
     expect(landmarkFlyDistance(1.5)).toBe(1.5);
     expect(landmarkFlyDistance(1)).toBe(MIN_DISTANCE);
     expect(landmarkFlyDistance(Number.NaN)).toBe(LANDMARK_VIEW_DISTANCE);
+  });
+});
+
+describe('model LOD (icon ↔ live)', () => {
+  it('shows models inside the show distance and hides them past the hide distance', () => {
+    expect(MODEL_SHOW_DISTANCE).toBeLessThan(MODEL_HIDE_DISTANCE);
+    expect(nextModelsShown(3, false)).toBe(false);
+    expect(nextModelsShown(MODEL_SHOW_DISTANCE - 0.01, false)).toBe(true);
+    expect(nextModelsShown(MODEL_HIDE_DISTANCE + 0.01, true)).toBe(false);
+    expect(nextModelsShown(MIN_DISTANCE, false)).toBe(true);
+    expect(nextModelsShown(MAX_DISTANCE, true)).toBe(false);
+    expect(nextModelsShown(Number.NaN, true)).toBe(false);
+  });
+
+  it('keeps its last state between the two thresholds (hysteresis)', () => {
+    const between = (MODEL_SHOW_DISTANCE + MODEL_HIDE_DISTANCE) / 2;
+    expect(nextModelsShown(between, false)).toBe(false);
+    expect(nextModelsShown(between, true)).toBe(true);
+    // Walking in and out across the band switches once each way.
+    let shown = false;
+    const flips: boolean[] = [];
+    const show = MODEL_SHOW_DISTANCE;
+    const hide = MODEL_HIDE_DISTANCE;
+    for (const d of [
+      3,
+      between,
+      show + 0.01,
+      show - 0.05,
+      between,
+      hide - 0.01,
+      hide + 0.05,
+      between,
+    ]) {
+      const next = nextModelsShown(d, shown);
+      if (next !== shown) flips.push(next);
+      shown = next;
+    }
+    expect(flips).toEqual([true, false]);
+  });
+
+  it('ends a landmark fly-to with models shown, seen from a 3/4 side angle (30–45°)', () => {
+    expect(nextModelsShown(landmarkFlyDistance(MAX_DISTANCE), false)).toBe(true);
+    const tilt = tiltForDistance(LANDMARK_VIEW_DISTANCE) / DEG;
+    expect(tilt).toBeGreaterThanOrEqual(30);
+    expect(tilt).toBeLessThanOrEqual(45);
+  });
+
+  it('scales models with altitude, within clamps, times the content multiplier', () => {
+    let prev = 0;
+    for (let d = MIN_DISTANCE; d <= MAX_DISTANCE; d += 0.05) {
+      const k = modelScaleForDistance(d);
+      expect(k).toBeGreaterThanOrEqual(prev);
+      expect(k).toBeGreaterThanOrEqual(MIN_MODEL_SCALE);
+      expect(k).toBeLessThanOrEqual(MAX_MODEL_SCALE);
+      prev = k;
+    }
+    expect(modelScaleForDistance(2, 1.5)).toBeCloseTo(modelScaleForDistance(2) * 1.5, 12);
+    expect(modelScaleForDistance(2, 0)).toBe(modelScaleForDistance(2));
+    expect(modelScaleForDistance(2, Number.NaN)).toBe(modelScaleForDistance(2));
+  });
+
+  it('floats a selected head over the model top, and clear of low models', () => {
+    expect(floatingHeadLift(1.5, 0.1)).toBeCloseTo((1.5 + FLOATING_HEAD_GAP) * 0.1, 12);
+    const low = floatingHeadLift(0.38, 0.1);
+    expect(low).toBeCloseTo((FLOATING_HEAD_MIN_LIFT + FLOATING_HEAD_GAP) * 0.1, 12);
+    expect(low).toBeGreaterThan(0.38 * 0.1 * 2);
+    expect(FLOATING_HEAD_GAP).toBeGreaterThan(0);
+  });
+
+  it("tells when a point stands on a model's base", () => {
+    const taj = llToVec3(27.1751, 78.0421);
+    const indiaGate = llToVec3(28.6129, 77.2295); // ~180 km away
+    const b = { min: { x: -0.78, z: -0.78 }, max: { x: 0.78, y: 0.92, z: 0.78 } };
+    expect(
+      isOnModelBase(indiaGate, taj, b.min, b.max, modelScaleForDistance(LANDMARK_VIEW_DISTANCE)),
+    ).toBe(true);
+    // Fully zoomed in it is just off the base, but behind the Taj's height on screen.
+    expect(isOnModelBase(indiaGate, taj, b.min, b.max, modelScaleForDistance(MIN_DISTANCE))).toBe(
+      true,
+    );
+    expect(isOnModelBase(indiaGate, taj, b.min, b.max, 0.01)).toBe(false);
+    expect(isOnModelBase(taj, taj, b.min, b.max, 0.01)).toBe(true);
+    expect(isOnModelBase(llToVec3(-27, 78), taj, b.min, b.max, 0.15)).toBe(false);
+  });
+
+  it('sizes the picking proxy to the model and picks it', () => {
+    const p = proxy();
+    const n = llToVec3(48.8584, 2.2945);
+    const k = modelScaleForDistance(2);
+    layoutModelProxy(n, { x: -0.5, y: 0, z: -0.5 }, { x: 0.5, y: 1, z: 0.5 }, k, true, p);
+    expect(p.radius).toBeCloseTo(0.5 * k, 12);
+    expect(p.centre.length()).toBeCloseTo(1 + 0.5 * k, 12);
+    const cam = llToVec3(48.86, 2.29, 2);
+    expect(pickPin(rayTo(cam, p.centre), [p])).toBe(0);
+    layoutModelProxy(n, { x: -0.5, y: 0, z: -0.5 }, { x: 0.5, y: 1, z: 0.5 }, k, false, p);
+    expect(pickPin(rayTo(cam, p.centre), [p])).toBe(-1);
+  });
+});
+
+// ---- On-screen model size, with the engine's real camera -----------------------------
+
+const DEG = Math.PI / 180;
+const VIEW_W = 1100;
+const VIEW_H = 760;
+const _corner = new Vector3();
+
+/** The camera the rig renders with for an orbit view of (lat, lng) at distance `d`. */
+function posedCamera(lat: number, lng: number, d: number): PerspectiveCamera {
+  const cam = new PerspectiveCamera(CAMERA_FOV, VIEW_W / VIEW_H, 0.01, 100);
+  tiltedCameraPose(cameraPosition(lat, lng, d), cam.position, cam.quaternion);
+  cam.updateMatrixWorld();
+  return cam;
+}
+
+/** Screen-space box (px) of a baked model's vertices, placed like LandmarkModels does. */
+function screenBox(
+  cam: PerspectiveCamera,
+  lat: number,
+  lng: number,
+  baked: BakedModel,
+  k: number,
+): { x0: number; x1: number; y0: number; y1: number } {
+  const root = new Matrix4().compose(
+    llToVec3(lat, lng),
+    surfaceFrame(lat, lng),
+    new Vector3(k, k, k),
+  );
+  const box = { x0: Infinity, x1: -Infinity, y0: Infinity, y1: -Infinity };
+  const object = baked.object.clone();
+  object.updateMatrixWorld(true);
+  object.traverse((o) => {
+    if (!(o instanceof Mesh)) return;
+    const m = new Matrix4().multiplyMatrices(root, o.matrixWorld);
+    const pos = (o.geometry as BufferGeometry).getAttribute('position');
+    for (let i = 0; i < pos.count; i++) {
+      _corner.fromBufferAttribute(pos, i).applyMatrix4(m).project(cam);
+      const x = ((_corner.x + 1) / 2) * VIEW_W;
+      const y = ((1 - _corner.y) / 2) * VIEW_H;
+      box.x0 = Math.min(box.x0, x);
+      box.x1 = Math.max(box.x1, x);
+      box.y0 = Math.min(box.y0, y);
+      box.y1 = Math.max(box.y1, y);
+    }
+  });
+  return box;
+}
+
+describe('model size on screen (1100×760, the camera fov and tilt)', () => {
+  const withModels = LANDMARKS.filter((l) => l.model);
+
+  it('a focused model is ~120–220 px tall and centred, at the focus distance and at max zoom', async () => {
+    expect(withModels.length).toBeGreaterThanOrEqual(10);
+    for (const lm of withModels) {
+      const baked = await loadModel(lm.model!);
+      for (const d of [LANDMARK_VIEW_DISTANCE, MIN_DISTANCE]) {
+        const { lat, lng } = lm.pos;
+        const box = screenBox(
+          posedCamera(lat, lng, d),
+          lat,
+          lng,
+          baked,
+          modelScaleForDistance(d, lm.scale),
+        );
+        const tall = box.y1 - box.y0;
+        expect(tall, `${lm.id} at ${d}`).toBeGreaterThanOrEqual(120);
+        expect(tall, `${lm.id} at ${d}`).toBeLessThanOrEqual(220);
+        // Centred: the model's box contains the screen centre and sits in the middle half.
+        expect(box.y0).toBeLessThan(VIEW_H / 2);
+        expect(box.y1).toBeGreaterThan(VIEW_H / 2);
+        expect(box.y0).toBeGreaterThan(VIEW_H / 4);
+        expect(box.y1).toBeLessThan((3 * VIEW_H) / 4);
+      }
+    }
+  });
+
+  it('Big Ben and the Eiffel Tower (~340 km apart) do not overlap at max zoom', async () => {
+    const ben = LANDMARKS.find((l) => l.id === 'big-ben')!;
+    const eiffel = LANDMARKS.find((l) => l.id === 'eiffel-tower')!;
+    const k = modelScaleForDistance(MIN_DISTANCE);
+    const [bBen, bEiffel] = await Promise.all([loadModel(ben.model!), loadModel(eiffel.model!)]);
+    // Footprints on the ground: the gap between them beats their (corner) radii.
+    const footprint = (b: { min: Vector3; max: Vector3 }) =>
+      Math.hypot(Math.max(-b.min.x, b.max.x), Math.max(-b.min.z, b.max.z)) * k;
+    const gap = centralAngle(ben.pos, eiffel.pos);
+    expect(gap).toBeGreaterThan(footprint(bBen) + footprint(bEiffel));
+    // And on screen, looking at Paris: Big Ben's box is not swallowed by the Eiffel Tower's.
+    const cam = posedCamera(eiffel.pos.lat, eiffel.pos.lng, MIN_DISTANCE);
+    const a = screenBox(cam, eiffel.pos.lat, eiffel.pos.lng, bEiffel, k);
+    const b = screenBox(cam, ben.pos.lat, ben.pos.lng, bBen, k);
+    const overlap =
+      Math.max(0, Math.min(a.x1, b.x1) - Math.max(a.x0, b.x0)) *
+      Math.max(0, Math.min(a.y1, b.y1) - Math.max(a.y0, b.y0));
+    expect(overlap / ((b.x1 - b.x0) * (b.y1 - b.y0))).toBeLessThan(0.5);
   });
 });

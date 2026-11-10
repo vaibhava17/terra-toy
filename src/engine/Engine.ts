@@ -23,6 +23,7 @@ import { mulberry32 } from '../game/rng';
 import { GlobeRig } from './GlobeRig';
 import { PointerPicker, type Ndc } from './PointerPicker';
 import { vec3ToLl } from './geo';
+import { LandmarkModels } from './entities/LandmarkModels';
 import { LandmarkPins } from './entities/Landmarks';
 import { landmarkFlyDistance } from './entities/landmarkMath';
 import { CountryLines } from './globe/Lines';
@@ -33,7 +34,7 @@ import { loadCountrySet, type CountrySet } from './globe/countries';
 import { createEarth, type Earth } from './globe/Earth';
 import { intersectGlobe } from './picking';
 import { pickPixelRatio, pickTextureSize } from './quality';
-import { CAMERA_FOV, viewFromPosition } from './rigMath';
+import { CAMERA_FOV } from './rigMath';
 import {
   sameCountry,
   type CountryRef,
@@ -60,8 +61,14 @@ const SCENE_PALETTE = {
   sun: 0xfff6e8,
 } as const;
 
-/** Above-left of the camera, in camera space; the sun follows the camera. */
-const SUN_OFFSET: readonly [number, number, number] = [-1.6, 1.4, 0.4];
+/**
+ * Where the sun shines from, in camera space (it follows the camera): from the viewer's
+ * left, a little above eye level. On the tilted close-up view this lights the walls that
+ * face the camera as well as the roofs; a sun from high above left them in the dark.
+ */
+const SUN_DIRECTION: readonly [number, number, number] = [-0.5, 0.15, 0.85];
+/** The hemisphere light's "sky" is toward the viewer (camera space, far along +Z). */
+const SKY_OFFSET: readonly [number, number, number] = [0, 0, 1000];
 
 const deviceMemory = (): number | undefined =>
   (navigator as Navigator & { deviceMemory?: number }).deviceMemory;
@@ -115,6 +122,8 @@ export class Engine implements EngineHandle {
   private earth: Earth | null = null;
   private readonly lines = new CountryLines();
   private readonly pins = new LandmarkPins(LANDMARKS);
+  private readonly models = new LandmarkModels(LANDMARKS, () => this.onModelLoaded());
+  /** Pins ask this whether their landmark is drawn as a model (bound once, no per-frame closure). */
   private readonly picker: PointerPicker;
   private readonly raycaster = new Raycaster();
   private unsubscribeStore: (() => void) | null = null;
@@ -159,16 +168,20 @@ export class Engine implements EngineHandle {
     host.appendChild(renderer.domElement);
 
     this.camera = new PerspectiveCamera(CAMERA_FOV, 1, 0.01, 100);
-    this.scene.add(this.camera); // the sun is a child of the camera
+    this.scene.add(this.camera); // the lights are children of the camera
 
     this.backdrop = makeBackdrop();
     this.scene.background = this.backdrop;
 
-    this.scene.add(new HemisphereLight(SCENE_PALETTE.skyLight, SCENE_PALETTE.groundLight, 1.1));
+    // Both lights ride on the camera. A hemisphere light's direction is its world
+    // position, so far along the camera's +Z its sky faces the viewer (a world-+Y sky lit
+    // models on the sides of the globe from the wrong side). The sun aims at its target,
+    // also a child of the camera, so its direction is fixed in camera space.
+    const sky = new HemisphereLight(SCENE_PALETTE.skyLight, SCENE_PALETTE.groundLight, 1.1);
+    sky.position.set(...SKY_OFFSET);
     const sun = new DirectionalLight(SCENE_PALETTE.sun, 2.2);
-    sun.position.set(...SUN_OFFSET);
-    // The target stays at the world origin (not in the graph → identity matrixWorld).
-    this.camera.add(sun);
+    sun.position.set(...SUN_DIRECTION);
+    this.camera.add(sky, sun, sun.target);
 
     this.rig = new GlobeRig({
       camera: this.camera,
@@ -185,6 +198,7 @@ export class Engine implements EngineHandle {
       flyTo: (lat, lng, distance, durationMs) => this.rig.flyTo(lat, lng, distance, durationMs),
       flyToLandmark: (id) => this.flyToLandmark(id),
       landmarkScreenPos: (id) => this.landmarkScreenPos(id),
+      debugState: () => ({ visibleModels: this.models.shownIds() }),
     };
 
     this.picker = new PointerPicker(renderer.domElement, (at) => this.onTap(at));
@@ -235,6 +249,7 @@ export class Engine implements EngineHandle {
     this.scene.add(earth.group);
     this.scene.add(this.lines.group);
     this.scene.add(this.pins.group);
+    this.scene.add(this.models.group);
     this.useCountrySet(countries);
     this.updateBorderLod();
     this.unsubscribeStore = this.store.subscribe((s, prev) => {
@@ -250,12 +265,12 @@ export class Engine implements EngineHandle {
     });
     this.syncHighlights();
     this.pins.setSelected(this.store.getState().globe.selectedLandmark);
-    this.pins.update(this.camera.position);
+    this.updateLandmarks();
     this.applyResize();
     // Upload textures and compile shaders now, so the first visible frame doesn't hitch.
     this.renderer.compile(this.scene, this.camera);
     this.renderer.render(this.scene, this.camera);
-    this.store.getState().setGlobeView(viewFromPosition(this.camera.position));
+    this.store.getState().setGlobeView(this.rig.view());
     this.start();
   }
 
@@ -279,6 +294,7 @@ export class Engine implements EngineHandle {
     setSelectedLandmark(null);
     this.lines.dispose();
     this.pins.dispose();
+    this.models.dispose();
     this.earth?.dispose();
     this.earth = null;
     this.backdrop.dispose();
@@ -314,7 +330,7 @@ export class Engine implements EngineHandle {
     if (this.rig.update(dt)) {
       this.needsRender = true;
       this.updateBorderLod();
-      this.pins.update(this.camera.position);
+      this.updateLandmarks();
       this.picker.invalidateHover(); // the globe moved under a resting cursor
     }
     if (this.picker.consumeHoverChange()) this.updateHover();
@@ -326,7 +342,9 @@ export class Engine implements EngineHandle {
     }
     if (this.debugEl && now - this.statSince >= 500) {
       const fps = (this.statFrames * 1000) / (now - this.statSince);
-      this.debugEl.textContent = `${fps.toFixed(0)} fps · ${this.renderer.info.render.calls} calls`;
+      const { calls } = this.renderer.info.render;
+      const models = this.models.shownIds().length;
+      this.debugEl.textContent = `${fps.toFixed(0)} fps · ${calls} calls · ${models} models`;
       this.statFrames = 0;
       this.statSince = now;
     }
@@ -346,9 +364,9 @@ export class Engine implements EngineHandle {
 
   // ---- Borders and country picking ---------------------------------------------------
 
-  /** Picks the LOD level and width for the current camera distance; loads 50m on demand. */
+  /** Picks the LOD level and width for the current zoom distance; loads 50m on demand. */
   private updateBorderLod(): void {
-    const distance = this.camera.position.length();
+    const distance = this.rig.distance;
     if (this.lines.setBorderWidth(borderWidthForDistance(distance))) this.needsRender = true;
     const level = nextBorderLevel(distance, this.borderLevel);
     if (this.borderLoads.get(level) === 'failed') return;
@@ -431,9 +449,22 @@ export class Engine implements EngineHandle {
 
   // ---- Landmarks ---------------------------------------------------------------------
 
+  /** Lays out models first (they decide which pins step aside), then the pins. */
+  private updateLandmarks(): void {
+    const distance = this.rig.distance;
+    this.models.update(this.camera.position, distance);
+    this.pins.update(this.camera.position, distance, this.models);
+  }
+
+  private onModelLoaded(): void {
+    if (this.disposed) return;
+    this.updateLandmarks();
+    this.needsRender = true;
+  }
+
   private onLandmarkSelected(id: string | null): void {
     if (this.pins.setSelected(id)) {
-      this.pins.update(this.camera.position); // the selected pin is drawn bigger
+      this.updateLandmarks(); // the selected pin is drawn bigger
       this.needsRender = true;
     }
     if (id !== null) this.flyToLandmark(id);
@@ -443,18 +474,19 @@ export class Engine implements EngineHandle {
     const landmark = this.pins.find(id);
     if (!landmark) return;
     const { lat, lng } = landmark.pos;
-    this.rig.flyTo(lat, lng, landmarkFlyDistance(this.camera.position.length()));
+    this.rig.flyTo(lat, lng, landmarkFlyDistance(this.rig.distance));
   }
 
-  /** The landmark pin under a canvas position (NDC), or null. */
+  /** The landmark model or pin under a canvas position (NDC), or null. */
   private pickLandmark(at: Ndc): string | null {
     this.camera.updateMatrixWorld(); // the rig moved the camera since the last render
     this.raycaster.setFromCamera(_ndc.set(at.x, at.y), this.camera);
-    return this.pins.pick(this.raycaster.ray);
+    const ray = this.raycaster.ray;
+    return this.models.pick(ray) ?? this.pins.pick(ray);
   }
 
   private landmarkScreenPos(id: string): ScreenPoint | null {
-    const p = this.pins.anchor(id, _anchor);
+    const p = this.models.anchor(id, _anchor) ?? this.pins.anchor(id, _anchor);
     if (!p) return null;
     this.camera.updateMatrixWorld();
     p.project(this.camera);

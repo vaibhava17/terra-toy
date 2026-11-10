@@ -7,8 +7,10 @@
     "lng": 2.2945
   },
   "heading": 0,
+  "scale": 1.05,
   "country": "FR",
   "continent": "europe",
+  "model": "landmarks/eiffel-tower",
   "name": {
     "en": "Eiffel Tower"
   },

@@ -52,10 +52,18 @@ export interface GlobeController extends CameraController {
   /** Flies to a landmark from content (in close, never zooming out). Unknown ids: no-op. */
   flyToLandmark(id: string): void;
   /**
-   * Where a landmark's pin is drawn right now, in viewport CSS px (ready for a click), or
+   * Where a landmark's pin (or 3D model) is drawn right now, in viewport CSS px (ready for a click), or
    * null if the id is unknown or the pin is hidden or off screen. For tests and debugging.
    */
   landmarkScreenPos(id: string): ScreenPoint | null;
+  /** A snapshot of engine internals for e2e tests and debugging (never pixels). */
+  debugState(): EngineDebugState;
+}
+
+/** What `GlobeController.debugState()` reports. */
+export interface EngineDebugState {
+  /** Ids of the landmarks drawn as 3D models right now (the rest are pins or hidden). */
+  visibleModels: string[];
 }
 
 /** The handle the UI gets back from `createEngine` (no three.js types leak out). */

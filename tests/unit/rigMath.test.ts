@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { PerspectiveCamera, Vector3 } from 'three';
+import { PerspectiveCamera, Quaternion, Vector3 } from 'three';
 import { centralAngle, llToVec3, normalizeLng, vec3ToLl } from '../../src/engine/geo';
 import {
   CAMERA_FOV,
@@ -20,6 +20,7 @@ import {
   rotateSpeedForDistance,
   sampleFlight,
   tiltForDistance,
+  tiltedCameraPose,
   viewFromPosition,
   zoomStep,
 } from '../../src/engine/rigMath';
@@ -103,22 +104,131 @@ describe('tiltForDistance', () => {
     expect(tiltForDistance(100)).toBe(0);
   });
 
-  it('stays gentle (≤ 35°) and is monotonically non-increasing in distance', () => {
+  it('stays within a 3/4 view (≤ 45° from straight down) and is non-increasing in distance', () => {
+    // 45° (was 32°): the tilt now orbits around the target instead of pitching the camera
+    // in place, so it can lean further while the target stays mid-screen; the toy look
+    // wants landmark models seen from 30–45°.
     let prev = Infinity;
     for (const d of range(MIN_DISTANCE, MAX_DISTANCE)) {
       const t = tiltForDistance(d);
       expect(t).toBeLessThanOrEqual(prev);
       expect(t).toBeGreaterThanOrEqual(0);
-      expect(t).toBeLessThanOrEqual(35 * DEG);
+      expect(t).toBeLessThanOrEqual(45 * DEG + 1e-12);
       prev = t;
     }
   });
 
-  it('never tilts past the horizon at the closest zoom', () => {
-    // Angle from straight down to the horizon at distance d is asin(1/d); the top of the
-    // view (tilt + fov/2) must not go much beyond it (a sliver of sky is fine).
-    const horizon = Math.asin(1 / MIN_DISTANCE);
-    expect(tiltForDistance(MIN_DISTANCE) + (CAMERA_FOV / 2) * DEG).toBeLessThan(horizon + 5 * DEG);
+  it('never tilts the view past the horizon at the closest zoom', () => {
+    // From the tilted camera, the angle between straight down (toward the globe centre)
+    // and the top edge of the view must not go much beyond the horizon, asin(1/|C|).
+    const pos = new Vector3();
+    const q = new Quaternion();
+    tiltedCameraPose(cameraPosition(20, 30, MIN_DISTANCE), pos, q);
+    const forward = new Vector3(0, 0, -1).applyQuaternion(q);
+    const nadir = pos.clone().negate().normalize();
+    const top = Math.acos(forward.dot(nadir)) + (CAMERA_FOV / 2) * DEG;
+    expect(top).toBeLessThan(Math.asin(1 / pos.length()) + 5 * DEG);
+  });
+});
+
+describe('tiltedCameraPose', () => {
+  const W = 1100;
+  const H = 760;
+  /** A camera like the engine's, posed by the rig for the orbit view (lat, lng, d). */
+  function posed(lat: number, lng: number, d: number): PerspectiveCamera {
+    const cam = new PerspectiveCamera(CAMERA_FOV, W / H, 0.01, 100);
+    tiltedCameraPose(cameraPosition(lat, lng, d), cam.position, cam.quaternion);
+    cam.updateMatrixWorld();
+    return cam;
+  }
+  const views = [
+    [0, 0],
+    [48.8584, 2.2945],
+    [-33.8568, 151.2153],
+    [-45, -60], // the line of sight is parallel to world Y here at a 45° tilt
+    [MAX_CAMERA_LAT, 10],
+    [-MAX_CAMERA_LAT, -170],
+  ] as const;
+
+  it('keeps the target surface point at the screen centre at every tilting distance', () => {
+    for (const [lat, lng] of views) {
+      for (const d of range(MIN_DISTANCE, TILT_START_DISTANCE, 40)) {
+        const cam = posed(lat, lng, d);
+        const p = llToVec3(lat, lng).project(cam);
+        // NDC spans 2 per viewport height: 10% of the height is 0.2.
+        expect(Math.abs(p.y)).toBeLessThan(0.2);
+        expect(Math.abs(p.x)).toBeLessThan(0.2);
+        expect(Math.hypot(p.x, p.y)).toBeLessThan(1e-9); // in fact exactly centred
+        expect(p.z).toBeLessThan(1); // in front of the camera
+      }
+    }
+  });
+
+  it('views the target at tiltForDistance from straight down, from its slant altitude', () => {
+    for (const [lat, lng] of views) {
+      for (const d of range(MIN_DISTANCE, MAX_DISTANCE, 40)) {
+        const cam = posed(lat, lng, d);
+        const n = llToVec3(lat, lng);
+        const toCam = cam.position.clone().sub(n);
+        expect(toCam.length()).toBeCloseTo(d - 1, 9);
+        expect(Math.acos(Math.min(1, toCam.normalize().dot(n)))).toBeCloseTo(tiltForDistance(d), 6);
+        expect(cam.position.length()).toBeGreaterThan(1.1); // well above the ground
+      }
+    }
+  });
+
+  it('equals the plain orbit pose where there is no tilt', () => {
+    const cam = posed(30, 40, TILT_START_DISTANCE + 0.5);
+    const ref = new PerspectiveCamera();
+    ref.position.copy(cameraPosition(30, 40, TILT_START_DISTANCE + 0.5));
+    ref.lookAt(0, 0, 0);
+    expect(cam.position.distanceTo(ref.position)).toBeLessThan(1e-12);
+    expect(cam.quaternion.angleTo(ref.quaternion)).toBeLessThan(1e-6);
+  });
+
+  it('leans back south of the target, looks north, and never rolls (screen-up is north)', () => {
+    for (const [lat, lng] of views) {
+      const n = llToVec3(lat, lng);
+      const north = llToVec3(Math.min(lat + 0.5, 90), lng)
+        .sub(n)
+        .normalize();
+      for (const d of range(MIN_DISTANCE, MAX_DISTANCE, 40)) {
+        const cam = posed(lat, lng, d);
+        const up = new Vector3(0, 1, 0).applyQuaternion(cam.quaternion);
+        expect(up.dot(north)).toBeGreaterThan(0.7);
+        if (tiltForDistance(d) > 1 * DEG) {
+          expect(cam.position.clone().sub(n).dot(north)).toBeLessThan(0);
+        }
+      }
+    }
+  });
+
+  it('moves smoothly as the view pans and zooms (no flips)', () => {
+    const prev = new PerspectiveCamera();
+    for (const [lat0, lng0] of views) {
+      let first = true;
+      for (let i = 0; i <= 200; i++) {
+        const lat = Math.max(
+          -MAX_CAMERA_LAT,
+          Math.min(MAX_CAMERA_LAT, lat0 + 2 * Math.sin(i * 0.05)),
+        );
+        const cam = posed(lat, lng0 + i * 0.5, MIN_DISTANCE + i * 0.005);
+        if (!first) {
+          expect(cam.quaternion.angleTo(prev.quaternion)).toBeLessThan(5 * DEG);
+          expect(cam.position.distanceTo(prev.position)).toBeLessThan(0.05);
+        }
+        prev.position.copy(cam.position);
+        prev.quaternion.copy(cam.quaternion);
+        first = false;
+      }
+    }
+  });
+
+  it('is finite for a zero orbit position', () => {
+    const pos = new Vector3();
+    const q = new Quaternion();
+    tiltedCameraPose(new Vector3(), pos, q);
+    expect(isFiniteVec(pos)).toBe(true);
   });
 });
 

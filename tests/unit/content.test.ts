@@ -5,6 +5,7 @@ import { describe, expect, it } from 'vitest';
 import { LANDMARKS, findLandmark } from '../../src/content/landmarks';
 import { Fact, Landmark, idFromPath, parseLandmarkFiles } from '../../src/content/schema';
 import { formatFact, hasFactLabel } from '../../src/content/facts';
+import { hasModel } from '../../src/models/index';
 
 /** The starter list from PLAN §5.3, in table order. */
 const PLAN_LANDMARKS: ReadonlyArray<readonly [string, number, number]> = [
@@ -79,6 +80,16 @@ describe('landmark content', () => {
     expect(findLandmark('atlantis')).toBeUndefined();
     expect(findLandmark(null)).toBeUndefined();
     expect(findLandmark('')).toBeUndefined();
+  });
+
+  it('names only registered model builders, and the 10 starters have one each', () => {
+    for (const lm of LANDMARKS) {
+      if (lm.model !== undefined) expect(hasModel(lm.model), `${lm.id}: ${lm.model}`).toBe(true);
+    }
+    for (const [id] of PLAN_LANDMARKS.slice(0, 10)) {
+      expect(findLandmark(id)?.model, id).toBe(`landmarks/${id}`);
+    }
+    expect(hasModel('landmarks/atlantis')).toBe(false);
   });
 });
 

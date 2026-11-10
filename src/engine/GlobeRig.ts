@@ -5,12 +5,16 @@
  *
  * All curves live in `rigMath.ts`. This class only wires them to three.js.
  *
- * How the tilt avoids fighting OrbitControls: the controls own the camera *position*
- * (and re-aim it at the origin with lookAt on every update). After each update we
- * apply an extra local pitch to the camera's *orientation* only. OrbitControls never
- * reads the orientation back, so the next update simply re-aims and we re-tilt.
+ * How the tilt avoids fighting OrbitControls: the controls don't drive the rendered
+ * camera at all. They drive a hidden *orbit* camera that sits straight above the
+ * point being looked at (they read and write its position, also from inside their own
+ * pointer handlers). Flights write the same orbit position. Each frame the rendered
+ * camera is derived from it with `tiltedCameraPose`: a pitched orbit around that
+ * surface point, so the point stays at the screen centre while the camera leans back
+ * "behind" it as you zoom in. OrbitControls never sees the tilted pose, so the two
+ * never fight, and inertia, the polar clamp and flyTo easing work exactly as before.
  */
-import { type PerspectiveCamera, Vector3 } from 'three';
+import { PerspectiveCamera, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import {
   MAX_CAMERA_LAT,
@@ -20,7 +24,7 @@ import {
   planFlight,
   rotateSpeedForDistance,
   sampleFlight,
-  tiltForDistance,
+  tiltedCameraPose,
   viewFromPosition,
   zoomStep,
   cameraPosition,
@@ -47,7 +51,10 @@ export interface GlobeRigOptions {
 }
 
 export class GlobeRig implements CameraController {
+  /** The rendered camera: its pose is derived from `orbit` every frame. */
   private readonly camera: PerspectiveCamera;
+  /** What OrbitControls and flights move: straight above the target, looking at the centre. */
+  private readonly orbit: PerspectiveCamera;
   private readonly controls: OrbitControls;
   private readonly onViewSettled: (view: GlobeViewState) => void;
   private readonly requestRender: () => void;
@@ -65,10 +72,12 @@ export class GlobeRig implements CameraController {
 
   constructor({ camera, domElement, onViewSettled, requestRender }: GlobeRigOptions) {
     this.camera = camera;
+    // A PerspectiveCamera (never rendered) so OrbitControls' dolly treats it as one.
+    this.orbit = new PerspectiveCamera(camera.fov, camera.aspect, camera.near, camera.far);
     this.onViewSettled = onViewSettled;
     this.requestRender = requestRender;
 
-    const c = new OrbitControls(camera, domElement);
+    const c = new OrbitControls(this.orbit, domElement);
     c.target.copy(ORIGIN);
     c.enablePan = false;
     c.enableDamping = true;
@@ -91,17 +100,27 @@ export class GlobeRig implements CameraController {
     this.reducedMotion = this.motionQuery?.matches ?? false;
     this.motionQuery?.addEventListener('change', this.onMotionChange);
 
-    cameraPosition(DEFAULT_VIEW.lat, DEFAULT_VIEW.lng, DEFAULT_VIEW.distance, camera.position);
+    cameraPosition(DEFAULT_VIEW.lat, DEFAULT_VIEW.lng, DEFAULT_VIEW.distance, this.orbit.position);
     c.update();
     this.applyTilt();
+  }
+
+  /** Zoom distance (the orbit's distance from the centre; drives LOD and scale). */
+  get distance(): number {
+    return this.orbit.position.length();
+  }
+
+  /** The current view: the point at the screen centre and the zoom distance. */
+  view(): GlobeViewState {
+    return viewFromPosition(this.orbit.position);
   }
 
   // ---- CameraController -------------------------------------------------------------
 
   flyTo(lat: number, lng: number, distance?: number, durationMs?: number): void {
     if (![lat, lng].every(Number.isFinite)) return;
-    const d = distance ?? this.camera.position.length();
-    planFlight(this.camera.position, lat, lng, d, durationMs, this.plan);
+    const d = distance ?? this.distance;
+    planFlight(this.orbit.position, lat, lng, d, durationMs, this.plan);
     if (this.reducedMotion) {
       this.plan.durationMs = Math.min(this.plan.durationMs, REDUCED_MOTION_MAX_FLIGHT_MS);
     }
@@ -136,8 +155,8 @@ export class GlobeRig implements CameraController {
     if (this.flying) {
       this.flightElapsedMs += dtMs;
       const t = this.plan.durationMs > 0 ? this.flightElapsedMs / this.plan.durationMs : 1;
-      sampleFlight(this.plan, t, this.camera.position);
-      this.camera.lookAt(ORIGIN);
+      sampleFlight(this.plan, t, this.orbit.position);
+      this.orbit.lookAt(ORIGIN);
       moved = true;
       if (t >= 1) {
         this.flying = false;
@@ -148,7 +167,7 @@ export class GlobeRig implements CameraController {
       this.idleMs = this.interacting ? 0 : this.idleMs + dtMs;
       const auto = !this.reducedMotion && !this.interacting && this.idleMs >= IDLE_AUTO_ROTATE_MS;
       this.controls.autoRotate = auto;
-      this.controls.rotateSpeed = rotateSpeedForDistance(this.camera.position.length());
+      this.controls.rotateSpeed = rotateSpeedForDistance(this.distance);
       moved = this.controls.update(dtMs / 1000);
       if (this.settling && !moved && !this.interacting) {
         this.settling = false;
@@ -170,21 +189,21 @@ export class GlobeRig implements CameraController {
 
   private zoomBy(direction: 'in' | 'out'): void {
     // While a flight is running, step from where it's heading so repeated taps add up.
-    const base = this.flying ? this.plan.toDistance : this.camera.position.length();
+    const base = this.flying ? this.plan.toDistance : this.distance;
     const { lat, lng } = this.flying
       ? viewFromPosition(sampleFlight(this.plan, 1, _tmp))
-      : viewFromPosition(this.camera.position);
+      : this.view();
     const remaining = this.flying ? Math.max(0, this.plan.durationMs - this.flightElapsedMs) : 0;
     this.flyTo(lat, lng, zoomStep(base, direction), Math.max(ZOOM_STEP_MS, remaining));
   }
 
+  /** Places the rendered camera: a pitched orbit around the point under the orbit camera. */
   private applyTilt(): void {
-    const tilt = tiltForDistance(this.camera.position.length());
-    if (tilt > 0) this.camera.rotateX(tilt);
+    tiltedCameraPose(this.orbit.position, this.camera.position, this.camera.quaternion);
   }
 
   private emitView(): void {
-    this.onViewSettled(viewFromPosition(this.camera.position));
+    this.onViewSettled(this.view());
   }
 
   /**

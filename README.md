@@ -17,8 +17,9 @@ The concept is inspired by [myearthtoy.com](https://myearthtoy.com) (see [`docs/
 - HUD: zoom in/out, reset view, full screen. Add `?debug=1` for an fps / draw-call overlay.
 - Content pipeline: one JSON file per landmark in `content/landmarks/`, checked by Zod schemas (`src/content/schema.ts`) in the app and by `npm run content:validate`. The 20 starter landmarks from PLAN §5.3 are in, with our own kid-friendly blurbs and sourced facts.
 - Landmarks as map pins (two instanced meshes for all of them). They keep a readable size at every zoom, hide behind the horizon, and highlight when selected. Tapping a pin flies in and opens an info card with the blurb, facts and their sources. The 🏛️ HUD button lists every landmark. Add `?focus=<id>` (for example `?focus=eiffel-tower`) to open one on load.
+- Procedural 3D landmark models, written as code with our own model kit (`src/models/kit.ts`: primitive helpers, a 32-swatch toy palette, and `bake()` into one vertex-coloured mesh per model). The 10 starters (Eiffel Tower, Statue of Liberty, Giza pyramids, Taj Mahal, Great Wall, Mount Fuji, Sydney Opera House, Christ the Redeemer, Big Ben, Colosseum) replace their pins when you zoom in close (camera distance under 2.25, back to pins past 2.4); they load lazily, keep a readable size at every zoom, and can be tapped like pins. The other landmarks, and every landmark at far zoom, stay pins. `?debug=1` also shows how many models are on screen.
 
-Procedural 3D landmark models replace the pins in the next Phase 1 PR. See [`docs/PLAN.md`](docs/PLAN.md) for the full build plan: tech stack, architecture, data model, phased milestones, asset strategy, starter content lists (20 landmarks, 20 animals, 15 routes), and open risks.
+See [`docs/PLAN.md`](docs/PLAN.md) for the full build plan: tech stack, architecture, data model, phased milestones, asset strategy, starter content lists (20 landmarks, 20 animals, 15 routes), and open risks.
 
 ## Develop
 
